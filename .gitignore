@@ -1,4 +1,3 @@
-프로젝트개요.txt
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
