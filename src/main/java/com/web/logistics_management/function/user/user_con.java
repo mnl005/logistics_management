@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.logistics_management.immutable.Dto;
 import com.web.logistics_management.immutable.model;
+import com.web.logistics_management.service.user_ser.user_model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,11 +38,42 @@ public class user_con {
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
-    // 로그인 3단계
+    // 로그인 2단계
     //v1 : 인증코드
     @PostMapping("/login2")
     public ResponseEntity<JsonNode> login2(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.login2(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 회원가입 1단계
+    // user_mode : 등록할 회원 정보
+    @PostMapping("/join1")
+    public ResponseEntity<JsonNode> join1(@RequestBody Dto<user_model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.join1(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 회원가입 2단계
+    //v1 : 인증코드
+    @PostMapping("/join2")
+    public ResponseEntity<JsonNode> join2(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.join2(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 로그아웃
+    @PostMapping("/logout")
+    public ResponseEntity<JsonNode> logout(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.logout(dto,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+
+    // 회원탈퇴
+    @PostMapping("/user_delete")
+    public ResponseEntity<JsonNode> user_delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.user_delete(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
