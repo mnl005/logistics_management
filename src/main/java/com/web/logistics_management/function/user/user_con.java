@@ -3,6 +3,7 @@ package com.web.logistics_management.function.user;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.logistics_management.immutable.Dto;
+import com.web.logistics_management.immutable.model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,27 @@ public class user_con {
     private final ObjectMapper mapper = new ObjectMapper();
     private final user_business user_business;
 
-    @PostMapping("/me")
+    // 유저 정보 확인
+    @PostMapping("/user_info")
     public ResponseEntity<JsonNode> user_info(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.user_info(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
+
+    // 로그인 1단계
+    //v1 : 이메일
+    @PostMapping("/login1")
+    public ResponseEntity<JsonNode> login1(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.login1(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 로그인 3단계
+    //v1 : 인증코드
+    @PostMapping("/login2")
+    public ResponseEntity<JsonNode> login2(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.login2(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
 }
