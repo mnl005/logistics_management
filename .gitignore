@@ -1,8 +1,6 @@
 # 모든 파일과 디렉토리 무시
 *
-gradlew.bat
-gradlew
-settings.gradle
-build.gradle
+key.properties
+
 
 !/src/main/
