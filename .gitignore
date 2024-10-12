@@ -4,4 +4,5 @@
 build/*
 gradle/*
 src/main/test/*
+src/main/resources/key.properties
 
