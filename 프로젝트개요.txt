@@ -1,16 +1,10 @@
-# Getting Started
+목표 : 물류 관리 어플리케이션
+기능 : 유저기능(로그인,회원가입,회원탈퇴,로그아웃), 물류관리, 게시판, 메시지
+사용 도구 : 스프링부트, mysql
 
-### Reference Documentation
+구성 (서버) : 컨트롤러 - 비지니스 - 서비스, DTO(데이터전달모델)
+구성 (클라이언트) : HTML,CSS,javascript,main.json
+기타 : DB연결, 로깅, Jwt인증
 
-For further reference, please consider the following sections:
-
-* [Official Gradle documentation](https://docs.gradle.org)
-* [Spring Boot Gradle Plugin Reference Guide](https://docs.spring.io/spring-boot/3.3.4/gradle-plugin)
-* [Create an OCI image](https://docs.spring.io/spring-boot/3.3.4/gradle-plugin/packaging-oci-image.html)
-
-### Additional Links
-
-These additional references should also help you:
-
-* [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
-
+작동 (서버) : 컨트롤러에 도착한 요청을 비지니스 로직에서 처리하고, 비지니스 로직은 서비스 로직을 가져와 사용, 모든 요청과 응답은 DTO를 통해서 전달
+작동 (클라이언트) : 모든 요청과 응답에 대한 작동을 main.json에 미리 정의된 내용을 참고해 javascrip로 처리
