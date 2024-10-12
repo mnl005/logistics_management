@@ -38,7 +38,7 @@ public class user_business {
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        jwt_service.access("user1", response);
+        jwt_service.access("mnl005", response);
 
 
         // 보낼 데이터 임시
@@ -142,7 +142,7 @@ public class user_business {
     // 기능 : 회원가입 1단계
     // 받는 데이터 : user_model
     // 보낼 데이터 : 이메일 코드전송 메시지
-    // 과정 : 유저정보 임시저장 -> 중복 이메일 검증 -> 이메일로 단키토큰 발송
+    // 과정 : 유저정보 임시저장 -> 중복 이메일 검증 -> 이메일로 단기토큰 발송
     public Dto<user_model, Object> join1(Dto<user_model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -174,6 +174,7 @@ public class user_business {
     // 기능 : 회원가입 2단계
     // 받는 데이터 : 인증코드
     // 보낼 데이터 : user_info
+    // 과정 : 입력토큰 유효한지 확인 -> 유효하다면 -> DB에 회원정보 저장 -> 저장된 회원정보 클라이언트에 전달
     public Dto<model, Object> join2(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -231,6 +232,7 @@ public class user_business {
     // 기능 : 유저 회원탈퇴
     // 받는 데이터 : 없음
     // 보낼 데이터 : 없음
+    // 과정 : 인증정보 유효시 -> 회원탈퇴처리
     public Dto<Object, Object> user_delete(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터
@@ -260,6 +262,48 @@ public class user_business {
             dto.setJs("none");
         }
 
+        return dto;
+    }
+
+    // 기능 : name, phone, profile 업데이트
+    // 받는 데이터 : v1,v2
+    // 보낼 데이터 : user_info
+    // 과정 : v1이 null이 아닐때 -> 유저 정보의 v1필드를 v2로 (v1이 null이라면 이미지 필드를 v2로) 업데이트 -> 업데이트된 유저 정보 전송
+    public Dto<model, Object> user_update(Dto<model, Object> dto, HttpServletRequest request) {
+        // 보낼 데이터
+        HashMap<String, Object> res = new HashMap<>();
+        // 받는 데이터
+        model req = dto.getReq_data();
+        // jwt 토큰 검증 및 유저 정보 가져오기
+        Optional<user_model> me = jwt_service.validations(jwt_service.request_get_token(request))
+                .flatMap(user_service::findById);
+
+        // 인증 정보가 유효하다면
+        if (me.isPresent()) {
+
+            user_model user = me.get();
+            String id = user.getId();
+
+            // 내보낼 데이터 형식 : user_info
+            switch (req.getV1()) {
+                case "profile" ->  // v1이 없을때 프로필 이미지를 v2로
+                        res.put("user_info", user_service.update(id, "profile", req.getV2()));
+                case "name" ->  // v1 이 name 일때 이름을 v2으로
+                        res.put("user_info", user_service.update(id, "name", req.getV2()));
+                case "phone" ->  // v1이 phone 일때 전화번호를 v2으로
+                        res.put("user_info", user_service.update(id, "phone", req.getV2()));
+            }
+
+            // 데이터 보내기
+            dto.setRes_data(res);
+            dto.setMsg("내정보 수정완료");
+            dto.setJs("none");
+        }
+        // 인증 정보가 유효하지 않다면
+        else {
+            dto.setMsg("내정보 수정실패");
+            dto.setJs("none");
+        }
         return dto;
     }
 

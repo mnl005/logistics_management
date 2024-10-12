@@ -77,4 +77,11 @@ public class user_con {
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
+    // 회원정보 업데이트
+    @PostMapping("/user_update")
+    public ResponseEntity<JsonNode> user_update(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.user_update(dto,request);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
 }
