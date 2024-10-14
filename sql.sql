@@ -43,5 +43,24 @@ create table invite
     foreign key (target) references user (id) on delete cascade
 );
 
-select * from invite;
+create table item
+(
+    organization varchar(255) not null,
+    code varchar(255) not null,
+    name varchar(255) not null,
+    unique (organization,code)
+);
 
+create table repository
+(
+    organization varchar(255) not null,
+    location varchar(255) not null,
+    code varchar(255),
+    quantity int not null default 0,
+    unique (organization,location),
+    foreign key (organization, code)
+references item(organization, code) on delete cascade
+);
+desc item;
+select * from item;
+select * from repository;
