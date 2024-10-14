@@ -6,7 +6,10 @@ select * from invite;
 desc user;
 insert into user(id,name,email,phone,profile) value ('user3','김한솔','email4@naver.com','0101231234','pro1234');
 
-delete from user where id = 'user3';
+delete from user where id = 'user2';
+update user set organization = 'group1' where id = 'user1';
+select * from board;
+desc board;
 
 create table user
 (

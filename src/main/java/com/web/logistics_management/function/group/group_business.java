@@ -400,7 +400,7 @@ public class group_business {
     // 기능 : 그룹 나가기
     // 받을 데이터 : 없음
     // 보낼 데이터 : 없음
-    // 과정 : 사용자의 그룹 정보를 null로 지정
+    // 과정 : 사용자의 그룹 정보를 null로 지정, 게시물삭제
     public Dto<Object, Object> delete(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
