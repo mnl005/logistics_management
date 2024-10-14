@@ -1,7 +1,7 @@
 package com.web.logistics_management.service;
 
 
-import com.web.logistics_management.service.user_ser.user_inter;
+import com.web.logistics_management.service.user.user_inter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

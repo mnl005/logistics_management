@@ -1,4 +1,4 @@
-package com.web.logistics_management.service.user_ser;
+package com.web.logistics_management.service.user;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -41,8 +41,9 @@ public class user_service {
     // 멤버 생성
     public user_model insert(user_model user) {
         Optional<user_model> existingUser = crud.findById(user.getId());
-        if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 아이디");
+        Optional<user_model> existingEmail = crud.findByEmails(user.getEmail());
+        if (existingUser.isPresent() || existingEmail.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 아이디 또는 이메일");
         }
         return crud.saveAndFlush(user);
     }

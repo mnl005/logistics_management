@@ -2,9 +2,11 @@ show databases;
 CREATE DATABASE main;
 use main;
 select * from user;
+select * from invite;
 desc user;
+insert into user(id,name,email,phone,profile) value ('user3','김한솔','email4@naver.com','0101231234','pro1234');
 
-delete from user where id = "mnl005";
+delete from user where id = 'user3';
 
 create table user
 (
@@ -37,3 +39,6 @@ create table invite
     foreign key (inviter) references user (id) on delete cascade,
     foreign key (target) references user (id) on delete cascade
 );
+
+select * from invite;
+

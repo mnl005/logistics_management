@@ -3,7 +3,7 @@ package com.web.logistics_management.function.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.logistics_management.immutable.Dto;
 import com.web.logistics_management.immutable.model;
-import com.web.logistics_management.service.user_ser.user_model;
+import com.web.logistics_management.service.user.user_model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Optional;
 
-import com.web.logistics_management.service.user_ser.user_service;
+import com.web.logistics_management.service.user.user_service;
 import com.web.logistics_management.service.jwt_service;
 import com.web.logistics_management.service.email_service;
 
@@ -38,7 +38,7 @@ public class user_business {
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        jwt_service.access("mnl005", response);
+        jwt_service.access("user1", response);
 
 
         // 보낼 데이터 임시

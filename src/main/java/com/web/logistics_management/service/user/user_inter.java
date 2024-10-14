@@ -1,4 +1,4 @@
-package com.web.logistics_management.service.user_ser;
+package com.web.logistics_management.service.user;
 
 
 import org.springframework.data.jpa.repository.JpaRepository;

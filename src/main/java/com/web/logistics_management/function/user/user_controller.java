@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.logistics_management.immutable.Dto;
 import com.web.logistics_management.immutable.model;
-import com.web.logistics_management.service.user_ser.user_model;
+import com.web.logistics_management.service.user.user_model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
-public class user_con {
+public class user_controller {
 
     private final ObjectMapper mapper = new ObjectMapper();
     private final user_business user_business;
