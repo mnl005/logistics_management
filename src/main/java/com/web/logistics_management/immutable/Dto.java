@@ -16,9 +16,11 @@ public class Dto<T,V> {
     private V res_data;
     private String id_data;
 
-    // 기타정보
+    // 제어 정보
     private String msg;
     private String js;
+
+    // 기타정보
     private String url;
     private String type;
 

@@ -50,6 +50,7 @@ create table item
     name varchar(255) not null,
     unique (organization,code)
 );
+alter table item add column image longtext not null;
 
 create table repository
 (

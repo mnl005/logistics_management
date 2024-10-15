@@ -10,6 +10,7 @@ import lombok.*;
 @Setter
 @Builder
 public class model {
+    private String type;
     private String v1;
     private String v2;
     private String v3;

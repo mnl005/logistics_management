@@ -14,14 +14,19 @@ public interface repository_interface extends JpaRepository<repository_model, St
     List<repository_model> findByOrganization(@Param("organization") String organization);
 
     @Query("SELECT m FROM repository m WHERE m.id.organization = :organization AND m.id.location = :location")
-    List<repository_model> findByOrganizationAndLocation(@Param("organization") String organization, @Param("location") String location);
+    repository_model findByOrganizationAndLocation(@Param("organization") String organization, @Param("location") String location);
 
-    @Query("SELECT m FROM repository m WHERE m.quantity >= :quantity")
-    List<repository_model> findQuantityUp(@Param("quantity") Integer quantity);
+    @Query("SELECT m FROM repository m WHERE m.id.organization = :organization AND m.quantity >= :quantity")
+    List<repository_model> findQuantityUp(@Param("organization") String organization, @Param("quantity") Integer quantity);
 
-    @Query("SELECT m FROM repository m WHERE m.quantity <= :quantity")
-    List<repository_model> findQuantityDown(@Param("quantity") Integer quantity);
+    @Query("SELECT m FROM repository m WHERE m.id.organization = :organization AND m.quantity <= :quantity")
+    List<repository_model> findQuantityDown(@Param("organization") String organization, @Param("quantity") Integer quantity);
 
+    @Query("SELECT m FROM repository m WHERE m.id.organization = :organization AND m.quantity = 0")
+    List<repository_model> findQuantityZero(@Param("organization") String organization);
+
+    @Query("SELECT m FROM repository m WHERE m.id.organization = :organization AND m.code = :code")
+    List<repository_model> findByCode(@Param("organization") String organization, @Param("code") String code);
 
 
 

@@ -20,6 +20,12 @@ public class item_model {
 
     private String name;
 
+    private String image;
+
+    public void setOrganizationAndCode(String newOrganization, String newCode) {
+        this.id = new ItemId(newOrganization, newCode);  // 새로운 ItemId 객체로 설정
+    }
+
     // 복합키 클래스
     @Embeddable
     @Data
