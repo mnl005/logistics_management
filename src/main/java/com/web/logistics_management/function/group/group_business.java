@@ -27,9 +27,8 @@ public class group_business {
     private final jwt_service jwt_service;
 
     // 기능 :  그룹 생성
-    // 받는 데이터 : v1
+    // 받는 데이터 : v1(생성할그룹이름)
     // 보낼 데이터 : 없음
-    // 과정 : 만들고자 하는 그룹 이름을 받는다 -> 이미존재하는 그룹이름이 아니고, 사용자가 그룹에 속해있지않다면 -> 사용자의 organization 필드를 그룹 이름으로 바꾼다
     public Dto<model, Object> create(Dto<model, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -58,7 +57,7 @@ public class group_business {
             if (bool1 && bool2) {
                 // 완료
                 user_service.update(user.getId(), "organization", group_name);
-                dto.setMsg("그룹 생성 완료");
+                dto.setMsg(group_name + " 그룹 생성 완료");
             }
             // 사용자가 이미 그룹에 속해 있다면
             else if (!bool1) {
@@ -82,8 +81,7 @@ public class group_business {
 
     // 기능 : 사용자의 그룹 정보
     // 받는 데이터 : 없음
-    // 보낼 데이터 : group_name, group_users, group_size
-    // 과정 : 사용자가 그룹에 속해있다면 -> 해당 그룹의 구성원 정보를 사용자에게 전달
+    // 보낼 데이터 : group_name(그룹이름), group_users(그룹구성원(id,profile)), group_size(그룹구성원수)
     public Dto<Object, Object> group_info(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -119,12 +117,15 @@ public class group_business {
                         })
                         .collect(Collectors.toList());
 
-                // 보낼 데이터 형식 : group_name
-                res.put("group_name", user.getOrganization());
+                // 그룹 정보 불러오기
+                HashMap<String,String> map = new HashMap<>();
+                map.put("group_name",user.getOrganization());
+                map.put("group_size",Integer.toString(list.size()));
+
+                // 보낼 데이터 형식 : group_info
+                res.put("group_info",map );
                 // 보낼 데이터 형식 : group_users
                 res.put("group_users", list);
-                // 보낼 데이터 형식 : group_size
-                res.put("group_size", Integer.toString(list.size()));
 
                 // 완료
                 dto.setRes_data(res);
@@ -143,9 +144,8 @@ public class group_business {
 
 
     // 기능 : 그룹 구성원 정보 상세보기
-    // 받는 데이터 : id_data
-    // 보낼 데이터 : user_info
-    // 과정 : 요청으로 그룹원 아이디를 받는다 -> 해당 아이디 가지는 그룹이름과 사용자 그룹이름의 일치를 확인 -> 일치한다면 해당 아이디 가지는 유저정보를 전달
+    // 받는 데이터 : id_data(상세보기할 그룹원의 아이디)
+    // 보낼 데이터 : user_info(id,organization,emmail,name,phone,profile)
     public Dto<Object, Object> select(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -202,9 +202,8 @@ public class group_business {
 
 
     // 기능 : 그룹원으로 초대하기
-    // 받는 데이터 : v1
+    // 받는 데이터 : v1(초대할 유저 아이디)
     // 보낼 데이터 : 없음
-    // 과정 : 초대할 아이디를 받는다 -> 받은 아이디를 가진 유저가 존재하고 그룹이 없다면 -> 받은 아이디로 사용자의
     public Dto<model, Object> invite(Dto<model, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -257,9 +256,7 @@ public class group_business {
 
     // 기능 : 초대 목록 확인
     // 받는 데이터 : 없음
-    // 보낼 데이터 : 초대 목록
-    // 과정 : 유저가 속한 그룹이 존재한다면 -> 초대한 내역을 불러온다
-    //     : 유저가 속한 그룹이 존재하지 않는다면 -> 초대받은 내역을 불러온다
+    // 보낼 데이터 : invite_list(num,inviter,target)
     public Dto<Object, Object> invite_list(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -295,9 +292,8 @@ public class group_business {
     }
 
     // 기능 : 초대 삭제
-    // 받을 데이터 : 삭제할 초대 목록
+    // 받을 데이터 : id_data(삭제할 초대 목록의 분류번호)
     // 보낼 데이터 : 없음
-    // 과정 : 초대 목록을 확인 -> 초대 목록과 유저와 관련이 있다면 -> 해당 초대 목록 삭제
     public Dto<Object, Object> cancel(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -313,7 +309,7 @@ public class group_business {
                 .map(me -> {
                     invite_model model = invite_service.select("num", data_id).get(0);
 
-                    // 유저의 아이디와 초대목록의 초대 대상이나 초대한 대상이 일치하다면
+                    // 유저의 아이디와 초대목록의 초대 대상이나 초대한 대상이 일치하다면(유저와 관련이 있다면)
                     if (me.getId().equals(model.getTarget()) || me.getId().equals(model.getInviter())) {
                         // 초대 목록을 삭제
                         invite_service.delete(data_id);
@@ -332,28 +328,33 @@ public class group_business {
     }
 
     // 기능 : 초대승락
-    // 받을 데이터 : 초대 수락할 목록
+    // 받을 데이터 : id_data(수락할 초대 목록의 분류번호)
     // 보낼 데이터 : 없음
-    // 과정 : 초대 목록을 받는다 -> 유저가 조직에 속하지 않고, 초대자가 조직에 속해있다면 -> 유저 그룹정보를 초대받은 그룹으로 설정
     public Dto<Object, Object> accept(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         Object req = dto.getReq_data();
-        // 승락할 초대 목록
+        // 승락할 초대 목록 분류번호
         String data_id = dto.getId_data();
 
         jwt_service.validations(jwt_service.request_get_token(request))
                 .flatMap(user_service::findById)
                 .map(me -> {
+                    // 유저가 초대받은 내역을 불러온다
                     invite_model I_model = invite_service.select("num", data_id).get(0);
+                    // 초대자의 아이디를 불러온다
                     String inviter = I_model.getInviter();
+                    // 불러온 아이디로 초대자의 정보를 불러온다
                     user_model U_model = user_service.findById(inviter).get();
 
-                    // 유저가 속한 그룹이 없고, 초대자가 그룹에 속해있을때
-                    if (me.getOrganization() == null && U_model.getOrganization() != null) {
+                    // 유저가 초대 받은게 맞고, 유저가 속한 그룹이 없고, 초대자가 그룹에 속해있을때
+                    if (me.getId().equals(I_model.getTarget()) && me.getOrganization() == null && U_model.getOrganization() != null) {
+                        // 유저를 그룹에 등록
                         user_service.update(me.getId(), "organization", U_model.getOrganization());
+                        // 초대내역 삭제
                         invite_service.delete(data_id);
+                        // 완료
                         dto.setMsg(U_model.getOrganization() + " 그룹에 소속되었습니다");
                     }
                     // 그렇지 않은 경우
@@ -375,7 +376,6 @@ public class group_business {
     // 기능 : 그룹 나가기
     // 받을 데이터 : 없음
     // 보낼 데이터 : 없음
-    // 과정 : 사용자의 그룹 정보를 null로 지정, 게시물삭제
     public Dto<Object, Object> delete(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();

@@ -303,7 +303,7 @@
 
   "/group/create" :
   {
-    "url": "/group/me",
+    "url": "/group/create",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -313,7 +313,10 @@
     "req_data": null,
     "res_data": null,
 
-    "req_define": ["none"],
+    "req_define": [
+      "form_data",
+      {"v1": "생성할 그룹 이름"}
+    ],
     "res_define": "none"
   },
 
@@ -331,12 +334,14 @@
     "res_data": null,
 
     "req_define": ["none"],
-    "res_define": "none"
+    "res_define": [
+      {"what": "group_users", "where": ".group_list","how": ["id-text","profile-text"], "way": "array"},
+      {"what": "group_info", "where": ".group_info","how": ["group_name-text","group_size-text"], "way": "object"}]
   },
 
   "/group/select" :
   {
-    "url": "/group/me",
+    "url": "/group/select",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -346,14 +351,19 @@
     "req_data": null,
     "res_data": null,
 
-    "req_define": ["none"],
-    "res_define": "none"
+    "req_define": [
+      "id_data",
+      {"data-id": "조회할 그룹 구성원의 아이디"}
+    ],
+    "res_define": [
+      {"what": "user_info", "where": ".group_user_info","how": ["id-text","organization-text","email-text","name-text","phone-text","profile-image"], "way": "object"}
+    ]
   },
 
 
   "/group/invite" :
   {
-    "url": "/group/me",
+    "url": "/group/invite",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -363,14 +373,17 @@
     "req_data": null,
     "res_data": null,
 
-    "req_define": ["none"],
+    "req_define": [
+      "form_data",
+      {"v1": "그룹으로 초대할 유저의 아이디"}
+    ],
     "res_define": "none"
   },
 
 
   "/group/invite_list" :
   {
-    "url": "/group/me",
+    "url": "/group/invite_list",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -381,12 +394,14 @@
     "res_data": null,
 
     "req_define": ["none"],
-    "res_define": "none"
+    "res_define": [
+      {"what": "invite_list", "where": ".invite_list","how": ["num-text","inviter-text","target-text"], "way": "object"}
+    ]
   },
 
   "/group/cancel" :
   {
-    "url": "/group/me",
+    "url": "/group/cancel",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -396,14 +411,17 @@
     "req_data": null,
     "res_data": null,
 
-    "req_define": ["none"],
+    "req_define": [
+      "id_data",
+      {"data-id": "삭제할 초대 목록의 분류번호"}
+    ],
     "res_define": "none"
   },
 
 
   "/group/accept" :
   {
-    "url": "/group/me",
+    "url": "/group/accept",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -413,14 +431,17 @@
     "req_data": null,
     "res_data": null,
 
-    "req_define": ["none"],
+    "req_define": [
+      "id_data",
+      {"data-id": "수락할 초대 목록의 분류번호"}
+    ],
     "res_define": "none"
   },
 
 
   "/group/delete" :
   {
-    "url": "/group/me",
+    "url": "/group/delete",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#group"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
