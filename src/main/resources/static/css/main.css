@@ -1,0 +1,363 @@
+*{
+    margin:0;
+    padding:0;
+    text-decoration: none;
+    box-sizing: border-box;
+    border:1px solid red;
+}
+body{
+    display: flex;
+}
+.row{
+    display: flex;
+    flex-flow: row nowrap;
+    gap:10px;
+    justify-content: space-between;
+    align-items: center;
+    width:fit-content;
+}
+.column{
+    display: flex;
+    flex-flow: column nowrap;
+    gap:10px;
+    justify-content: space-between;
+    height:fit-content;
+}
+.menu_toggle_button{
+    position: fixed;
+    z-index:50;
+    background-color: red;
+}
+
+/* msg -------------------------------------------------------------------------------------------------*/
+#msg{
+    background-color: cornflowerblue;
+    width:100%;
+    height:200px;
+    padding:10px;
+    text-align: center;
+    font-size:16px;
+    color:white;
+    display: none;
+    z-index:50;
+}
+/* button -------------------------------------------------------------------------------------------------*/
+.button {
+    background-color: cornflowerblue;
+    padding:3px;
+    text-align: center;
+    color:white;
+    border-style: none;
+    font-size: 13px;
+    height:fit-content;
+}
+.button:hover{
+    cursor: pointer;
+    background-color: rgba(0,0,0,0.2);
+}
+
+/* form -------------------------------------------------------------------------------------------------*/
+.form {
+    height:fit-content;
+}
+/* 팝업 -------------------------------------------------------------------------------------------------*/
+.pop {
+    display: flex;
+    height:fit-content;
+    overflow: scroll;
+    background-color: cadetblue;
+}
+
+/* 프로필 -------------------------------------------------------------------------------------------------*/
+.profile{
+    width:100px;
+    height:100px;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    margin:0 auto 0 auto;
+}
+
+/* image -------------------------------------------------------------------------------------------------*/
+.image_box{
+    position:relative;
+    min-height: 200px;
+
+}
+.image_box > .image:not(:first-child) {
+    display: none;
+}
+
+.image_box > .image{
+    min-height: 200px;
+    width:inherit;
+    flex:1;
+    max-height: inherit;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.image_box > .image_box_button_left{
+    top:0;
+    left: 0;
+    position:absolute;
+    min-height: 200px;
+    height: inherit;
+    width:10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.1);
+}
+.image_box > .image_box_button_right{
+    top:0;
+    right:0;
+    position:absolute;
+    min-height: 200px;
+    height: inherit;
+    width:10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0,0,0,0.1);
+}
+.image_box_button_left:hover, .image_box_button_right:hover{
+    background-color: rgba(0,0,0,0.3);
+}
+/*menu -------------------------------------------------------------------------------------------------*/
+#menu{
+    display: flex;
+    flex-flow:column nowrap;
+    min-width: 15%;
+    height:100vh;
+    background-color: cornflowerblue;
+}
+
+#menu > .id{
+    text-align: center;
+    margin-bottom:10px;
+    margin-top:10px;
+    padding-bottom:10px;
+    border-bottom:1px solid white;
+}
+#menu > .profile{
+    margin-top:10px;
+}
+/*main -------------------------------------------------------------------------------------------------*/
+.main{
+    min-width: 85%;
+    flex:1;
+    height:100vh;
+    background-color: yellowgreen;
+    overflow: scroll;
+}
+
+/* 로그인 ------------------------------------------------------------------------------------------------- */
+#login{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow:row nowrap;
+    gap:50px;
+}
+
+/* 유저 정보------------------------------------------------------------------------------------------------- */
+#user{
+    height: 100vh;
+    display: flex;
+    flex-flow:column nowrap;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+}
+#user > .row{
+    width:300px;
+}
+#user > .row > div{
+    width:50%;
+}
+
+/* 게시판 ------------------------------------------------------------------------------------------------- */
+#board{
+    display: flex;
+    align-items: center;
+    flex-flow:column nowrap;
+    height:100vh;
+}
+#board > .row{
+    margin:10px;
+}
+
+#board > .board_view,
+#board > .board_me_view{
+    width:100%;
+    flex:1;
+    border-top:1px solid white;
+    margin-top:10px;
+    display: flex;
+    flex-flow:column nowrap;
+    align-items: center;
+}
+
+#board > .board_view > .row,
+#board > .board_me_view > .row
+{
+    width:90%;
+    margin-top:80px;
+    flex-flow: row wrap;
+}
+#board > .board_view > .row > .image_box,
+#board > .board_me_view > .row > .image_box{
+    flex:1;
+    min-width:350px;
+    height:450px;
+}
+#board > .board_view > .row > .image_box > .image,
+#board > .board_me_view > .row > .image_box > .image
+{
+    flex:1;
+    min-width:350px;
+    height:450px;
+}
+#board > .board_view > .row > .column,
+#board > .board_me_view > .row > .column
+{
+    height:450px;
+    flex:1;
+    min-width:350px;
+}
+#board > .board_view > .row > .column > .content,
+#board > .board_me_view > .row > .column > .content
+{
+    height: 300px;
+    overflow: scroll;
+}
+
+#board > .board_me_view > .row > .column > .row,
+#board > .board_view > .row > .column > .row{
+    justify-content: flex-start;
+}
+
+/* 게시판글 작성------------------------------------------------------------------------------------------------- */
+
+#board > .board_form{
+    flex:1;
+}
+#board > .board_form > .column > .image_box > .image{
+    height:200px;
+}
+/* 그룹------------------------------------------------------------------------------------------------- */
+#group{
+    height: 100vh;
+    display: flex;
+    flex-flow:row wrap;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+}
+
+#group > .group_search{
+    position: absolute;
+    display: block;
+    z-index: 100;
+}
+
+#group > .group_edit{
+    position: absolute;
+    display: block;
+    z-index: 100;
+}
+
+#group > .column{
+    width:400px;
+    height:400px;
+    justify-content: flex-start;
+}
+#group > .column > .group_list{
+    overflow: scroll;
+}
+#group > .column > .group_title{
+    font-size: 30px;
+}
+#group > .column > .group_list > .group_member_info {
+    width: 100%;
+    height:80px;
+    justify-content:space-around;
+    padding: 10px;
+}
+.group_profile{
+    width:50px;
+    height:50px;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    margin:0;
+}
+
+#group> .column > .group_setting > .row{
+    width:100%;
+    gap:0;
+}
+#group> .column > .group_setting > .row > div{
+    width:50%;
+    padding:7px;
+    overflow: scroll;
+}
+#group> .column > .group_setting > form{
+    width:100%;
+    justify-content: center;
+}
+
+/* todolist------------------------------------------------------------------------------------------------- */
+#todolist{
+    height: 100vh;
+    display: flex;
+    flex-flow:row;
+    align-items: center;
+    justify-content: center;
+    gap:20px;
+}
+
+#todolist > .column {
+    width:350px;
+    height:500px;
+    justify-content: flex-start;
+}
+
+#todolist > .column > .todolist_title{
+    font-size: 30px;
+}
+
+#todolist > .todolist_main{
+    height:inherit;
+    overflow: scroll;
+}
+.todolist_group_profile{
+    width:50px;
+    height:50px;
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    margin:0 auto 0 auto;
+}
+#todolist > .todolist_group{
+    height:inherit;
+    overflow: scroll;
+}
+
+#todolist > .todolist_record{
+    height:inherit;
+    overflow: scroll;
+}
+
+
+
+

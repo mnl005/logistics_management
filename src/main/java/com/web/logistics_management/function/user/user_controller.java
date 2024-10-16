@@ -24,8 +24,8 @@ public class user_controller {
     private final user_business user_business;
 
     // 유저 정보 확인
-    @PostMapping("/user_info")
-    public ResponseEntity<JsonNode> user_info(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    @PostMapping("/me")
+    public ResponseEntity<JsonNode> me(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.user_info(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
@@ -71,15 +71,15 @@ public class user_controller {
 
 
     // 회원탈퇴
-    @PostMapping("/user_delete")
-    public ResponseEntity<JsonNode> user_delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    @PostMapping("/delete")
+    public ResponseEntity<JsonNode> delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.user_delete(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
     // 회원정보 업데이트
-    @PostMapping("/user_update")
-    public ResponseEntity<JsonNode> user_update(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    @PostMapping("/update")
+    public ResponseEntity<JsonNode> update(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.user_update(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }

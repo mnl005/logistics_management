@@ -28,7 +28,7 @@ public class group_controller {
     }
 
     // 나의 그룹 정보
-    @PostMapping("/group_info")
+    @PostMapping("/me")
     public ResponseEntity<JsonNode> group_info(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
         dto = group_business.group_info(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));

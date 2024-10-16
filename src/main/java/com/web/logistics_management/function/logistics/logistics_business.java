@@ -59,14 +59,12 @@ public class logistics_business {
 
             // 완료
             dto.setMsg("상품등록완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("상품등록실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -100,14 +98,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("상품 리스트 조회 완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("상품 리스트 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -143,14 +139,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("상품 리스트 조회 완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("상품 리스트 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -182,14 +176,12 @@ public class logistics_business {
 
             // 완료
             dto.setMsg("상품 삭제 완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("상품 삭제 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -224,13 +216,11 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg(num + " 개의 로케이션 정보가 조회되었습니다");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -262,14 +252,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("로케이션 조회 완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -300,13 +288,11 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg(req.getV1() + " 개 이상의 상품을 가진 로케이션에 대한 정보가 조회되었습니다");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -337,14 +323,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg(req.getV1() + " 개 이하의 상품을 가진 로케이션에 대한 정보가 조회되었습니다");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -375,14 +359,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("상품이 0개인 수량을 가지는 로케이션에 대해 조회가 되었습니다");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -413,14 +395,12 @@ public class logistics_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("로케이션 상품 코드로 조회 완료");
-            dto.setJs("none");
         }
         // 인증 정보가 유효하지 않다면
         else {
 
             // 완료
             dto.setMsg("로케이션 조회 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -461,7 +441,6 @@ public class logistics_business {
             if (type.equals("code") && i >= 1) {
                 // 완료
                 dto.setMsg("로케이션에 " + i + " 개의 상품이 남아있어서 상품 정보 변경이 불가합니다");
-                dto.setJs("none");
             }
             // 로케이션에 상품의 수량이 0개 이거나 바꾸려는 정보가 상품코드가 아닌 물건의 개수라면
             else {
@@ -469,7 +448,6 @@ public class logistics_business {
                 repository_service.update(group, location, type, codeOrquantity);
                 // 완료
                 dto.setMsg("로케이션 정보 업데이트가 완료되었습니다");
-                dto.setJs("none");
             }
 
         }
@@ -477,7 +455,6 @@ public class logistics_business {
         else {
             // 완료
             dto.setMsg("로케이션 정보 업데이트 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -513,14 +490,12 @@ public class logistics_business {
                 HashMap<String,String> map = repository_service.selectGroupLocation(group,req.getV1());
                 // 완료
                 dto.setMsg("이미 등록되어 있는 로케이션입다");
-                dto.setJs("none");
             }
             catch(Exception e){
                 // 로케이션 등록
                 repository_service.insert(model);
                 // 완료
                 dto.setMsg("로케이션 등록 완료");
-                dto.setJs("none");
             }
         }
         // 인증 정보가 유효하지 않다면
@@ -528,7 +503,6 @@ public class logistics_business {
 
             // 완료
             dto.setMsg("로케이션 등록 실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -561,7 +535,6 @@ public class logistics_business {
             if(i >= 1){
                 // 완료
                 dto.setMsg("로케이션에 물건이" + i + " 개 남아 해당 로케이션 정보를 삭제할 수 없습니다");
-                dto.setJs("none");
             }
             // 상품이 남아있지 않다면
             else{
@@ -569,7 +542,6 @@ public class logistics_business {
                 repository_service.delete(group, req.getV1());
                 // 완료
                 dto.setMsg("해당 로케이션 정보가 삭제되었습니다");
-                dto.setJs("none");
             }
 
         }
@@ -578,7 +550,6 @@ public class logistics_business {
 
             // 완료
             dto.setMsg("로케이션 삭제 실패");
-            dto.setJs("none");
         }
 
         return dto;

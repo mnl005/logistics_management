@@ -59,26 +59,22 @@ public class group_business {
                 // 완료
                 user_service.update(user.getId(), "organization", group_name);
                 dto.setMsg("그룹 생성 완료");
-                dto.setJs("none");
             }
             // 사용자가 이미 그룹에 속해 있다면
             else if (!bool1) {
                 // 완료
                 dto.setMsg("이미 " + user.getOrganization() + " 그룹에 속해 있습니다");
-                dto.setJs("none");
             }
             // 사용자가 입력한 그룹 이름이 중복된다면
             else {
                 // 완료
                 dto.setMsg(group_name + " 은 이미 존재하는 그룹 이름입니다");
-                dto.setJs("none");
             }
         }
         // 인증 정보가 유효하지 않다면
         else {
             // 완료
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
         return dto;
     }
@@ -108,7 +104,6 @@ public class group_business {
             if (Objects.isNull(user.getOrganization())) {
                 // 완료
                 dto.setMsg("그룹에 소속되지 않았습니다");
-                dto.setJs("none");
                 return dto;
             }
             //사용자가 그룹에 소속되어 있을때
@@ -134,7 +129,6 @@ public class group_business {
                 // 완료
                 dto.setRes_data(res);
                 dto.setMsg("나의 그룹정보 조회 완료");
-                dto.setJs("none");
 
             }
         }
@@ -142,7 +136,6 @@ public class group_business {
         else {
             // 완료
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -186,18 +179,15 @@ public class group_business {
                     // 완료
                     dto.setRes_data(res);
                     dto.setMsg("그룹원 조회 완료");
-                    dto.setJs("none");
                 } else {
                     // 완료
                     dto.setMsg("그룹원 조회 실패");
-                    dto.setJs("none");
                 }
             }
             // 해당 아이디를 가진 유저가 존재하지 않다면
             else {
                 // 완료
                 dto.setMsg("그룹원 조회 실패");
-                dto.setJs("none");
             }
 
         }
@@ -205,7 +195,6 @@ public class group_business {
         else {
             // 완료
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
 
         return dto;
@@ -238,33 +227,28 @@ public class group_business {
             if (me.get().getOrganization() == null) {
                 // 완료
                 dto.setMsg("당신은 그룹에 소속되어 있지 않습니다");
-                dto.setJs("none");
             }
             // 해당 유저가 존재하지 않는다면
             else if (find_user.isEmpty()) {
                 // 완료
                 dto.setMsg("해당 유저가 존재하지 않습니다");
-                dto.setJs("none");
             }
             // 해당 유저가 이미 조직에 소속되었다면
             else if (!(find_user.get().getOrganization() == null)) {
                 // 완료
                 dto.setMsg("해당 유저가 이미 그룹에 소속되어 있습니다");
-                dto.setJs("none");
             }
             // 초대하기
             else {
                 invite_service.insert(me.get().getId(), target);
                 // 완료
                 dto.setMsg("초대 완료");
-                dto.setJs("none");
             }
         }
         // 인증 정보가 유효하지 않다면
         else {
             // 완료
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
 
 
@@ -293,19 +277,16 @@ public class group_business {
                         // 보낼 데이터 형식 : invite_list
                         res.put("invite_list", invite_service.select("target", me.getId()));
                         dto.setMsg("초대 받은 내역을 불러옵니다");
-                        dto.setJs("none");
                     } else {
                         // 보낼 데이터 형식 : invite_list
                         res.put("invite_list", invite_service.select("inviter", me.getId()));
                         dto.setMsg("초대한 내역을 불러옵니다");
-                        dto.setJs("none");
                     }
                     return 1;
                 })
                 .orElseGet(() -> {
                     // 완료
                     dto.setMsg("실패");
-                    dto.setJs("none");
                     return null;
                 });
         // 완료
@@ -337,17 +318,14 @@ public class group_business {
                         // 초대 목록을 삭제
                         invite_service.delete(data_id);
                         dto.setMsg("초대 하거나 초대 받은 해당 내역을 삭제하였습니다");
-                        dto.setJs("none");
                     } else {
                         dto.setMsg("잘못된 접근입니다");
-                        dto.setJs("none");
                     }
                     return 1;
                 })
                 .orElseGet(() -> {
                     // 완료
                     dto.setMsg("인증실패");
-                    dto.setJs("none");
                     return null;
                 });
         return dto;
@@ -377,19 +355,16 @@ public class group_business {
                         user_service.update(me.getId(), "organization", U_model.getOrganization());
                         invite_service.delete(data_id);
                         dto.setMsg(U_model.getOrganization() + " 그룹에 소속되었습니다");
-                        dto.setJs("none");
                     }
                     // 그렇지 않은 경우
                     else {
                         dto.setMsg("이미 그룹에 소속되어 있거나 초대자가 그룹에 속해있지 않습니다");
-                        dto.setJs("none");
                     }
                     return 1;
                 })
                 .orElseGet(() -> {
                     // 완료
                     dto.setMsg("인증실패");
-                    dto.setJs("none");
                     return null;
                 });
         // 완료
@@ -413,13 +388,11 @@ public class group_business {
                     // 완료
                     user_service.update(me.getId(), "organization", null);
                     dto.setMsg("조직 탈퇴 완료");
-                    dto.setJs("none");
                     return 1;
                 })
                 .orElseGet(() -> {
                     // 완료
                     dto.setMsg("인증실패");
-                    dto.setJs("none");
                     return null;
                 });
         dto.setReq_data(res);

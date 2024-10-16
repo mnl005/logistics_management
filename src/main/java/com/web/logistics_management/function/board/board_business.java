@@ -25,9 +25,9 @@ public class board_business {
     private final user_service user_service;
 
 
-    // 기능 : 그룹 게시물 불러오기
+    // 기능 : 그룹의 게시물 불러오기
     // 받는 데이터 : 없음
-    // 보낼 데이터 : board_list
+    // 보낼 데이터 : board_list(num,id,created_date,title,content,image)
     public Dto<Object, Object> group(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 임시
@@ -39,11 +39,13 @@ public class board_business {
                 .flatMap(user_service::findById);
 
 
-        // 유저가 존재하고 그룹에 소속된 경우 처리
+        // 유저 정보 유효시
         if (me.isPresent()) {
 
             // 유저의 소속 그룹명 불러오기
             String group_name = me.get().getOrganization();
+
+            // 유저가 그룹에 소속되지 않은 경우 ???
 
             // 그룹에 속한 유저들의 아이디 리스트 조회
             List<String> id_list = user_service.select("organization", group_name)
@@ -66,14 +68,10 @@ public class board_business {
             //완료
             dto.setRes_data(res);
             dto.setMsg(size + " 개의 게시글이 조회되었습니다");
-            dto.setJs("none");
-
         }
-        // 유저가 그룹에 소속되지 않은 경우
         else {
             // 완료
-            dto.setMsg("그룹에 소속되지 않았습니다");
-            dto.setJs("none");
+            dto.setMsg("인증실패");
         }
 
         return dto;
@@ -81,9 +79,9 @@ public class board_business {
 
 
 
-    // 기능 : 나의 게시물 불러오기
+    // 기능 : 유저의 게시물 불러오기
     // 받는 데이터 : 없음
-    // 보낼 데이터 : board_list
+    // 보낼 데이터 : board_list(num,id,created_date,title,content,image)
     public Dto<Object, Object> me(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터
@@ -112,20 +110,18 @@ public class board_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg(size + " 개의 게시글이 조회되었습니다");
-            dto.setJs("none");
         }
         // 유저 인증 정보 유효하지 않을때
         else{
             //완료
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
 
         return dto;
     }
 
     // 기능 : 게시글 등록
-    // 받는 데이터 : 게시글
+    // 받는 데이터 : board_model(num,id,title,create_date,content,image)
     // 보낼 데이터 : 없음
     public Dto<board_model, Object> insert(Dto<board_model, Object> dto, HttpServletRequest request) {
         // 보낼 데이터
@@ -147,25 +143,25 @@ public class board_business {
 
             // 완료
             dto.setMsg("게시글 작성 성공");
-            dto.setJs("none");
         }
         // 사용자 인증 정보가 유효하지 않다면
         else {
             // 완료
             dto.setMsg("게시글 작성 실패");
-            dto.setJs("none");
         }
         return dto;
     }
 
     // 기능 : 게시글 삭제
-    // 받는 데이터 : 게시글 분류넘버
+    // 받는 데이터 : id_data(게시글 분류넘버)
     // 보낼 데이터 : 없음
     public Dto<model, Object> delete(Dto<model, Object> dto, HttpServletRequest request) {
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
-        model req = dto.getReq_data();
+        Object req = dto.getReq_data();
+        // 삭제할 게시글의 분류번호
+        String board_id = dto.getId_data();
         // jwt 토큰 검증 및 유저 정보 불러오기
         Optional<user_model> me = jwt_service.validations(jwt_service.request_get_token(request))
                 .flatMap(user_service::findById);
@@ -175,17 +171,14 @@ public class board_business {
             // 사용자의 아이디 조회
             String id = me.get().getId();
             // 사용자의 아이디와 게시글 고유키로 게시글 삭제
-            board_service.delete(id, req.getV1());
-
+            board_service.delete(id, board_id);
 
             // 완료
-            dto.setMsg(req.getV1() + " 번호의 게시글 삭제 되었습니다");
-            dto.setJs("none");
+            dto.setMsg(board_id + " 번 게시글이 삭제 되었습니다");
         }
         // 사용자 인증 정보가 유효하지 않다면
         else {
             dto.setMsg("인증실패");
-            dto.setJs("none");
         }
 
         return dto;

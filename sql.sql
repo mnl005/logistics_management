@@ -2,6 +2,7 @@ show databases;
 CREATE DATABASE main;
 use main;
 select * from user;
+update user set profile = 'https://pixabay.com/ko/illustrations/image-9079096/' where id = 'user1';
 select * from invite;
 desc user;
 insert into user(id,name,email,phone,profile) value ('user3','김한솔','email4@naver.com','0101231234','pro1234');

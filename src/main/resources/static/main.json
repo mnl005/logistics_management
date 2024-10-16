@@ -1,0 +1,439 @@
+{
+  "open_login" :
+  {
+    "url": "none",
+    "event": [{"do" : "pop", "list" : ["#login", ".login_form", ".join_form"]}]
+  },
+  "open_profile_form":
+  {
+    "url": "none",
+    "event": [{"do" : "toggle", "list" : [".profile_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}]
+  },
+  "board_form_open" :
+  {
+    "url": "none",
+    "event": [{"do" : "pop", "list" : ["#board",".board_form"]}]
+  },
+
+  "menu_toggle" :
+  {
+    "url": "none",
+    "event": [{"do" : "toggle", "list" : ["#menu"]}]
+  },
+
+  "right_image":
+  {
+    "url" : "none",
+    "event": [{"do" :  "right_image", "list" :  [".image_box"]}]
+  },
+  "left_image":
+  {
+    "url" : "none",
+    "event": [{"do" :  "left_image", "list" :  [".image_box"]}]
+  },
+
+
+
+
+
+
+
+
+  "/user/login1" :
+  {
+    "url": "/user/login1",
+    "type": "POST",
+    "event": [{"do" : "pop", "list" : ["#login",".login_code"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1" : "이메일"}
+    ],
+    "res_define": "none"
+  },
+
+
+  "/user/login2" :
+  {
+    "url": "/user/login2",
+    "type": "POST",
+    "event": [{"do" : "pop", "list" : ["#user"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1" : "인증코드"}
+    ],
+    "res_define":  [
+      {"what": "user_info", "where":  "#user","how": ["id-text","email-text","name-text","phone-text","organization-text","profile-image"], "way": "object"},
+      {"what": "user_info", "where":  "#menu","how": ["id-text","profile-image"], "way": "object"}
+    ]
+  },
+
+
+  "/user/join1" :
+  {
+    "url": "/user/join1",
+    "type": "POST",
+    "event": [{"do" : "pop", "list" : ["#login",".join_code"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"id": "아이디", "email": "이메일", "phone": "전화번호", "name": "이름", "profile": "프로필이미지"}
+    ],
+    "res_define": "none"
+  },
+
+
+  "/user/join2" :
+  {
+    "url": "/user/join2",
+    "type": "POST",
+    "event": [{"do" : "pop", "list" : ["#user"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "인증코드"}
+    ],
+    "res_define":  [
+      {"what": "user_info", "where":  "#user","how": ["id-text","email-text","name-text","phone-text","organization-text","profile-image"], "way": "object"},
+      {"what": "user_info", "where":  "#menu","how": ["id-text","profile-image"], "way": "object"}
+    ]
+  },
+
+
+  "/user/me" :
+  {
+    "url": "/user/me",
+    "type":  "post",
+    "event": [{"do" : "pop", "list" : ["#user"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "none"
+    ],
+    "res_define":  [
+      {"what": "user_info", "where":  "#user","how": ["id-text","email-text","name-text","phone-text","organization-text","profile-image"], "way": "object"},
+      {"what": "user_info", "where":  "#menu","how": ["id-text","profile-image"], "way": "object"}
+    ]
+  },
+
+
+  "/user/update" :
+  {
+    "url": "/user/update",
+    "type":  "post",
+    "event": [{"do" : "pop", "list" : ["#user"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "profile or name or phone", "v2": "이름 or 전화번호", "image": "이미지파일"}
+    ],
+    "res_define":  [
+      {"what": "user_info", "where":  "#user","how": ["id-text","email-text","name-text","phone-text","organization-text","profile-image"], "way": "object"},
+      {"what": "user_info", "where":  "#menu","how": ["id-text","profile-image"], "way": "object"}
+    ]
+
+  },
+
+
+  "/user/delete" :
+  {
+    "url": "/user/delete",
+    "type":  "post",
+    "event": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+
+  },
+
+
+  "/user/logout" :
+  {
+    "url": "/user/logout",
+    "type":  "post",
+    "event": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+
+
+
+
+
+
+
+
+  "/board/group" :
+  {
+    "url": "/board/select_all",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".board_view"]},{"do" : "pop", "list" : ["#board",".board_view"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define":  [
+      {"what": "board_list", "where": ".board_view","how": ["id-text","created_date-text","title-text","content-text","image-image_box","num-id"], "way": "array"}
+    ]
+  },
+
+
+  "/board/me" :
+  {
+    "url": "/board/me",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".board_me_view"]},{"do" : "pop", "list" : ["#board",".board_me_view"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define":  [
+      {"what": "board_me_list", "where": ".board_me_view","how": ["id-text","created_date-text","title-text","content-text","image-image_box","num-id"], "way": "array"}
+    ]
+  },
+
+
+  "/board/insert" :
+  {
+    "url": "/board/insert",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".board_view"]},{"do" : "pop", "list" : ["#board",".board_view"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      { "id": "유저아이디", "title": "게시글제목", "content": "게시글본문","image": "다수의이미지"}
+    ],
+    "res_define": "none"
+  },
+
+
+  "/board/delete" :
+  {
+    "url": "/board/delete",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".board_me_view"]},{"do" : "pop", "list" : ["#board",".board_me_view"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "삭제할 게시글의 분류번호"}
+    ],
+    "res_define": "none"
+  },
+
+
+
+
+
+
+
+
+
+
+  "/group/create" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+  "/group/me" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+  "/group/select" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+  "/group/invite" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+  "/group/invite_list" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+  "/group/cancel" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+  "/group/accept" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  },
+
+
+  "/group/delete" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": "none"
+  }
+
+}
+
+
