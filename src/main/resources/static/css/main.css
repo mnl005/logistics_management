@@ -23,6 +23,38 @@ body{
     justify-content: space-between;
     height:fit-content;
 }
+
+.serve_menu{
+    display: flex;
+    flex-flow: row nowrap;
+    gap:14px;
+    align-items: center;
+    justify-content: center;
+    width:100%;
+    padding:15px;
+    border-bottom:1px solid white;
+}
+.serve_menu > .button{
+    padding:5px;
+}
+
+.serve_main{
+    display: flex;
+    flex-flow:row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+    height: 100%;
+    width:100%;
+}
+.serve_main > .pop{
+    min-width:200px;
+    display: flex;
+    flex-flow:column nowrap;
+}
+.serve_main > .pop > div{
+    width:100%;
+}
 .menu_toggle_button{
     position: fixed;
     z-index:50;
@@ -192,7 +224,7 @@ body{
     margin:10px;
 }
 
-#board > .board_view,
+#board > .board_group_view,
 #board > .board_me_view{
     width:100%;
     flex:1;
@@ -203,34 +235,34 @@ body{
     align-items: center;
 }
 
-#board > .board_view > .row,
+#board > .board_group_view > .row,
 #board > .board_me_view > .row
 {
     width:90%;
     margin-top:80px;
     flex-flow: row wrap;
 }
-#board > .board_view > .row > .image_box,
+#board > .board_group_view > .row > .image_box,
 #board > .board_me_view > .row > .image_box{
     flex:1;
     min-width:350px;
     height:450px;
 }
-#board > .board_view > .row > .image_box > .image,
+#board > .board_group_view > .row > .image_box > .image,
 #board > .board_me_view > .row > .image_box > .image
 {
     flex:1;
     min-width:350px;
     height:450px;
 }
-#board > .board_view > .row > .column,
+#board > .board_group_view > .row > .column,
 #board > .board_me_view > .row > .column
 {
     height:450px;
     flex:1;
     min-width:350px;
 }
-#board > .board_view > .row > .column > .content,
+#board > .board_group_view > .row > .column > .content,
 #board > .board_me_view > .row > .column > .content
 {
     height: 300px;
@@ -238,7 +270,7 @@ body{
 }
 
 #board > .board_me_view > .row > .column > .row,
-#board > .board_view > .row > .column > .row{
+#board > .board_group_view > .row > .column > .row{
     justify-content: flex-start;
 }
 
@@ -252,112 +284,22 @@ body{
 }
 /* 그룹------------------------------------------------------------------------------------------------- */
 #group{
-    height: 100vh;
     display: flex;
-    flex-flow:row wrap;
     align-items: center;
-    justify-content: center;
-    gap:20px;
+    flex-flow:column nowrap;
+    height:100vh;
 }
+/* 물류------------------------------------------------------------------------------------------------- */
 
-#group > .group_search{
-    position: absolute;
-    display: block;
-    z-index: 100;
-}
-
-#group > .group_edit{
-    position: absolute;
-    display: block;
-    z-index: 100;
-}
-
-#group > .column{
-    width:400px;
-    height:400px;
-    justify-content: flex-start;
-}
-#group > .column > .group_list{
-    overflow: scroll;
-}
-#group > .column > .group_title{
-    font-size: 30px;
-}
-#group > .column > .group_list > .group_member_info {
-    width: 100%;
-    height:80px;
-    justify-content:space-around;
-    padding: 10px;
-}
-.group_profile{
-    width:50px;
-    height:50px;
-    background-color: white;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    margin:0;
-}
-
-#group> .column > .group_setting > .row{
-    width:100%;
-    gap:0;
-}
-#group> .column > .group_setting > .row > div{
-    width:50%;
-    padding:7px;
-    overflow: scroll;
-}
-#group> .column > .group_setting > form{
-    width:100%;
-    justify-content: center;
-}
-
-/* todolist------------------------------------------------------------------------------------------------- */
-#todolist{
-    height: 100vh;
+#logistics{
     display: flex;
-    flex-flow:row;
     align-items: center;
-    justify-content: center;
-    gap:20px;
+    flex-flow:column nowrap;
+    height:100vh;
 }
-
-#todolist > .column {
-    width:350px;
-    height:500px;
-    justify-content: flex-start;
+#logistics > .serve_main > .item_list > .sample > .image {
+    width:40px;
+    height:40px;
 }
-
-#todolist > .column > .todolist_title{
-    font-size: 30px;
-}
-
-#todolist > .todolist_main{
-    height:inherit;
-    overflow: scroll;
-}
-.todolist_group_profile{
-    width:50px;
-    height:50px;
-    background-color: white;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    margin:0 auto 0 auto;
-}
-#todolist > .todolist_group{
-    height:inherit;
-    overflow: scroll;
-}
-
-#todolist > .todolist_record{
-    height:inherit;
-    overflow: scroll;
-}
-
-
 
 
