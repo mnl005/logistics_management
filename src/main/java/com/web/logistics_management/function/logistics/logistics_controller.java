@@ -30,28 +30,28 @@ public class logistics_controller {
     private final logistics_business logistics_business;
 
     // 아이템 등록
-    @PostMapping("/item_insert")
+    @PostMapping("/item/insert")
     public ResponseEntity<JsonNode> item_insert(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_insert(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
     // 아이템 전체 조회
-    @PostMapping("/item_info_all")
+    @PostMapping("/item/select_all")
     public ResponseEntity<JsonNode> item_info_all(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_info_all(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
     // 아이템 일부 조회
-    @PostMapping("/item_info")
+    @PostMapping("/item/select")
     public ResponseEntity<JsonNode> item_info(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_info(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
     // 아이템 삭제
-    @PostMapping("/item_delete")
+    @PostMapping("/item/delete")
     public ResponseEntity<JsonNode> item_delete(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_delete(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
@@ -60,55 +60,55 @@ public class logistics_controller {
 
 
     // 로케이션 전체 조회
-    @PostMapping("/location_info_all")
+    @PostMapping("/location/select_all")
     public ResponseEntity<JsonNode> location_info_all(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_all(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 특정 조회
-    @PostMapping("/location_info")
+    @PostMapping("/location/select")
     public ResponseEntity<JsonNode> location_info(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 수량 이상 조회
-    @PostMapping("/location_info_up")
+    @PostMapping("/location/select_up")
     public ResponseEntity<JsonNode> location_info_up(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_up(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 수량 이하 조회
-    @PostMapping("/location_info_down")
+    @PostMapping("/logistics/location/down")
     public ResponseEntity<JsonNode> location_info_down(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_down(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 수량 없음 조회
-    @PostMapping("/location_info_no")
+    @PostMapping("/location/zero")
     public ResponseEntity<JsonNode> location_info_no(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_no(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 상품 코드 조회
-    @PostMapping("/location_info_code")
+    @PostMapping("/location/code")
     public ResponseEntity<JsonNode> location_info_code(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_code(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 업데이트
-    @PostMapping("/location_update")
+    @PostMapping("/location/update")
     public ResponseEntity<JsonNode> location_update(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_update(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 신규 삽입
-    @PostMapping("/location_insert")
+    @PostMapping("/location/insert")
     public ResponseEntity<JsonNode> location_insert(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_insert(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 삭제
-    @PostMapping("/location_delete")
+    @PostMapping("/location/delete")
     public ResponseEntity<JsonNode> location_delete(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_delete(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));

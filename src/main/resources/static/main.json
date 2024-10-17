@@ -452,9 +452,287 @@
     "res_data": null,
 
     "req_define": ["none"],
-    "res_define": "none"
-  }
+    "res_define": ["none"]
+  },
 
+
+
+
+
+
+
+
+
+
+
+  "/logistics/item/insert" :
+  {
+    "url": "/logistics/item/insert",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "상품식별코드", "v2": "상품이름", "image": "상품이미지"}
+    ],
+    "res_define": ["none"]
+  },
+
+
+  "/logistics/item/select_all" :
+  {
+    "url": "/logistics/item/select_all",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": [
+      {"what": "item_info", "where": ".item_list","how": ["organization-text","code-text","name-text","image-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/item/select" :
+  {
+    "url": "/logistics/item/select",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "조회할 상품 코드"}
+    ],
+    "res_define": [
+      {"what": "item_info", "where": ".item_info","how": ["name-text","organization-text","code-text","image-image"], "way": "object"}
+    ]
+  },
+
+
+  "/logistics/item/delete" :
+  {
+    "url": "/logistics/item/delete",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "삭제할 상품 코드"}
+    ],
+    "res_define": ["none"]
+  },
+
+
+  "/logistics/location/select_all" :
+  {
+    "url": "/logistics/location/select_all",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "조회할 그룹 구성원의 아이디"}
+    ],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/location/select" :
+  {
+    "url": "/logistics/location/select",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "조회할 로케이션 분류코드"}
+    ],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "object"}
+    ]
+  },
+
+
+  "/logistics/location/select_up" :
+  {
+    "url": "/logistics/location/select_up",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "일정 수량 이상 조회할 수량"}
+    ],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/location/down" :
+  {
+    "url": "/logistics/location/down",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "조회할 그룹 구성원의 아이디"}
+    ],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/location/zero" :
+  {
+    "url": "/logistics/location/zero",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/location/code" :
+  {
+    "url": "/logistics/location/code",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "로케이션 조회할 상품 코드"}
+    ],
+    "res_define": [
+      {"what": "location_info", "where": ".location_info","how": ["organization-text","location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+  "/logistics/location/update" :
+  {
+    "url": "/logistics/location/update",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"type": "수정할 상품코드 또는 수량","v1": "로케이션 번호", "v2": "수정할 상품코드 또는 수량"}
+    ],
+    "res_define": ["none"]
+  },
+
+
+  "/logistics/location/insert" :
+  {
+    "url": "/logistics/location/insert",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "신규 등록할 로케이션 번호", "v2": "신규 등록할 로케이션에 할당할 상품코드", "v3": "신규 등록할 로케이션에 할당할 상품의 총수량"}
+    ],
+    "res_define": ["none"]
+  },
+
+
+  "/logistics/location/delete" :
+  {
+    "url": "/logistics/location/delete",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "상품 수량이 0이 아닌 삭제할 로케이션의 분류번호"}
+    ],
+    "res_define": ["none"]
+  }
 }
 
 

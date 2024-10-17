@@ -72,7 +72,7 @@ public class logistics_business {
 
     // 기능 : 상품 전체 정보 조회
     // 받는 데이터 : 없음
-    // 보낼 데이터 : 모든 아이템 정보
+    // 보낼 데이터 : item_info(organization,code,name,image)
     public Dto<Object, Object> item_info_all(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -190,7 +190,7 @@ public class logistics_business {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     // 기능 : 로케이션 전체조회
     // 받는 데이터 : 없음
-    // 보낼 데이터 : 로케이션 전체 데이터
+    // 보낼 데이터 : location_info(organization,location,code,quantity,)
     public Dto<model, Object> location_info_all(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -228,7 +228,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 특정 조회
     // 받는 데이터 : v1(로케이션정보)
-    // 보낼 데이터 : 특정 로케이션 정보
+    // 보낼 데이터 : location_info(organization,location,code,quantity)
     public Dto<model, Object> location_info(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -265,7 +265,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 수량 이상 조회
     // 받는 데이터 : v1(수량)
-    // 보낼 데이터 : 수량 이상 로케이션들 정보
+    // 보낼 데이터 : location_info(organization,location,code,quantity)
     public Dto<model, Object> location_info_up(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -300,7 +300,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 수량 이하 조회
     // 받는 데이터 : v1(수량)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : location_info(organization,location,code,quantity)
     public Dto<model, Object> location_info_down(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -336,7 +336,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 수량 없음 조회
     // 받는 데이터 : 없음
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : location_info(organization,location,code,quantity)
     public Dto<model, Object> location_info_no(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -372,7 +372,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 상품 코드로 조회
     // 받는 데이터 : v1(상품코드)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : location_info(organization,location,code,quantity)
     public Dto<model, Object> location_info_code(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
