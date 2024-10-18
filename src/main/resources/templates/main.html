@@ -40,19 +40,19 @@
     <div id="login" class="pop">
 
         <form class="login_form column pop" target="iframe1">
-            <label>로그인</label>
+            <div class="serve_title">로그인</div>
             <input type="text" name="v1" placeholder="이메일을 입력하세요">
             <button class="button" type="button" data-json="/user/login1">인증하기</button>
         </form>
 
         <form class="login_code column pop" target="iframe1">
-            <label>인증코드를 입력하세요</label>
+            <div class="serve_title">인증코드입력</div>
             <input type="text" name="v1" placeholder="인증코드를 입력하세료">
             <button class="button" type="button" data-json="/user/login2">인증완료</button>
         </form>
 
         <form class="join_form column pop" target="iframe1">
-            <label>회원가입</label>
+            <div class="serve_title">회원가입</div>
             <input type="text" name="id" placeholder="id">
             <input type="text" name="email" placeholder="email">
             <input type="text" name="name" placeholder="name">
@@ -63,7 +63,7 @@
         </form>
 
         <form class="join_code column pop" target="iframe1">
-            <label>인증코드를 입력하세요</label>
+            <div class="serve_title">인증코드를 입력하세요</div>
             <input type="text" name="v1" placeholder="인증코드를 입력하세요">
             <button class="button" type="button" data-json="/user/join2">인증완료</button>
         </form>
@@ -74,6 +74,7 @@
     <div id="user" class="pop">
 
         <form class="profile_form column pop " target="iframe1">
+            <div class="serve_title">프로필사진 변경</div>
             <input type="hidden" name="v1" value="profile">
             <input type="file" name="image">
             <div class="image_box">
@@ -109,7 +110,7 @@
             <div class="organization"></div>
         </div>
 
-        <form class="form" target="iframe1">
+        <form class="form column" target="iframe1">
             <select name="v1">
                 <option value="name">name</option>
                 <option value="phone">phone</option>
@@ -214,40 +215,41 @@
 
             <!-- 그룹원 정보 상세보기 -->
             <div class="group_user_info pop  column">
+                <div class="serve_title">그룹원 상세 정보</div>
                 <div class="profile"></div>
 
                 <div class="row">
                     <div class="left">id</div>
-                    <div class="id"></div>
+                    <div class="id">testid</div>
                 </div>
 
                 <div class="row">
                     <div class="left">email</div>
-                    <div class="email"></div>
+                    <div class="email">test001@naver.com</div>
                 </div>
 
                 <div class="row">
                     <div class="left">name</div>
-                    <div class="name"></div>
+                    <div class="name">leehyun</div>
                 </div>
 
                 <div class="row">
                     <div class="left">phone</div>
-                    <div class="phone"></div>
+                    <div class="phone">01011112222</div>
                 </div>
 
                 <div class="row">
                     <div class="left">조직</div>
-                    <div class="organization"></div>
+                    <div class="organization">teg1</div>
                 </div>
             </div>
             <!-- 그룹 생성-->
             <div class="group_create column pop">
-                <div class="group_title">그룹 생성</div>
+                <div class="serve_title">그룹 생성</div>
 
                 <div class="group_list column">
 
-                    <form class="row" target="iframe1">
+                    <form class="column" target="iframe1">
                         <input type="text" name="v1" placeholder="생성할 그룹 이름을 입력하세요">
                         <button class="button" type="button" data-json="/group/create">만들기</button>
                     </form>
@@ -256,14 +258,19 @@
             </div>
             <!-- 그룹 정보-->
             <div class="group_infos column pop">
-                <div class="group_title">그룹 정보</div>
-
-                <div class="group_info row">
-                    <div class="group_name">그룹이름</div>
-                    <div class="group_size">그룹사이즈</div>
+                <div class="serve_title">그룹 정보</div>
+                <div class="group_info column">
+                    <div class="row">
+                        <div class="left">그룹이름</div>
+                        <div class="group_name">testid</div>
+                    </div>
+                    <div class="row">
+                        <div class="left">그룹사이즈</div>
+                        <div class="group_size">testid</div>
+                    </div>
                 </div>
 
-                <!-- 그룹원 구성 정보-->
+                    <!-- 그룹원 구성 정보-->
                 <div class="group_list column">
                     <div class="group_member_info sample row">
                         <div class="profile"></div>
@@ -275,21 +282,27 @@
             </div>
             <!-- 그룹 초대-->
                 <form class="group_invite column pop" target="iframe1">
-                    <label>초대하기</label>
+                    <div class="serve_title">그룹으로 초대</div>
                     <input type="text" name="v1" placeholder="초대할 유저 아이디를 입력하세요">
                     <button class="button" type="button" data-json="/group/invite">초대</button>
                 </form>
             <!-- 그룹 초대 목록-->
             <div class="group_invite_list column pop">
-                <div class="group_title">그룹 초대 목록</div>
+                <div class="serve_title">그룹 초대 목록</div>
 
                 <div class="button" data-json="/group/invite_list">초대 목록 확인</div>
                 <div class="button" data-json="/group/delete">그룹 나가기</div>
 
                 <div class="invite_list column">
                     <div class="sample row">
-                        <div class="inviter">초대자</div>
-                        <div class="target">타겟</div>
+                        <div class="column">
+                            <div class="row">
+                                <div class="inviter">초대자 : </div>
+                            </div>
+                            <div class="row">
+                                <div class="target">타겟 : </div>
+                            </div>
+                        </div>
                         <div class="button" data-json="/group/cancel" data-id="24">삭제</div>
                         <div class="button" data-json="/group/accept" data-id="24">수락</div>
                     </div>
@@ -321,8 +334,8 @@
         <div class="serve_main">
 
             <!-- 상품등록 -->
-            <form class="item_insert pop row" target="iframe1">
-                <label>상품 등록</label>
+            <form class="item_insert pop column" target="iframe1">
+                <div class="serve_title">상품등록</div>
                 <input type="text" name="v1" placeholder="상품식별코드">
                 <input type="text" name="v2" placeholder="상품이름">
                 <input type="file" name="image" placeholder="상품이미지">
@@ -333,31 +346,42 @@
 
             <!-- 상품 리스트 -->
             <div class="item_list pop  column">
-
+                <div class="serve_title">상품 리스트 조회 결과</div>
                 <div class="sample row">
                     <div class="image"></div>
-                    <div class="code">상품코드</div>
-                    <div class="name">상품이름</div>
+                    <div class="column">
+                        <div class="row">
+                            <div>상품코드 : </div>
+                            <div class="code">a0001</div>
+                        </div>
+                        <div class="row">
+                            <div>상품이름 : </div>
+                            <div class="name">에어팟맥스</div>
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>
 
             <!-- 상품 하나 조회 -->
-            <div class="item_list_one pop  row">
-                    <div class="image"></div>
+            <div class="item_list_one pop  column">
+                <div class="serve_title">상품 조회 결과</div>
+                <div class="image"></div>
                     <div class="code">상품코드</div>
                     <div class="name">상품이름</div>
             </div>
 
             <!-- 상품찾기 -->
-            <form class="item_select pop row" target="iframe1">
-                <label>상품 찾기</label>
+            <form class="item_select pop column" target="iframe1">
+                <div class="serve_title">식별코드로 상품조회</div>
                 <input type="text" name="v1" placeholder="상품식별코드">
                 <button class="button" type="button" data-json="/logistics/item/select">찾기</button>
             </form>
             <!-- 상품삭제 -->
-            <form class="item_delete pop row" target="iframe1">
-                <label>상품 삭제</label>
+            <form class="item_delete pop column" target="iframe1">
+                <div class="serve_title">상품 삭제</div>
                 <input type="text" name="v1" placeholder="삭제할 상품식별코드">
                 <button class="button" type="button" data-json="/logistics/item/delete">삭제완료</button>
             </form>
@@ -369,6 +393,7 @@
 
             <!-- 다수의 로케이션 목록 -->
             <div class="location_list pop  column">
+                <div class="serve_title">로케이션 리스트 조회 결과</div>
                 <div class="sample row">
                     <div class="location">위치정보</div>
                     <div class="code">상품코드</div>
@@ -378,7 +403,8 @@
 
             <!-- 하나의 로케이션 목록 -->
             <div class="location_list_one pop  column">
-                    <div class="location">위치정보</div>
+                <div class="serve_title">특정 로케이션 조회 결과</div>
+                <div class="location">위치정보</div>
                     <div class="code">상품코드</div>
                     <div class="quantity">상품 수량</div>
             </div>
@@ -388,31 +414,31 @@
 
 
             <!-- 위치로 로케이션 찾기 -->
-            <form class="location_select pop row" target="iframe1">
-                <label>위치로 로케이션 조회</label>
+            <form class="location_select pop column" target="iframe1">
+                <div class="serve_title">위치로 로케이션 조회</div>
                 <input type="text" name="v1" placeholder="조회할 로케이션 위치">
                 <button class="button" type="button" data-json="/logistics/location/select">조회</button>
             </form>
             <!-- 일정수량이상 로케이션 찾기 -->
-            <form class="location_select_up pop row" target="iframe1">
-                <label>상품이 일정 수량 이상 로케이션 조회</label>
+            <form class="location_select_up pop column" target="iframe1">
+                <div class="serve_title">특정 수량 이상 로케이션 조회</div>
                 <input type="text" name="v1" placeholder="상품수량">
                 <button class="button" type="button" data-json="/logistics/location/up">조회</button>
             </form>
             <!-- 일정수량이하 로케이션 찾기 -->
-            <form class="location_select_down pop row" target="iframe1">
-                <label>상품이 일정 수량 이하인 로케이션 조회</label>
+            <form class="location_select_down pop column" target="iframe1">
+                <div class="serve_title">특정 수량 이하 로케이션 조회</div>
                 <input type="text" name="v1" placeholder="상품수량">
                 <button class="button" type="button" data-json="/logistics/location/down">조회</button>
             </form>
             <!-- 상품수량이 0인 로케이션 찾기 -->
-            <form class="location_select_zero pop row" target="iframe1">
-                <label>상품 수량이 0인 로케이션 조회</label>
+            <form class="location_select_zero pop column" target="iframe1">
+                <div class="serve_title">상품수량 0인 로케이션 조회</div>
                 <button class="button" type="button" data-json="/logistics/location/zero">조회</button>
             </form>
             <!-- 상품 코드로 로케이션 찾기 -->
-            <form class="location_select_code pop row" target="iframe1">
-                <label>상품 코드로 로케이션 조회</label>
+            <form class="location_select_code pop column" target="iframe1">
+                <div class="serve_title">상품 코드로 로케이션 조회</div>
                 <input type="text" name="v1" placeholder="상품코드">
                 <button class="button" type="button" data-json="/logistics/location/code">조회</button>
             </form>
@@ -421,8 +447,8 @@
 
 
             <!-- 로케이션 정보 업데이트 -->
-            <form class="location_update pop row" target="iframe1">
-                <label>로케이션 정보 업데이트</label>
+            <form class="location_update pop column" target="iframe1">
+                <div class="serve_title">로케이션 정보 업데이트</div>
                 <select name="type">
                     <option value="code">code</option>
                     <option value="quantity">quantity</option>
@@ -432,16 +458,16 @@
                 <button class="button" type="button" data-json="/logistics/location/update">조회</button>
             </form>
             <!-- 로케이션 신규 등록 -->
-            <form class="location_insert pop row" target="iframe1">
-                <label>로케이션  신규등록</label>
+            <form class="location_insert pop column" target="iframe1">
+                <div class="serve_title">로케이션 신규등록</div>
                 <input type="text" name="v1" placeholder="로케이션번호">
                 <input type="text" name="v2" placeholder="상품코드">
                 <input type="text" name="v3" placeholder="상품수량">
                 <button class="button" type="button" data-json="/logistics/location/insert">조회</button>
             </form>
             <!-- 로케이션 삭제 -->
-            <form class="location_delete pop row" target="iframe1">
-                <label>로케이션 삭제</label>
+            <form class="location_delete pop column" target="iframe1">
+                <div class="serve_title">로케이션 삭제</div>
                 <input type="text" name="v1" placeholder="로케이션번호">
                 <button class="button" type="button" data-json="/logistics/location/delete">삭제</button>
             </form>

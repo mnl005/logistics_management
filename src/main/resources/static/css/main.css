@@ -3,7 +3,7 @@
     padding:0;
     text-decoration: none;
     box-sizing: border-box;
-    border:1px solid red;
+    /*border:1px solid red;*/
 }
 body{
     display: flex;
@@ -55,6 +55,13 @@ body{
 .serve_main > .pop > div{
     width:100%;
 }
+.serve_title{
+    background-color: cornflowerblue;
+    padding:8px;
+    font-size:17px;
+    color: white;
+    border-bottom:1px solid white;
+}
 .menu_toggle_button{
     position: fixed;
     z-index:50;
@@ -89,8 +96,9 @@ body{
 }
 
 /* form -------------------------------------------------------------------------------------------------*/
-.form {
+form {
     height:fit-content;
+    width:240px;
 }
 /* 팝업 -------------------------------------------------------------------------------------------------*/
 .pop {
@@ -196,6 +204,9 @@ body{
     flex-flow:row nowrap;
     gap:50px;
 }
+#login  > .pop{
+    width:240px;
+}
 
 /* 유저 정보------------------------------------------------------------------------------------------------- */
 #user{
@@ -207,10 +218,13 @@ body{
     gap:20px;
 }
 #user > .row{
-    width:300px;
+    width:240px;
 }
 #user > .row > div{
     width:50%;
+}
+#user > .from > .button{
+    width:100%;
 }
 
 /* 게시판 ------------------------------------------------------------------------------------------------- */
@@ -289,6 +303,31 @@ body{
     flex-flow:column nowrap;
     height:100vh;
 }
+#group > .serve_main > .pop{
+    width:240px;
+}
+#group > .serve_main > .group_user_info > .profile{
+    width:70px;
+    height:70px;
+    margin-top:10px;
+}
+#group > .serve_main > .group_infos > .group_info > .row{
+    width:100%;
+}
+#group > .serve_main > .group_infos > .group_list > .group_member_info{
+    padding:4px;
+    width:100%;
+}
+#group > .serve_main > .group_infos > .group_list > .group_member_info > .profile{
+    width:40px;
+    height:40px;
+    margin-right:45px;
+    margin-left:5px;
+}
+#group > .serve_main > .group_invite_list > .invite_list > .sample{
+    width:100%;
+}
+
 /* 물류------------------------------------------------------------------------------------------------- */
 
 #logistics{
@@ -297,9 +336,15 @@ body{
     flex-flow:column nowrap;
     height:100vh;
 }
+#logistics > .serve_main > .pop{
+    width:240px;
+}
+#logistics > .serve_main > .item_list {
+    width:300px;
+}
 #logistics > .serve_main > .item_list > .sample > .image {
-    width:40px;
-    height:40px;
+    width:70px;
+    height:70px;
 }
 
 
