@@ -1,8 +1,9 @@
 
 let isFunctionRunning = false;
+let isMsgRunning = false;
 
-let json_file =  (async () => { json_file = await $.getJSON("../static/main.json"); })();
-// let json_file =  (async () => { json_file = await $.getJSON("/static/main.json"); })();
+// let json_file =  (async () => { json_file = await $.getJSON("../static/main.json"); })();
+let json_file =  (async () => { json_file = await $.getJSON("/static/main.json"); })();
 
 // main.json 에서 정보 받아 담는 객체
 let main = {
@@ -20,14 +21,16 @@ let main = {
     res_define : null,
 
     data_json : null,
-    event_target : null
+    event_target : null,
+
+    redirect : null
 }
 
 
 // 초기화면 설정
-pop(["#logistics"]);
+// pop(["#logistics"]);
 // pop(["#group",".group_infos",".group_user_info",".group_create",".group_list",".group_invite",".group_invite_list"]);
-// pop(["#login",".login_form",".join_form"]);
+pop(["#login",".login_form",".join_form"]);
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {
@@ -48,7 +51,6 @@ $(document).on('click', '.button', function(event) {
                 main.event = get_json_test.event;
                 main.error = get_json_test.error;
 
-                main.id_data = null;
                 main.msg = null;
                 main.req_data = null;
                 main.res_data = null;
@@ -83,22 +85,32 @@ $(document).on('click', '.button', function(event) {
             }
         })
         .then(main => {
+            // 리다이렉트시 처리
+            if(typeof main.redirect === "string"){
+                window.location.href = main.redirect
+            }
             // 요청을 보낸경우 응답을 확인하고 받은 응답을 클라이언트에 보여준다
             if(main.url !== "none"){
                 console.log("res----------",main);
                 if("err_msg" in main){
                     msg(main.err_msg,"red");
                 }
-                else if(main.res_data !== null){
+                else{
                     msg(main.msg,"cornflowerblue");
-                    data_spread(main.res_define,main.res_data);
+                    if(main.res_data !== null){
+                        data_spread(main.res_define,main.res_data);
+                    }
                 }
+            }
+            else{
+                console.log("클라이언트이벤트종료");
             }
             return main;
         })
         //에러시 작동
         .catch(result => {
-            msg(result,"red");
+            console.log(result);
+            // msg(result,"red");
         });
 
 });
@@ -158,7 +170,6 @@ function form(result) {
 function send(req) {
     if (isFunctionRunning) {return Promise.reject('이미 실행중');}
     isFunctionRunning = true;
-    msg("요청중","cornflowerblue");
     return new Promise(function(resolve, reject) {
         $.ajax({
             url: req.url,
@@ -201,16 +212,18 @@ function data_spread(res_define,data){
                 // 삽입할 요소, 삽입할 값, 삽입할 값의 타입
                 // 삽입할 요소는 html의 클래스 이름
                 let key = parts[0];
-                let value = what[key].toString();
+                let value;
+                try{
+                    value = what[key].toString();
+                }
+                catch (e){
+                  value = "값없음";
+                }
                 let type = parts[1];
 
-                if(value === null){
-                    value = "null";
-                }
 
                 if(type === "image"){
                     let str = value.split("~~~~");
-                    console.log(str);
                     $(where).find("." + key).css("background-image", str[0]);
                 }
                 else if(type === "text"){
@@ -229,16 +242,21 @@ function data_spread(res_define,data){
                 how.forEach(obob => {
                         let parts = obob.split("-");
                         let key = parts[0];
-                        let value = ob[key].toString();
                         let type = parts[1];
+                        let value;
+                    try{
+                        value = ob[key].toString();
+                    }
+                    catch (e){
+                        value = "값없음";
+                    }
 
-                        if(value === null){
-                            value = "null";
-                        }
+                    console.log(parts);
+
 
                         if(type === "image"){
                             let str = value.split("~~~~");
-                            sample.find("." + key).css(str[0]);
+                            sample.find("." + key).css("background-image", str[0]);
                         }
                         if(type === "image_box"){
                             let image_one = value.split("~~~~");
@@ -263,7 +281,7 @@ function data_spread(res_define,data){
                             sample.find("." + key).text(value);
                         }
                         else if(type === "id"){
-                            $(where).find(".button").attr("data-id", value);
+                            sample.find(".button").attr("data-id", value);
                         }
                     }
                 );
@@ -277,14 +295,24 @@ function data_spread(res_define,data){
 
     });
 }
-function msg(msg,color){
-    $("#msg").stop().slideDown().text(msg).css("background-color",color);
-    setTimeout(function() {
-        $("#msg").stop().slideUp();
-    }, 3000,function (){
-        $("#msg").css("background-color","cornflowerblue");
-    });
+
+
+let messageTimeout; // 타이머를 저장할 변수
+function msg(text, color) {
+    const $msg = $("#msg");
+    $msg.text(text).css("background-color", color).stop(true, true).slideDown();
+    if (messageTimeout) {
+        clearTimeout(messageTimeout);
+    }
+    messageTimeout = setTimeout(function() {
+        $msg.stop(true, true).slideUp(function() {
+            $(this).css("background-color", "cornflowerblue");
+        });
+    }, 3000);
 }
+
+
+
 function client_event(arr,events){
     arr.forEach(obj => {
         window[obj.do](obj.list,events);
@@ -342,7 +370,7 @@ function clean(list,events){
     });
 }
 
-$('input[type="file"][name="image"]').change(function() {
+$('input[type="file"]').change(function() {
     let input = this;
     if (input.files && input.files[0]) {
         let file = this.files[0];

@@ -38,7 +38,7 @@ public class user_business {
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        jwt_service.access("user1", response);
+        jwt_service.access("mnl005", response);
 
 
         // 보낼 데이터 임시
@@ -89,7 +89,6 @@ public class user_business {
 
 
         // 완료
-        dto.setRes_data(res);
         dto.setMsg(req.getV1() + " 으로 인증코드를 발송했습니다");
 
         return dto;
@@ -211,6 +210,7 @@ public class user_business {
 
         //완료
         dto.setMsg("로그아웃되었습니다");
+        dto.setRedirect("/");
         return dto;
     }
 
@@ -237,6 +237,7 @@ public class user_business {
             // 완료
             user_service.delete(id);
             dto.setMsg("탈퇴완료");
+            dto.setRedirect("/");
         }
         // 인증 정보가 유효하지 않다면
         else {

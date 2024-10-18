@@ -357,7 +357,7 @@
   {
     "url": "/group/me",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_infos"]}],
+    "event": [{"do" : "clean", "list" : [".group_infos>.group_list"]}, {"do" : "pop", "list" : ["#group",".group_infos"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -367,7 +367,7 @@
 
     "req_define": ["none"],
     "res_define": [
-      {"what": "group_users", "where": ".group_list","how": ["id-text","profile-image"], "way": "array"},
+      {"what": "group_users", "where": ".group_infos>.group_list","how": ["id-text","profile-image","id-id"], "way": "array"},
       {"what": "group_info", "where": ".group_info","how": ["group_name-text","group_size-text"], "way": "object"}]
   },
 

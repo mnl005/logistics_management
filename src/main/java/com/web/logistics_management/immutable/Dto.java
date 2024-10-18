@@ -27,5 +27,8 @@ public class Dto<T,V> {
     private Object req_define;
     private Object res_define;
 
+    //
+    private String redirect;
+
 
 }

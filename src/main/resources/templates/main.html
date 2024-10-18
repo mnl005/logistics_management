@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>board</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <link rel="stylesheet" href="../static/css/main.css">
-<!--    <link rel="stylesheet" href="/static/css/main.css">-->
+<!--      <link rel="stylesheet" href="../static/css/main.css">-->
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 
@@ -59,6 +59,8 @@
             <input type="text" name="phone" placeholder="phone">
             <label>프로필 사진</label>
             <input type="file" name="profile" placeholder="프로필 사진">
+            <div class="image_box">
+            </div>
             <button class="button" type="button" data-json="/user/join1">정보확인</button>
         </form>
 
@@ -272,11 +274,13 @@
 
                     <!-- 그룹원 구성 정보-->
                 <div class="group_list column">
+
                     <div class="group_member_info sample row">
                         <div class="profile"></div>
-                        <div class="id">mnl005</div>
-                        <div class="button" data-json="/group/select">상세정보</div>
+                        <div class="id">-</div>
+                        <div class="button" data-json="/group/select" data-id="null">상세정보</div>
                     </div>
+
                 </div>
 
             </div>
@@ -491,7 +495,7 @@
 
 
 
-<script src="../static/js/main.js"></script>
-<!--<script src="/static/js/main.js"></script>-->
+<!--<script src="../static/js/main.js"></script>-->
+<script src="/static/js/main.js"></script>
 </body>
 </html>

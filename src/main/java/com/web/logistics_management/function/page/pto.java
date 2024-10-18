@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 @Controller
 public class pto {
-    @GetMapping("/main")
+    @GetMapping("/")
     public String board(Model model) {
         return "main";
     }
