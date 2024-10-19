@@ -17,12 +17,16 @@ public class invite_service {
 
     // 목록 조회
     public List<invite_model> select(String field, String value) {
-        return switch (field) {
-            case "inviter" -> crud.findByInviter(value);
-            case "target" -> crud.findByTarget(value);
-            case "num" -> crud.findByNum(Integer.valueOf(value));
-            default -> null;
-        };
+        try {
+            return switch (field) {
+                case "inviter" -> crud.findByInviter(value);
+                case "target" -> crud.findByTarget(value);
+                case "num" -> crud.findByNum(Integer.valueOf(value));
+                default -> null;
+            };
+        } catch (Exception e) {
+            throw new RuntimeException("초대 내역 조회 실패");
+        }
     }
 
     // 목록 생성
@@ -34,13 +38,17 @@ public class invite_service {
         if (model.isEmpty()) {
             return crud.saveAndFlush(save);
         } else {
-            throw new IllegalArgumentException("이미 초대를 보냈습니다");
+            throw new RuntimeException("이미 초대를 보냈습니다");
         }
     }
 
     // 목록 삭제
     @Transactional
     public void delete(String num) {
-        crud.deleteByNum(Integer.valueOf(num));
+        try {
+            crud.deleteByNum(Integer.valueOf(num));
+        } catch (Exception e) {
+            throw new RuntimeException("초대 내역 삭제 실패");
+        }
     }
 }

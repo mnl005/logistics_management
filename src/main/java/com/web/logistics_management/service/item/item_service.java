@@ -17,43 +17,57 @@ public class item_service {
 
     // 전체 조회
     public List<HashMap<String, String>> selectGroup(String group) {
-        // organization이 해당 그룹인 데이터를 조회
-        List<item_model> items = crud.selectByOrgnaization(group);
-
-        // 결과를 저장할 리스트
-        List<HashMap<String, String>> organizationAndCodes = new ArrayList<>();
-
-        // 조회된 리스트에서 organization과 code를 개별적으로 추출하여 HashMap에 저장
-        for (item_model item : items) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("organization", item.getId().getOrganization());
-            map.put("code", item.getId().getCode());
-            map.put("name",item.getName());
-            map.put("image",item.getImage());
-            organizationAndCodes.add(map);
+        try {
+            // organization이 해당 그룹인 데이터를 조회
+            List<item_model> items = crud.selectByOrgnaization(group);
+            // 결과를 저장할 리스트
+            List<HashMap<String, String>> organizationAndCodes = new ArrayList<>();
+            // 조회된 리스트에서 organization과 code를 개별적으로 추출하여 HashMap에 저장
+            for (item_model item : items) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("organization", item.getId().getOrganization());
+                map.put("code", item.getId().getCode());
+                map.put("name",item.getName());
+                map.put("image",item.getImage());
+                organizationAndCodes.add(map);
+            }
+            return organizationAndCodes;
+        } catch (Exception e) {
+            throw new RuntimeException("상품 리스트 조회 실패");
         }
-
-        return organizationAndCodes;
     }
 
     // 일부 조회
     public HashMap<String, String> selectGroupCode(String group, String code){
-        item_model item =  crud.findByOrganizationAndCode(group,code);
-        HashMap<String,String> map = new HashMap<>();
-        map.put("organization", item.getId().getOrganization());
-        map.put("code", item.getId().getCode());
-        map.put("name",item.getName());
-        map.put("image",item.getImage());
-        return map;
+        try {
+            item_model item =  crud.findByOrganizationAndCode(group,code);
+            HashMap<String,String> map = new HashMap<>();
+            map.put("organization", item.getId().getOrganization());
+            map.put("code", item.getId().getCode());
+            map.put("name",item.getName());
+            map.put("image",item.getImage());
+            return map;
+        } catch (Exception e) {
+            throw new RuntimeException("상품 코드로 조회 실패");
+        }
     }
 
     // 삽입
     public item_model insert(item_model item) {
-        return crud.saveAndFlush(item);
+        try {
+            return crud.saveAndFlush(item);
+        } catch (Exception e) {
+            throw new RuntimeException("상품 등록 실패");
+        }
     }
 
     // 삭제
     public void deleteGroupCode(String group, String code){
-        crud.deleteByOrganizationAndCode(group,code);
+        try {
+            crud.deleteByOrganizationAndCode(group,code);
+        } catch (Exception e) {
+            throw new RuntimeException("상품 삭제 실패");
+        }
+
     }
 }
