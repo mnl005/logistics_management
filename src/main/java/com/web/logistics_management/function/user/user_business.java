@@ -40,33 +40,21 @@ public class user_business {
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
         jwt_service.access("user1", response);
 
-
         // 보낼 데이터 임시
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         Object req = dto.getReq_data();
-        // jwt 토큰 검증 및 유저 정보 불러오기
-        Optional<user_model> me = jwt_service.validations(jwt_service.request_get_token(request))
-                .flatMap(user_service::findById);
+        // jwt 인증
+        //user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).get();
+        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
+        // 보낼 데이터 형식 : user_info
+        res.put("user_info", me);
 
-        // 인증 정보가 유효하다면
-        if (me.isPresent()) {
+        // 완료
+        dto.setRes_data(res);
+        dto.setMsg("내 정보 조회");
 
-            user_model user = me.get();
-            String id = user.getId();
-
-            // 보낼 데이터 형식 : user_info
-            res.put("user_info", user_service.findById(id).get());
-
-            // 완료
-            dto.setRes_data(res);
-            dto.setMsg("내 정보 조회");
-        }
-        // 인증 정보가 유효하지 않다면
-        else {
-            dto.setMsg("인증실패");
-        }
         return dto;
     }
 
@@ -105,28 +93,21 @@ public class user_business {
         model req = dto.getReq_data();
 
         // 사용자가 입력한 토큰 토큰 가져오기
-        Optional<String> token = jwt_service.validations(req.getV1());
+        String token = req.getV1();
 
-        //인증 정보가 유효하다면
-        if (token.isPresent()) {
+        // 토큰인증
+        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-            //이메일로 아이디 찾아 해당 아이디로 장기 토큰 발급
-            user_model user = user_service.findByEmail(token.get()).get();
-            String id = user.getId();
-            jwt_service.access(id, response);
+        // 인증 정보로 장기 토큰 발급
+        String id = me.getId();
+        jwt_service.access(id, response);
 
-            // 보낼 데이터 형식 : user_info
-            res.put("user_info", user);
+        // 보낼 데이터 형식 : user_info
+        res.put("user_info", me);
 
-            // 완료
-            dto.setRes_data(res);
-            dto.setMsg(id + " 님 환영합니다");
-        }
-        // 인증 정보가 유효하지 않다면
-        else {
-            // 완료
-            dto.setMsg("이메일 인증 실패");
-        }
+        // 완료
+        dto.setRes_data(res);
+        dto.setMsg(id + " 님 환영합니다");
 
         return dto;
     }
@@ -150,6 +131,7 @@ public class user_business {
         } else {
             // 단기 토큰 발급
             String token = jwt_service.short_token(user_ob.getId());
+
             //인증코드 이메일로 발송
             email_service.sendEmail(user_ob.getEmail(), "인증요청", token);
 
@@ -169,33 +151,26 @@ public class user_business {
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         model req = dto.getReq_data();
+        // 입력한 토큰
+        String token = req.getV1();
+        // 입력한 토큰 검증
+        String id = jwt_service.validations(token);
 
 
-        // 입력한 토큰이 유효하다면
-        if (jwt_service.validations(req.getV1()).isPresent()) {
+        // 유저 정보 초기 셋팅
+        user_ob.setOrganization(null);
+        user_ob.setId(id);
+        //유저 정보 저장
+        user_model user = user_service.insert(user_ob);
+        //로그인처리
+        jwt_service.access(id, response);
 
-            // 조직 정보 초기 셋팅
-            user_ob.setOrganization(null);
+        // 보낼 데이터 형식 : user_info
+        res.put("user_info", user);
 
-            //유저 정보 저장
-            user_model user = user_service.insert(user_ob);
-
-            //로그인처리
-            jwt_service.access(user.getId(), response);
-
-            // 보낼 데이터 형식 : user_info
-            res.put("user_info", user);
-
-            // 완료
-            dto.setRes_data(res);
-            dto.setMsg(user.getId() + " 님의 회원가입을 환영합니다");
-
-        }
-        // 입력한 토큰이 유효하지 않다면
-        else {
-            // 완료
-            dto.setMsg(user_ob.getId() + " 님이 회원가입에 실패했습니다 다시 시도해 주세요");
-        }
+        // 완료
+        dto.setRes_data(res);
+        dto.setMsg(user.getId() + " 님의 회원가입을 환영합니다");
 
         return dto;
     }
@@ -224,28 +199,17 @@ public class user_business {
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         Object req = dto.getReq_data();
-        // jwt 토큰 검증 및 유저 정보 가져오기
-        Optional<user_model> me = jwt_service.validations(jwt_service.request_get_token(request))
-                .flatMap(user_service::findById);
+        // 토큰인증
+        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        // 인증 정보가 유효하다면
-        if (me.isPresent()) {
+        // 사용자 아이디
+        String id = me.getId();
+        // 사용자 탈퇴
+        user_service.delete(id);
 
-            user_model user = me.get();
-            String id = user.getId();
-
-            // 완료
-            user_service.delete(id);
-            dto.setMsg("탈퇴완료");
-            dto.setRedirect("/");
-        }
-        // 인증 정보가 유효하지 않다면
-        else {
-
-            // 완료
-            dto.setMsg("탈퇴실패");
-        }
-
+        // 완료
+        dto.setMsg("탈퇴완료");
+        dto.setRedirect("/");
         return dto;
     }
 
@@ -257,35 +221,27 @@ public class user_business {
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         model req = dto.getReq_data();
-        // jwt 토큰 검증 및 유저 정보 가져오기
-        Optional<user_model> me = jwt_service.validations(jwt_service.request_get_token(request))
-                .flatMap(user_service::findById);
+        // 토큰인증
+        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
-        // 인증 정보가 유효하다면
-        if (me.isPresent()) {
+        // 사용자 아이디
+        String id = me.getId();
 
-            user_model user = me.get();
-            String id = user.getId();
-
-            // 내보낼 데이터 형식 : user_info
-            switch (req.getV1()) {
-                case "profile" ->  // v1이 없을때 프로필 이미지를 v2로
-                        res.put("user_info", user_service.update(id, "profile", req.getImage()));
-                case "name" ->  // v1 이 name 일때 이름을 v2으로
-                        res.put("user_info", user_service.update(id, "name", req.getV2()));
-                case "phone" ->  // v1이 phone 일때 전화번호를 v2으로
-                        res.put("user_info", user_service.update(id, "phone", req.getV2()));
-            }
-
-            // 완료
-            dto.setRes_data(res);
-            dto.setMsg("내정보 수정완료");
+        // 유저 정보 수정
+        // 내보낼 데이터 형식 : user_info
+        switch (req.getV1()) {
+            case "profile" ->  // v1이 profile 일때 프로필 이미지를 image로
+                    res.put("user_info", user_service.update(id, "profile", req.getImage()));
+            case "name" ->  // v1 이 name 일때 이름을 v2으로
+                    res.put("user_info", user_service.update(id, "name", req.getV2()));
+            case "phone" ->  // v1이 phone 일때 전화번호를 v2으로
+                    res.put("user_info", user_service.update(id, "phone", req.getV2()));
         }
-        // 인증 정보가 유효하지 않다면
-        else {
-            // 완료
-            dto.setMsg("내정보 수정실패");
-        }
+
+        // 완료
+        dto.setRes_data(res);
+        dto.setMsg("내정보 수정완료");
+
         return dto;
     }
 

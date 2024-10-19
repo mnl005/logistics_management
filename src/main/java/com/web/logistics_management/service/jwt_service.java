@@ -7,6 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -26,8 +27,12 @@ public class jwt_service {
 
 
     private final SecretKey key = Jwts.SIG.HS256.key().build();
-
     String secretString = Encoders.BASE64.encode(key.getEncoded());
+
+    // 환경변수 설정 후 적용할 내용
+//    private final String secret = System.getenv("JWT_SECRET");
+//    private final SecretKey key = Keys.hmacSha256(secret.getBytes());
+
 
     //권한 부여
     public void access(String id, HttpServletResponse response) {
@@ -89,7 +94,7 @@ public class jwt_service {
     }
 
     //토큰 검증
-    public Optional<String> validations(String token){
+    public String validations(String token){
         try{
             Jwt<?, ?> claimsJws = Jwts.parser()
                     .verifyWith(key)
@@ -97,11 +102,8 @@ public class jwt_service {
                     .parse(token);
 
             Claims claims = (Claims) claimsJws.getPayload();
-            return Optional.ofNullable(claims.get("id", String.class));
-
-//        System.out.println("Subject (id): " + claims.get("id"));
-//        System.out.println("Issued At: " + claims.getIssuedAt());
-//        System.out.println("Expiration: " + claims.getExpiration());
+//            System.out.println(":::::::::::::" + claims.get("id",String.class));
+            return claims.get("id", String.class);
         }catch (Exception e){
             throw new RuntimeException("인증실패");
         }
