@@ -287,7 +287,7 @@ public class group_business {
                     return null;
                 });
         // 완료
-        dto.setReq_data(res);
+        dto.setRes_data(res);
         return dto;
     }
 
@@ -396,6 +396,7 @@ public class group_business {
                     return null;
                 });
         dto.setReq_data(res);
+        dto.setRedirect("/");
         return dto;
     }
 }

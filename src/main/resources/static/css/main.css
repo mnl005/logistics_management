@@ -40,7 +40,7 @@ body{
 
 .serve_main{
     display: flex;
-    flex-flow:row nowrap;
+    flex-flow:row wrap;
     align-items: center;
     justify-content: center;
     gap:10px;
@@ -121,6 +121,12 @@ form {
 }
 
 /* image -------------------------------------------------------------------------------------------------*/
+.image{
+    background-color: white;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
 .image_box{
     position:relative;
     min-height: 200px;
@@ -345,9 +351,24 @@ form {
 #logistics > .serve_main > .item_list {
     width:300px;
 }
-#logistics > .serve_main > .item_list > .sample > .image {
+#logistics > .serve_main > .item_list > .item_list_in,
+#logistics > .serve_main > .item_list > .item_list_in > .sample
+{
+    width:100%;
+}
+#logistics > .serve_main > .item_list > .item_list_in > .sample > .image
+{
     width:70px;
     height:70px;
 }
+#logistics > .serve_main > .item_list_one  > .image{
+    width:240px;
+    height:240px;
+}
 
+
+#logistics > .serve_main > .location_list > .location_list_in,
+#logistics > .serve_main > .location_list > .location_list_in > .sample
+{
+    width:100%;}
 

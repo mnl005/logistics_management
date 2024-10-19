@@ -266,7 +266,7 @@
 
     "req_define": ["none"],
     "res_define":  [
-      {"what": "board_me_list", "where": ".board_me_view","how": ["id-text","created_date-text","title-text","content-text","image-image_box","num-id"], "way": "array"}
+      {"what": "board_list", "where": ".board_me_view","how": ["id-text","created_date-text","title-text","content-text","image-image_box","num-id"], "way": "array"}
     ]
   },
 
@@ -536,7 +536,7 @@
   {
     "url": "/logistics/item/select_all",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_list"]}],
+    "event": [{"do" : "clean", "list" : [".item_list_in"]},{"do" : "pop", "list" : ["#logistics",".item_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -546,7 +546,7 @@
 
     "req_define": ["none"],
     "res_define": [
-      {"what": "item_info", "where": ".item_list","how": ["code-text","name-text","image-image"], "way": "array"}
+      {"what": "item_info", "where": ".item_list_in","how": ["code-text","name-text","image-image"], "way": "array"}
     ]
   },
 
@@ -608,7 +608,7 @@
   "location_select_view" :
   {
     "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_select",".location_select_up",".location_select_down",".location_select_zero","location_select_code"]}]
+    "event": [{"do" : "pop", "list" : ["#logistics",".location_select",".location_select_up",".location_select_down",".location_select_zero",".location_select_code"]}]
   },
   "location_update_view" :
   {
@@ -629,7 +629,7 @@
   {
     "url": "/logistics/location/select_all",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -639,7 +639,7 @@
 
     "req_define": ["none"],
     "res_define": [
-      {"what": "location_info", "where": ".location_list","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
     ]
   },
 
@@ -670,7 +670,7 @@
   {
     "url": "/logistics/location/up",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -683,7 +683,7 @@
       {"v1": "일정 수량 이상 조회할 수량"}
     ],
     "res_define": [
-      {"what": "location_info", "where": ".location_list","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
     ]
   },
 
@@ -692,7 +692,7 @@
   {
     "url": "/logistics/location/down",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -705,7 +705,7 @@
       {"v1": "일정 수량 이상 조회할 수량"}
     ],
     "res_define": [
-      {"what": "location_info", "where": ".location_info","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
     ]
   },
 
@@ -714,7 +714,7 @@
   {
     "url": "/logistics/location/zero",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -724,7 +724,7 @@
 
     "req_define": ["none"],
     "res_define": [
-      {"what": "location_info", "where": ".location_list","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
     ]
   },
 
@@ -733,7 +733,7 @@
   {
     "url": "/logistics/location/code",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list_one"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -746,7 +746,7 @@
       {"v1": "로케이션 조회할 상품 코드"}
     ],
     "res_define": [
-      {"what": "location_info", "where": ".location_info","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
     ]
   },
 

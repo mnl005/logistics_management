@@ -1,9 +1,9 @@
 
-let isFunctionRunning = false;
-let isMsgRunning = false;
+let running = false;
 
-// let json_file =  (async () => { json_file = await $.getJSON("../static/main.json"); })();
-let json_file =  (async () => { json_file = await $.getJSON("/static/main.json"); })();
+
+let json_file =  (async () => { json_file = await $.getJSON("../static/main.json"); })();
+// let json_file =  (async () => { json_file = await $.getJSON("/static/main.json"); })();
 
 // main.json 에서 정보 받아 담는 객체
 let main = {
@@ -34,6 +34,13 @@ pop(["#login",".login_form",".join_form"]);
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {
+    if(running){
+        return null;
+    }
+    else{
+        running = true;
+    }
+
     start(event)
         .then(event => {
             // html에서 요소 추출
@@ -42,7 +49,6 @@ $(document).on('click', '.button', function(event) {
             main.event_target = event;
             return main;
         })
-        // 2단계
         .then(main => {
             // 추출한 요소중 data_json 참고해서 지시사항 가져온다
                 let get_json_test = (typeof main.data_json === "string") ? Object.assign({}, json_file[main.data_json]) : main.data_json;
@@ -61,13 +67,11 @@ $(document).on('click', '.button', function(event) {
                 if (main.type === "get") window.location.href = main.url;
             return main;
         })
-        // 3단계
         .then(main => {
             // 클라이언트 이벤트 실행
             client_event(main.event, main.event_target);
             return main;
         })
-        //4단계
         .then( main => {
             // 폼에서 필요한 정보 추출
             const form_data =  form(main);
@@ -105,11 +109,12 @@ $(document).on('click', '.button', function(event) {
             else{
                 console.log("클라이언트이벤트종료");
             }
+            running = false;
             return main;
         })
-        //에러시 작동
         .catch(result => {
             console.log(result);
+            running = false;
             // msg(result,"red");
         });
 
@@ -168,8 +173,6 @@ function form(result) {
 
 // 명시된 url로 json 요청을 보낸다
 function send(req) {
-    if (isFunctionRunning) {return Promise.reject('이미 실행중');}
-    isFunctionRunning = true;
     return new Promise(function(resolve, reject) {
         $.ajax({
             url: req.url,
@@ -182,9 +185,6 @@ function send(req) {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 reject(errorThrown);
-            },
-            complete: function() {
-                isFunctionRunning = false;
             }
         });
     });
@@ -193,8 +193,6 @@ function send(req) {
 
 // 무엇을, 어디에, 어떻게, 방식
 // what, where, how, way
-// null 처리기능 추가 필요 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 // 받응 응답에 있는 데이터를 사용자 화면에 뿌린다
 function data_spread(res_define,data){
     res_define.forEach(obj => {
@@ -204,6 +202,7 @@ function data_spread(res_define,data){
         let where = obj.where;
         let how = obj.how;
         let way = obj.way;
+
 
         if(way === "object"){
             how.forEach(ob => {
@@ -224,7 +223,13 @@ function data_spread(res_define,data){
 
                 if(type === "image"){
                     let str = value.split("~~~~");
-                    $(where).find("." + key).css("background-image", str[0]);
+                    if(str[0].length <= 30){
+                        $(where).find("." + key).css("background-image", "none");
+                    }
+                    else{
+                        console.log("2");
+                        $(where).find("." + key).css("background-image", str[0]);
+                    }
                 }
                 else if(type === "text"){
                     $(where).find("." + key).text(value);
@@ -236,9 +241,7 @@ function data_spread(res_define,data){
         } // 받은 데이터, 데이터를 삽입할 곳, 키와 값의 쌍, 삽입하는 방식
         else if(way === "array"){
             what.forEach(ob => {
-                // where이라는 클래스 이름으로 반복할 html찾아 복사
                 let sample = $(where).find('.sample').eq(0).clone();
-
                 how.forEach(obob => {
                         let parts = obob.split("-");
                         let key = parts[0];
@@ -251,19 +254,21 @@ function data_spread(res_define,data){
                         value = "값없음";
                     }
 
-                    console.log(parts);
-
 
                         if(type === "image"){
                             let str = value.split("~~~~");
-                            sample.find("." + key).css("background-image", str[0]);
+                            if(str[0].length <= 30){
+                                sample.find("." + key).css("background-image", "none");                            }
+                            else{
+                                sample.find("." + key).css("background-image", str[0]);
+                            }
                         }
                         if(type === "image_box"){
                             let image_one = value.split("~~~~");
-
+                            sample.find(".image").not(':first').remove();
+                            sample.find(".image").css("background-image","none");
                             image_one.forEach(img => {
                                 let keyElement = sample.find("." + key).eq(0).clone();
-
                                 keyElement.css({
                                     "background-image": img,
                                     "display": "none"
@@ -287,7 +292,17 @@ function data_spread(res_define,data){
                 );
 
                 $(where).append(sample);
+                console.log("append");
+
             });
+
+            // 해당 요소가 같은 클래스를 가진 형제 요소가 있는지 확인
+            if ($(where).find('.sample').siblings('.sample').length === 0) {
+                $(where).find('.sample').children().eq(1).text("<<<조회결과없음>>>");
+            }
+            else{
+                $(where).find('.sample').eq(0).remove();
+            }
         }
         else if(way === "html"){
             console.log("html");
@@ -314,9 +329,9 @@ function msg(text, color) {
 
 
 function client_event(arr,events){
-    arr.forEach(obj => {
-        window[obj.do](obj.list,events);
-    });
+        arr.forEach(obj => {
+            window[obj.do](obj.list,events);
+        });
 }
 function right_image(list,events){
     let selector = $(events.target).parent().find('.image');

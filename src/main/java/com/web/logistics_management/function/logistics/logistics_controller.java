@@ -72,13 +72,13 @@ public class logistics_controller {
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 수량 이상 조회
-    @PostMapping("/location/select_up")
+    @PostMapping("/location/up")
     public ResponseEntity<JsonNode> location_info_up(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_up(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 수량 이하 조회
-    @PostMapping("/logistics/location/down")
+    @PostMapping("/location/down")
     public ResponseEntity<JsonNode> location_info_down(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_info_down(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));

@@ -2,13 +2,14 @@ show databases;
 CREATE DATABASE main;
 use main;
 select * from user;
+select * from board;
 update user set profile = 'https://pixabay.com/ko/illustrations/image-9079096/' where id = 'user1';
 select * from invite;
 desc user;
 insert into user(id,name,email,phone,profile) value ('user3','김한솔','email4@naver.com','0101231234','pro1234');
 
-delete from user where id = 'mnl005';
-update user set organization = 'group1' where id = 'user1';
+delete from board where num = 46;
+update user set organization = 'group1' where id = 'mnl005';
 select * from board;
 desc board;
 

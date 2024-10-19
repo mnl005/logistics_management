@@ -45,8 +45,8 @@ public class logistics_business {
             String code = req.getV1();
             // v2 : 상품 이름
             String name = req.getV2();
-            // v3 : 상품 이미지
-            String image = req.getV3();
+            // image : 상품 이미지
+            String image = req.getImage();
 
             // 삼품 정보 설정
             item_model item = new item_model();
