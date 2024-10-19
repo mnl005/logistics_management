@@ -12,6 +12,9 @@ spring:
      flushMode: AUTO
      ddl-auto: validate
 
-
   mvc:
     static-path-pattern: /static/**
+
+logging:
+  pattern:
+    console: "%d{yyyy:MM:dd} / %highlight(%level) / %logger{100} / %msg%n"

@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 @Slf4j
 @ControllerAdvice
-public class Err {
+public class Err{
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<JsonNode> handleException(Exception ex) {
@@ -22,11 +22,11 @@ public class Err {
 
         if (cause != null) {
             StackTraceElement[] stackTrace = cause.getStackTrace();
-            log.error(ex.getMessage());
-            log.error(Arrays.toString(ex.getStackTrace()));
+//            log.error(ex.getMessage());
+//            log.error(Arrays.toString(ex.getStackTrace()));
 
         } else {
-            log.error("에러 메시지: " + ex.getMessage());
+//            log.error("에러 메시지: " + ex.getMessage());
         }
 
         return ResponseEntity.
