@@ -44,7 +44,7 @@ public class group_business {
         // 사용자의 아이디
         String id = me.getId();
         // 사용자가 속한 그룹
-        String group = me.getName();
+        String group = me.getOrganization();
 
         // 사용자가 속한 그룹이 없는지
         boolean bool1 = Objects.isNull(group);

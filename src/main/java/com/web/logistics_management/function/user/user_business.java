@@ -38,7 +38,7 @@ public class user_business {
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        jwt_service.access("user1", response);
+        jwt_service.access("mnl005", response);
 
         // 보낼 데이터 임시
         HashMap<String, Object> res = new HashMap<>();

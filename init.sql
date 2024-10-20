@@ -1,7 +1,7 @@
 
 # CREATE DATABASE main;
 use main;
-
+# select * from user;
 create table user
 (
     id           varchar(255) NOT NULL,
@@ -18,12 +18,24 @@ create table board
     num         int auto_increment not null,
     id          varchar(255)       not null,
     title       varchar(255)       not null,
-    create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_date varchar(255),
     content     text,
     image       longtext           not null,
     primary key (num),
     foreign key (id) references user (id) on delete cascade
 );
+
+
+DELIMITER $$
+
+CREATE TRIGGER set_created_date
+    BEFORE INSERT ON board
+    FOR EACH ROW
+BEGIN
+    SET NEW.created_date = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
+END $$
+
+DELIMITER ;
 
 create table invite
 (
