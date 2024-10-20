@@ -1,17 +1,6 @@
-show databases;
+
 CREATE DATABASE main;
 use main;
-select * from user;
-select * from board;
-update user set profile = 'https://pixabay.com/ko/illustrations/image-9079096/' where id = 'user1';
-select * from invite;
-desc user;
-insert into user(id,name,email,phone,profile) value ('user3','김한솔','email4@naver.com','0101231234','pro1234');
-
-delete from board where num = 46;
-update user set organization = 'group1' where id = 'mnl005';
-select * from board;
-desc board;
 
 create table user
 (
@@ -50,9 +39,9 @@ create table item
     organization varchar(255) not null,
     code varchar(255) not null,
     name varchar(255) not null,
+    image longtext not null,
     unique (organization,code)
 );
-alter table item add column image longtext not null;
 
 create table repository
 (
@@ -64,6 +53,4 @@ create table repository
     foreign key (organization, code)
 references item(organization, code) on delete cascade
 );
-desc item;
-select * from item;
-select * from repository;
+

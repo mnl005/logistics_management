@@ -13,6 +13,10 @@ java {
     }
 }
 
+jar{
+    archiveFileName = 'logistics_01.jar'
+}
+
 repositories {
     mavenCentral()
 }
