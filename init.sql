@@ -1,5 +1,5 @@
 
-CREATE DATABASE main;
+# CREATE DATABASE main;
 use main;
 
 create table user

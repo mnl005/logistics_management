@@ -4,8 +4,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+group = 'com.web'
+version = '1.0.0'
 
 java {
     toolchain {
@@ -13,8 +13,10 @@ java {
     }
 }
 
-jar{
-    archiveFileName = 'logistics_01.jar'
+
+
+springBoot {
+    mainClass = 'com.web.logistics_management.LogisticsManagementApplication'
 }
 
 repositories {
@@ -52,5 +54,7 @@ dependencies {
 
     implementation 'org.aspectj:aspectjweaver'
 }
+
+
 
 
