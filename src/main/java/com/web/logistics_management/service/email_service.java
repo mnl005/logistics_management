@@ -5,25 +5,29 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
+import com.fasterxml.jackson.databind.JsonNode;
+
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-@PropertySource("classpath:key.properties")
+//@PropertySource("classpath:key.properties")
 public class email_service {
 
-    @Value("${aws.access.id}")
+
+    @Value("${AWS_ACCESS_ID}")
     private String AWS_ACCESS_ID;
 
-    @Value("${aws.access.key}")
+    @Value("${AWS_ACCESS_KEY}")
     private String AWS_ACCESS_KEY;
 
-    @Value("${aws.access.region}")
+    @Value("${AWS_ACCESS_REGION}")
     private String AWS_ACCESS_REGION;
 
     public void sendEmail(String email, String head, String main) {
