@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-//@PropertySource("classpath:key.properties")
+@PropertySource("classpath:key.properties")
 public class email_service {
 
 

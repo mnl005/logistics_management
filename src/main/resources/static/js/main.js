@@ -297,12 +297,12 @@ function data_spread(res_define,data){
             });
 
             // 해당 요소가 같은 클래스를 가진 형제 요소가 있는지 확인
-            if ($(where).find('.sample').siblings('.sample').length === 0) {
-                $(where).find('.sample').children().eq(1).text("<<<조회결과없음>>>");
-            }
-            else{
-                $(where).find('.sample').eq(0).remove();
-            }
+            // if ($(where).find('.sample').siblings('.sample').length >= 0) {
+            //     $(where).find('.sample').children().eq(1).text("<<<조회결과없음>>>");
+            // }
+            // else{
+            //     $(where).find('.sample').eq(0).remove();
+            // }
         }
         else if(way === "html"){
             console.log("html");
