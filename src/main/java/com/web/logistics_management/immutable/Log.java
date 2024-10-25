@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,33 +22,14 @@ import java.util.Map;
 @Component
 public class Log {
 
-    //비공용 로그
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//    @Before(value = "within(com.web.logistics_management.function..*)")
-//    public void beforeLog(JoinPoint joinPoint) {
-//        String className = joinPoint.getTarget().getClass().getSimpleName();
-//        String methodName = joinPoint.getSignature().getName();
-//        logger.info("메소드 ==== \n{}.{}()", className, methodName);
-//        try {
-//            Object[] args = joinPoint.getArgs();
-//            Object firstArg = args[0];
-//            ObjectMapper objectMapper = new ObjectMapper();
-//            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-//            String jsonInput = objectMapper.writeValueAsString(firstArg);
-//            logger.info("입력 >>>>> \n{}", jsonInput);
-//        }
-//        catch (Exception e) {
-//            logger.error("입력을 JSON으로 변환하는 중 에러 발생: {}", e.getMessage());
-//        }
-//    }
-
-
-    //    @AfterReturning(value = "within(com.web.logistics_management.function..*)", returning = "result")
-
     public static Object processData(Object data) {
+        if(data == null){
+            return null;
+        }
         // 데이터가 리스트일 경우
-        if (data instanceof List<?>) {
+        else if (data instanceof List<?>) {
             List<Object> list = (List<Object>) data;
             for (int i = 0; i < list.size(); i++) {
                 // 재귀 호출로 내부 요소까지 처리
@@ -94,42 +76,10 @@ public class Log {
 
             ResponseEntity<?> responseEntity = (ResponseEntity<?>) result;
             Object body = responseEntity.getBody();
+            HashMap<String, Object> map = objectMapper.convertValue(body, new TypeReference<HashMap<String, Object>>() {});
 
-            HashMap<String, Object> map1 = new HashMap<>();
-            HashMap<String, Object> map2 = new HashMap<>();
-            map1 = objectMapper.convertValue(body, new TypeReference<HashMap<String, Object>>() {});
-
-            map2.put("url",map1.get("url"));
-            map2.put("type",map1.get("type"));
-            map2.put("event",map1.get("event"));
-            map2.put("error",map1.get("error"));
-            map2.put("id_data",map1.get("id_data"));
-            map2.put("msg",map1.get("msg"));
-            map2.put("redirect",map1.get("redirect"));
-            map2.put("req_define",map1.get("req_define"));
-            map2.put("res_define",map1.get("res_define"));
-
-
-
-            if(map1.get("req_data") != null){
-                map2.put("req_data",processData(map1.get("req_data")));
-            }
-            else{
-                map2.put("req_data",null);
-            }
-
-            if(map1.get("res_data") != null){
-                map2.put("res_data",processData(map1.get("res_data")));
-            }
-            else{
-                map2.put("res_data",null);
-            }
-
-
-
-            // 줄바꿈을 추가하도록 설정
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-//            String jsonResult = objectMapper.writeValueAsString(map2);
+            map.put("req_data", processData(map.get("req_data")));
+            map.put("res_data", processData(map.get("res_data")));
 
             logger.info("""
                             \n--------------------------------------------------\s
@@ -145,21 +95,22 @@ public class Log {
                             - req_data : {}\s
                             - res_data : {}\s
                             """,
-                    map2.get("url"),
-                    map2.get("type"),
-                    map2.get("event"),
-                    map2.get("error"),
-                    map2.get("id_data"),
-                    map2.get("msg"),
-                    map2.get("redirect"),
-                    map2.get("req_define"),
-                    map2.get("res_define"),
-                    map2.get("req_data"),
-                    map2.get("res_data")
+                    map.get("url"),
+                    map.get("type"),
+                    map.get("event"),
+                    map.get("error"),
+                    map.get("id_data"),
+                    map.get("msg"),
+                    map.get("redirect"),
+                    map.get("req_define"),
+                    map.get("res_define"),
+                    map.get("req_data"),
+                    map.get("res_data")
             );
 
         } catch (Exception e) {
             logger.error("출력을 JSON으로 변환하는 중 에러 발생: {}", e.getMessage());
+//            logger.error("errerrerr!!!");
         }
     }
 

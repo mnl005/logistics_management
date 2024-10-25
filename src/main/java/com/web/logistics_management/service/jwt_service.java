@@ -29,9 +29,6 @@ public class jwt_service {
     private final SecretKey key = Jwts.SIG.HS256.key().build();
     String secretString = Encoders.BASE64.encode(key.getEncoded());
 
-    // 환경변수 설정 후 적용할 내용
-//    private final String secret = System.getenv("JWT_SECRET");
-//    private final SecretKey key = Keys.hmacSha256(secret.getBytes());
 
 
     //권한 부여
@@ -102,7 +99,6 @@ public class jwt_service {
                     .parse(token);
 
             Claims claims = (Claims) claimsJws.getPayload();
-//            System.out.println(":::::::::::::" + claims.get("id",String.class));
             return claims.get("id", String.class);
         }catch (Exception e){
             throw new RuntimeException("인증실패");

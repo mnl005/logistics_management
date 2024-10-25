@@ -1,7 +1,7 @@
 
 # CREATE DATABASE main;
 use main;
-# select * from user;
+# select * from repository;
 create table user
 (
     id           varchar(255) NOT NULL,

@@ -36,9 +36,9 @@ public class user_business {
     // 받는 데이터 : 없음
     // 보낼 데이터 : user_info
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
-
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
 //        jwt_service.access("mnl005", response);
+
 
         // 보낼 데이터 임시
         HashMap<String, Object> res = new HashMap<>();
@@ -95,8 +95,9 @@ public class user_business {
         // 사용자가 입력한 토큰 토큰 가져오기
         String token = req.getV1();
 
+
         // 토큰인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.findByEmail(jwt_service.validations(token)).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 인증 정보로 장기 토큰 발급
         String id = me.getId();
