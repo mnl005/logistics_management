@@ -11,12 +11,12 @@
 
 + 구성
 
-언어 : JAVA 21, html, css, javascript
-프레임워크 : Spring Boot 3
-데이터베이스 : MySQL 8
-빌드도구 : Maven, Gradle
-호스팅환경 : Raspberry Pi, Ubuntu Linux Server, Docker
-기타 구성 : AWS SES, JWT
+* 언어 : JAVA 21, html, css, javascript
+* 프레임워크 : Spring Boot 3
+* 데이터베이스 : MySQL 8
+* 빌드도구 : Maven, Gradle
+* 호스팅환경 : Raspberry Pi, Ubuntu Linux Server, Docker
+* 기타 구성 : AWS SES, JWT
 
 
 -------------------------------------------------------------------------------------------------
