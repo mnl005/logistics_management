@@ -7,7 +7,6 @@ src/main/test/*
 
 src/main/resources/application.yaml
 src/main/resources/application-local.yml
-
 docker-compose.yml
 .dockerignore
 
