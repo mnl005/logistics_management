@@ -1,2 +1,2 @@
-src/main/resources/key.properties
+src/main/resources/application-local.yml
 src/main/resources/application.yaml

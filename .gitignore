@@ -4,8 +4,10 @@
 build/*
 gradle/*
 src/main/test/*
-src/main/resources/key.properties
+
 src/main/resources/application.yaml
+src/main/resources/application-local.yml
+
 docker-compose.yml
 .dockerignore
 

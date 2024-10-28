@@ -17,17 +17,16 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-@PropertySource("classpath:key.properties")
 public class email_service {
 
 
-    @Value("${AWS_ACCESS_ID}")
+    @Value("${aws.access.id}")
     private String AWS_ACCESS_ID;
 
-    @Value("${AWS_ACCESS_KEY}")
+    @Value("${aws.access.key}")
     private String AWS_ACCESS_KEY;
 
-    @Value("${AWS_ACCESS_REGION}")
+    @Value("${aws.access.region}")
     private String AWS_ACCESS_REGION;
 
     public void sendEmail(String email, String head, String main) {

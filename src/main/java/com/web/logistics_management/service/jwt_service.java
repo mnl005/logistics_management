@@ -7,7 +7,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import io.jsonwebtoken.Claims;
@@ -29,7 +29,8 @@ public class jwt_service {
     private final SecretKey key = Jwts.SIG.HS256.key().build();
     String secretString = Encoders.BASE64.encode(key.getEncoded());
 
-
+    @Value("${cookie.domain}")
+    private String COOKIE_DOMAIN;
 
     //권한 부여
     public void access(String id, HttpServletResponse response) {
@@ -37,8 +38,8 @@ public class jwt_service {
             String token = issue(id);
             Cookie cookie = new Cookie("token", token);
             cookie.setMaxAge(-1);
-            cookie.setDomain("localhost");
-            cookie.setHttpOnly(true);
+            cookie.setDomain(COOKIE_DOMAIN); // 배포시 수정
+            cookie.setHttpOnly(false);
             cookie.setSecure(false);
             cookie.setPath("/");
             response.addCookie(cookie);
@@ -52,7 +53,7 @@ public class jwt_service {
         try{
             Cookie cookie = new Cookie("token", "");
             cookie.setMaxAge(-1);
-            cookie.setDomain("localhost");
+            cookie.setDomain(COOKIE_DOMAIN);
             cookie.setHttpOnly(true);
             cookie.setSecure(false);
             cookie.setPath("/");
