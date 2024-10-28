@@ -1,4 +1,5 @@
 ## 프로젝트 설명 요약
++ 링크 : 
 
 + 목표
 
@@ -9,14 +10,13 @@
 
 로그인, 게시판, 그룹, 물류관리
 
-+ 구성
-
-* 언어 : JAVA 21, html, css, javascript
-* 프레임워크 : Spring Boot 3
-* 데이터베이스 : MySQL 8
-* 빌드도구 : Maven, Gradle
-* 호스팅환경 : Raspberry Pi, Ubuntu Linux Server, Docker
-* 기타 구성 : AWS SES, JWT
++ 구성 
+  * 언어 : JAVA 21, html, css, javascript
+  * 프레임워크 : Spring Boot 3
+  * 데이터베이스 : MySQL 8
+  * 빌드도구 : Maven, Gradle
+  * 호스팅환경 : Raspberry Pi, Ubuntu Linux Server, Docker
+  * 기타 구성 : AWS SES, JWT
 
 
 -------------------------------------------------------------------------------------------------
@@ -64,11 +64,11 @@ main
 
 
 + fucntion : 컨트롤러와 비즈니스 로직을 기능 단위로 묶은 패키지들의 집합
-+ imutable :
-           Dto : 모든 요청과 응답을 해당 객체에 담아 전달
-           Err : 모든 에러 처리
-           Log : 일관된 방식으로 로그를 표시
-           model : Dto에 정의할 자료구조
+
++ Dto : 모든 요청과 응답을 해당 객체에 담아 전달
++ Err : 모든 에러 처리
++ Log : 일관된 방식으로 로그를 표시
++ model : Dto에 정의할 자료구조
 + service  : 서로 배타적이고 재사용 가능한 로직들
 
 
