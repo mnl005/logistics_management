@@ -1,4 +1,4 @@
-package com.web.logistics_management.service.user;
+package com.web.logistics_management.service.group;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -12,20 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "user")
-public class user_model {
+@Entity(name = "organization")
+public class group_model {
 
     @Id
-    private String id;
+    private String organization;
 
-    @Email
-    private String email;
-
-    private String name;
-
-    private String phone;
-
-    private String profile;
-
+    private String master;
 
 }

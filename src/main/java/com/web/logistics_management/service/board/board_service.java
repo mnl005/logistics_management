@@ -13,9 +13,18 @@ public class board_service {
     private final board_interface crud;
 
     // 조건 조회
-    public List<board_model> selectById(String id) {
+    public List<board_model> select_all(String organization) {
         try {
-            return crud.selectById(id);
+            return crud.selectByOrganization(organization);
+        } catch (Exception e) {
+            throw new RuntimeException("게시글 조회 실패");
+        }
+    }
+
+    // 나의 게시글 조회
+    public List<board_model> select_me(String organization, String id) {
+        try {
+            return crud.selectByOrganizationAndId(organization,id);
         } catch (Exception e) {
             throw new RuntimeException("게시글 조회 실패");
         }
@@ -31,9 +40,9 @@ public class board_service {
     }
 
     //게시글 삭제
-    public void delete(String id, String num) {
+    public void delete(String organization, String id, String num) {
         try {
-            crud.deleteByIdNum(id, Integer.valueOf(num));
+            crud.delete(organization,id, Integer.valueOf(num));
         } catch (Exception e) {
             throw new RuntimeException("게시글 삭제 실패");
         }

@@ -11,23 +11,22 @@ import org.hibernate.annotations.CreationTimestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity(name = "board")
+@Entity(name = "post")
 public class board_model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer num;
 
-    private String id;
+    private String organization;
 
+    private String id;
 
     private String title;
 
     private String created_date;
 
-
     private String content;
-
 
     private String image;
 

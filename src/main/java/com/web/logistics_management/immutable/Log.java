@@ -118,7 +118,7 @@ public class Log {
     public void logError(JoinPoint joinPoint, Throwable ex) {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
-        logger.error("\n 에러메소드 : {} \n 에러클래스 : {} \n 에러메시지 : {}", methodName, className, ex.getMessage());
+        logger.error("\n 에러메소드. : {} \n 에러클래스 : {} \n 에러메시지 : {}", methodName, className, ex.getMessage());
     }
 
 }

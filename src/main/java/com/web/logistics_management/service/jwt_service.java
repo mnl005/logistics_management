@@ -1,8 +1,7 @@
 package com.web.logistics_management.service;
 
 
-import com.web.logistics_management.immutable.Err;
-import com.web.logistics_management.service.user.user_inter;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,12 +45,41 @@ public class jwt_service {
         }catch (Exception e){
             throw new RuntimeException("접근허용 실패");
         }
+    }
 
+    //그룹 접속 권한 부여
+    public void access_groups(String group, HttpServletResponse response) {
+        try{
+            String token = issue_group(group);
+            Cookie cookie = new Cookie("group_token", token);
+            cookie.setMaxAge(-1);
+            cookie.setDomain(COOKIE_DOMAIN); // 배포시 수정
+            cookie.setHttpOnly(false);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }catch (Exception e){
+            throw new RuntimeException("접근허용 실패");
+        }
     }
 
     public void block(HttpServletResponse response) {
         try{
             Cookie cookie = new Cookie("token", "");
+            cookie.setMaxAge(-1);
+            cookie.setDomain(COOKIE_DOMAIN);
+            cookie.setHttpOnly(true);
+            cookie.setSecure(false);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+        }catch(Exception e){
+            throw new RuntimeException("토큰만료 실패");
+        }
+    }
+
+    public void block_group(HttpServletResponse response) {
+        try{
+            Cookie cookie = new Cookie("group_token", "");
             cookie.setMaxAge(-1);
             cookie.setDomain(COOKIE_DOMAIN);
             cookie.setHttpOnly(true);
@@ -88,7 +116,19 @@ public class jwt_service {
         }catch (Exception e){
             throw new RuntimeException("토큰발급실패");
         }
+    }
 
+    // 그룹 접속
+    public String issue_group(String group) {
+        try{
+            return Jwts.builder()
+                    .claim("group", group) // 유저 소속 그룹
+                    .issuedAt(new Date())  //발행 날짜
+                    .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24L)) //하루 유효
+                    .signWith(key).compact();//키로 서명
+        }catch (Exception e){
+            throw new RuntimeException("토큰발급실패");
+        }
     }
 
     //토큰 검증
@@ -101,6 +141,21 @@ public class jwt_service {
 
             Claims claims = (Claims) claimsJws.getPayload();
             return claims.get("id", String.class);
+        }catch (Exception e){
+            throw new RuntimeException("인증실패");
+        }
+    }
+
+    // 그룹 토큰 검증
+    public String validation_group(String token){
+        try{
+            Jwt<?, ?> claimsJws = Jwts.parser()
+                    .verifyWith(key)
+                    .build()
+                    .parse(token);
+
+            Claims claims = (Claims) claimsJws.getPayload();
+            return claims.get("group", String.class);
         }catch (Exception e){
             throw new RuntimeException("인증실패");
         }
@@ -123,7 +178,24 @@ public class jwt_service {
         }catch (Exception e){
             throw new RuntimeException("토큰 불러오기 실패");
         }
+    }
 
+    // request 로부터 그룹토큰 불러옴
+    public String request_get_group_token(HttpServletRequest request) {
+        try{
+            Cookie[] cookies = request.getCookies();
+            String token = "";
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if (cookie.getName().equals("group_token")) {
+                        return token = cookie.getValue();
+                    }
+                }
+            }
+            return null;
+        }catch (Exception e){
+            throw new RuntimeException("토큰 불러오기 실패");
+        }
     }
 
 

@@ -13,21 +13,20 @@ import java.util.Optional;
 @Service
 public class user_service {
 
-    private final user_inter crud;
+    private final user_interface crud;
 
 
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    // 모두 조회
+    // 전체 조회
     public List<user_model> select_all() {
         try {
             return crud.findAll();
         } catch (Exception e) {
             throw new RuntimeException("사용자 전체조회 실패");
         }
-
     }
 
     // 조건 조회
@@ -38,7 +37,6 @@ public class user_service {
                 case "email" -> crud.findByEmail(value);
                 case "phone" -> crud.findByPhone(value);
                 case "name" -> crud.findByName(value);
-                case "organization" -> crud.findByOrganization(value);
                 default -> null;
             };
         } catch (Exception e) {
@@ -49,42 +47,33 @@ public class user_service {
     // 멤버 생성
     public user_model insert(user_model user) {
         try {
-            Optional<user_model> existingUser = crud.findById(user.getId());
-            Optional<user_model> existingEmail = crud.findByEmails(user.getEmail());
-            if (existingUser.isPresent() || existingEmail.isPresent()) {
-                throw new IllegalArgumentException("이미 존재하는 아이디 또는 이메일");
-            }
             return crud.saveAndFlush(user);
         } catch (Exception e) {
-            throw new RuntimeException("신규 유저 등록 실패");
+            throw new RuntimeException("이미 존재하는 아이디 또는 이메일");
         }
-
     }
 
-    // ID로 멤버 갱신
+    // 수정
     @Transactional
     public user_model update(String id, String field, String value) {
         try {
-            Optional<user_model> existingMember = crud.findById(id);
-            if (existingMember.isPresent()) {
-                user_model user_to_update = existingMember.get();
+            Optional<user_model> op_user = crud.findById(id);
+            if (op_user.isPresent()) {
+                user_model user = op_user.get();
                 switch(field){
                     case "name":
-                        user_to_update.setName(value);
-                        break;
-                    case "organization":
-                        user_to_update.setOrganization(value);
+                        user.setName(value);
                         break;
                     case "phone":
-                        user_to_update.setPhone(value);
+                        user.setPhone(value);
                         break;
                     case "profile":
-                        user_to_update.setProfile(value);
+                        user.setProfile(value);
                         break;
                     default:
                         break;
                 }
-                return crud.saveAndFlush(user_to_update);
+                return crud.saveAndFlush(user);
             } else {
                 throw new Error("해당 ID의 멤버가 없습니다: " + id);
             }
@@ -94,9 +83,7 @@ public class user_service {
 
     }
 
-
-
-    // ID로 멤버 삭제
+    // 삭제
     @Transactional
     public void delete(String id) {
         try {
@@ -106,27 +93,15 @@ public class user_service {
         }
     }
 
-    public Optional<user_model> findById(String id){
+
+    //--------------------------------------------------------------------------------------------------
+
+    // 인증시 사용
+    public Optional<user_model> Op_id(String id){
         try {
             return crud.findById(id);
         } catch (Exception e) {
             throw new RuntimeException("사용자 조회 실패");
-        }
-    }
-    public Optional<user_model> findByEmail(String email){
-        try {
-            return crud.findByEmails(email);
-
-        } catch (Exception e) {
-            throw new RuntimeException("사용자 조회 실패");
-        }
-    }
-    public Optional<user_model> check_Organization(String organization){
-        try {
-            return crud.check_Organization(organization);
-
-        } catch (Exception e) {
-            throw new RuntimeException("그룹 체크 실패");
         }
     }
 

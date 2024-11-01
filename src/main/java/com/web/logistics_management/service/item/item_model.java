@@ -20,6 +20,8 @@ public class item_model {
 
     private String name;
 
+    private String other;
+
     private String image;
 
     public void setOrganizationAndCode(String newOrganization, String newCode) {
@@ -33,6 +35,6 @@ public class item_model {
     @NoArgsConstructor
     public static class ItemId implements Serializable {
         private String organization;
-        private String code;
+        private String item_code;
     }
 }

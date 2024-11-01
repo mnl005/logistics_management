@@ -11,11 +11,17 @@ import java.util.Optional;
 
 public interface board_interface extends JpaRepository<board_model, String> {
 
-    @Query("SELECT m FROM board m WHERE m.id = :id")
-    List<board_model> selectById(@Param("id") String id);
+
+    @Query("SELECT m FROM post m WHERE m.organization = :organization")
+    List<board_model> selectByOrganization(@Param("organization") String organization);
+
+
+    @Query("SELECT m FROM post m WHERE m.organization = :organization and m.id = :id" )
+    List<board_model> selectByOrganizationAndId(@Param("organization") String organization, @Param("id") String id);
+
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM board m WHERE m.id = :id AND m.num = :num")
-    void deleteByIdNum(@Param("id") String id, @Param("num") Integer num);
+    @Query("DELETE FROM post m WHERE m.organization = :organization and m.id = :id and m.num = :num")
+    void delete(@Param("organization") String organization, @Param("id") String id, @Param("num") Integer num);
 }

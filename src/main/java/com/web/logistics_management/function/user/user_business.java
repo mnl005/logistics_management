@@ -37,7 +37,7 @@ public class user_business {
     // 보낼 데이터 : user_info
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-//        jwt_service.access("mnl005", response);
+        //jwt_service.access("mnl005", response);
 
 
         // 보낼 데이터 임시
@@ -45,7 +45,7 @@ public class user_business {
         // 받는 데이터
         Object req = dto.getReq_data();
         // jwt 인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 보낼 데이터 형식 : user_info
         res.put("user_info", me);
@@ -71,7 +71,7 @@ public class user_business {
         // 사용자가 입력한 아이디
         String id = req.getV1();
         // 아이디로 사용자 정보 찾기
-        user_model me = user_service.findById(id).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(id).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         // 사용자 정보로 이메일 찾기
         String email = me.getEmail();
 
@@ -103,7 +103,7 @@ public class user_business {
 
 
         // 토큰인증
-        user_model me = user_service.findById(jwt_service.validations(token)).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(jwt_service.validations(token)).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 인증 정보로 장기 토큰 발급
         String id = me.getId();
@@ -121,7 +121,7 @@ public class user_business {
 
     // 기능 : 회원가입 1단계
     // 받는 데이터 : user_model(id,email,phone,name,profile)
-    // 보낼 데이터 : 이메일 코드전송 메시지
+    // 보낼 데이터 : 없음
     public Dto<user_model, Object> join1(Dto<user_model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -165,7 +165,6 @@ public class user_business {
 
 
         // 유저 정보 초기 셋팅
-        user_ob.setOrganization(null);
         user_ob.setId(id);
         //유저 정보 저장
         user_model user = user_service.insert(user_ob);
@@ -207,7 +206,7 @@ public class user_business {
         // 받는 데이터
         Object req = dto.getReq_data();
         // 토큰인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 사용자 아이디
         String id = me.getId();
@@ -229,7 +228,7 @@ public class user_business {
         // 받는 데이터
         model req = dto.getReq_data();
         // 토큰인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
 
         // 사용자 아이디
         String id = me.getId();

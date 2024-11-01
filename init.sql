@@ -1,68 +1,138 @@
 
 # CREATE DATABASE main;
 use main;
-select * from repository;
+show tables;
+drop table user;
+
+# select * from user;
+# select * from organization;
+# select * from user_organization;
+#
+# insert into user values('mnl006','이현건','mnl006@naver.com','01057712038','urlsss');
+# insert into organization(organization, master) values('group-5','mnl005');
+# insert into user_organization(id, organization) values('mnl009','group6');
+#
+
+# drop table item;
+# delete from user where id = 'mnl006';
+# delete from organization where master = 'mnl006';
+
+
 create table user
 (
     id           varchar(255) NOT NULL,
-    organization varchar(255),
+    email        varchar(255) NOT NULL unique,
     name         varchar(255) NOT NULL,
-    email        varchar(255) NOT NULL,
     phone        varchar(255) NOT NULL,
     profile      longtext,
     primary KEY (id)
 );
+create table organization
+(
+    organization varchar(255) NOT NULL,
+    master varchar(255) NOT NULL,
+    primary key (organization),
+    foreign key (master) references user(id) on delete cascade
+);
+create table user_organization
+(
+    id varchar(255) not null,
+    organization varchar(255) not null,
+    primary key (id, organization),
+    foreign key (id) references user(id) on delete cascade,
+    foreign key (organization) references  organization(organization) on delete cascade
+);
+create table invite
+(
+    num     int auto_increment primary key,
+    master varchar(255) not null,
+    target  varchar(255) not null,
+    organization  varchar(255) not null,
+    unique (master,target,organization),
+    foreign KEY (master, organization) references organization (master, organization) ON delete cascade
+);
 
-create table board
+DELIMITER $$
+
+CREATE TRIGGER after_organization_insert
+    AFTER INSERT ON organization
+    FOR EACH ROW
+BEGIN
+    INSERT INTO user_organization (id, organization)
+    VALUES (NEW.master, NEW.organization);
+END $$
+
+DELIMITER ;
+
+create table post
 (
     num         int auto_increment not null,
+    organization          varchar(255)       not null,
     id          varchar(255)       not null,
     title       varchar(255)       not null,
     created_date varchar(255),
-    content     text,
+    content     text not null,
     image       longtext           not null,
     primary key (num),
-    foreign key (id) references user (id) on delete cascade
+    foreign key (organization) references organization(organization) on delete cascade,
+    foreign key (id) references user(id) on delete cascade
 );
 
 
 DELIMITER $$
 
 CREATE TRIGGER set_created_date
-    BEFORE INSERT ON board
+    BEFORE INSERT ON post
     FOR EACH ROW
 BEGIN
-    SET NEW.created_date = DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s');
+    SET NEW.created_date = DATE_FORMAT(NOW(), '%Y-%m-%d');
 END $$
 
 DELIMITER ;
 
-create table invite
-(
-    num     int auto_increment primary key,
-    inviter varchar(255) not null,
-    target  varchar(255) not null,
-    foreign key (inviter) references user (id) on delete cascade,
-    foreign key (target) references user (id) on delete cascade
-);
+
 
 create table item
 (
     organization varchar(255) not null,
-    code varchar(255) not null,
+    item_code varchar(255) not null,
     name varchar(255) not null,
+    other varchar(255),
     image longtext not null,
-    unique (organization,code)
+    primary key (organization, item_code),
+    foreign key (organization) references organization(organization) on delete cascade
 );
-
-create table repository
+create table location
 (
     organization varchar(255) not null,
-    location varchar(255) not null,
-    code varchar(255),
-    quantity int not null default 0,
-    unique (organization,location),
-    foreign key (organization, code)
-references item(organization, code) on delete cascade
+    location_code varchar(255) not null,
+    primary key (organization, location_code),
+    foreign key (organization) references organization(organization) on delete cascade
 );
+CREATE TABLE inventory
+(
+    organization varchar(255) not null,
+    location_code varchar(255) not null,
+    item_code varchar(255) not null,
+    quantity int not null default 0,
+    updated_date varchar(255) not null,
+    status ENUM('NORMAL', 'DISCREPANCY', 'DAMAGED') NOT NULL DEFAULT 'Normal',
+    primary key (organization, location_code, item_code),
+    foreign key (organization,location_code) references location(organization,location_code) on delete cascade,
+    foreign key (organization,item_code) references item(organization,item_code) on delete cascade
+);
+
+DELIMITER $$
+
+CREATE TRIGGER set_update_inventory_date
+    BEFORE INSERT ON inventory
+    FOR EACH ROW
+BEGIN
+    SET NEW.updated_date = DATE_FORMAT(NOW(), '%Y-%m-%d');
+END $$
+
+DELIMITER ;
+
+
+
 

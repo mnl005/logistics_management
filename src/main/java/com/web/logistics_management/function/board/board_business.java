@@ -5,6 +5,8 @@ import com.web.logistics_management.immutable.Dto;
 import com.web.logistics_management.immutable.model;
 import com.web.logistics_management.service.board.board_model;
 import com.web.logistics_management.service.user.user_model;
+import com.web.logistics_management.service.user_group.user_group_service;
+import com.web.logistics_management.service.user_group.user_organization_model;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,7 @@ import java.util.Optional;
 @Component
 public class board_business {
     private final jwt_service jwt_service;
+    private final user_group_service user_group_service;
     private final board_service board_service;
     private final user_service user_service;
 
@@ -35,23 +38,15 @@ public class board_business {
         // 받는 데이터
         Object req = dto.getReq_data();
         // 토큰 인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        String id = me.getId();
+        // 그룹 접속정보 인증
+        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        String me_group = connect.getId().getOrganization();
 
-        // 사용자의 그룹이름
-        String group = me.getOrganization();
-
-        // 그룹 구성원들 아이디
-        List<String> id_list = user_service.select("organization", group)
-                .stream()
-                .map(user_model::getId)
-                .toList();
 
         // 그룹 구성원들 게시판 리스트
-        List<board_model> boardList = id_list
-                .stream()
-                .map(board_service::selectById)
-                .flatMap(List::stream)
-                .toList();
+        List<board_model> boardList = board_service.select_all(me_group);
 
         // 보낼 데이터 형식 : board_list
         res.put("board_list", boardList);
@@ -77,14 +72,14 @@ public class board_business {
         // 받는 데이터
         Object req = dto.getReq_data();
         // 토큰 인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-
-        // 사용자 아이디
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         String id = me.getId();
+        // 그룹 접속정보 인증
+        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        String me_group = connect.getId().getOrganization();
 
         // 사용자 게시글
-        List<board_model> list = board_service.selectById(id);
+        List<board_model> list = board_service.select_me(me_group,id);
 
         // 게시글 사이즈
         String size = String.valueOf(list.size());
@@ -109,12 +104,16 @@ public class board_business {
         // 받는 데이터
         board_model req = dto.getReq_data();
         // 토큰 인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-        // 사용자 아이디
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         String id = me.getId();
-        // 게시글 등록자를 사용자의 아이디로 강제설정
+        // 그룹 접속정보 인증
+        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        String me_group = connect.getId().getOrganization();
+
+
+        // 게시글 등록자를 사용자의 아이디로 설정
         req.setId(id);
+        req.setOrganization(me_group);
         // 게시글 삽입
         board_service.insert(req);
 
@@ -135,12 +134,15 @@ public class board_business {
         // 삭제할 게시글의 분류번호
         String board_id = dto.getId_data();
         // 토큰 인증
-        user_model me = user_service.findById(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-        // 사용자의 아이디 조회
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         String id = me.getId();
+        // 그룹 접속정보 인증
+        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        String me_group = connect.getId().getOrganization();
+
+
         // 사용자의 아이디와 게시글 고유키로 게시글 삭제
-        board_service.delete(id, board_id);
+        board_service.delete(me_group,id, board_id);
 
         // 완료
         dto.setMsg("게시글이 삭제 되었습니다");

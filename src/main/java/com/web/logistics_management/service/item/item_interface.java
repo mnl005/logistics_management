@@ -14,15 +14,15 @@ import java.util.Optional;
 public interface item_interface extends JpaRepository<item_model, String> {
 
 
-    @Query("SELECT m FROM item m WHERE m.id.organization = :organization AND m.id.code = :code")
-    item_model findByOrganizationAndCode(@Param("organization") String organization, @Param("code") String code);
+    @Query("SELECT m FROM item m WHERE m.id.organization = :organization AND m.id.item_code = :item_code")
+    item_model findByOrganizationAndCode(@Param("organization") String organization, @Param("item_code") String item_code);
 
     @Query("SELECT m FROM item m WHERE m.id.organization = :organization")
     List<item_model> selectByOrgnaization(@Param("organization") String organization);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM item m WHERE m.id.organization = :organization AND m.id.code = :code")
-    void deleteByOrganizationAndCode(@Param("organization") String organization, @Param("code") String code);
+    @Query("DELETE FROM item m WHERE m.id.organization = :organization AND m.id.item_code = :item_code")
+    void deleteByOrganizationAndCode(@Param("organization") String organization, @Param("item_code") String item_code);
 
 }

@@ -21,8 +21,11 @@ public class invite_model {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer num;
 
-    private String inviter;
+    private String master;
 
     private String target;
+
+    private String organization;
+
 
 }
