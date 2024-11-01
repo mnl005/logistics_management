@@ -33,6 +33,19 @@ public class location_service {
         }
     }
 
+    // 특정 로케이션 조회
+    public HashMap<String,String> select(String organization,String location_code) {
+        try {
+            location_model model = crud.findByOrganizationAndLocation_code(organization,location_code);
+            HashMap<String,String> map = new HashMap<>();
+            map.put("organization",model.getId().getOrganization());
+            map.put("location_code",model.getId().getLocation_code());
+            return map;
+        } catch (Exception e) {
+            throw new RuntimeException("로케이션 정보가 존재하지 않습니다");
+        }
+    }
+
 
     // 삽입
     public location_model insert(location_model location) {

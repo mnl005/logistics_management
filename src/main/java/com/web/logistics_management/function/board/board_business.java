@@ -126,7 +126,7 @@ public class board_business {
     // 기능 : 게시글 삭제
     // 받는 데이터 : id_data(게시글 분류넘버)
     // 보낼 데이터 : 없음
-    public Dto<model, Object> delete(Dto<model, Object> dto, HttpServletRequest request) {
+    public Dto<Object, Object> delete(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터

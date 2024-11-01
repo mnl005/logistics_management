@@ -52,7 +52,7 @@ public class logistics_controller {
 
     // 아이템 삭제
     @PostMapping("/item/delete")
-    public ResponseEntity<JsonNode> item_delete(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<JsonNode> item_delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_delete(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
@@ -73,7 +73,7 @@ public class logistics_controller {
     }
     // 로케이션 삭제
     @PostMapping("/location/delete")
-    public ResponseEntity<JsonNode> location_delete(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<JsonNode> location_delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.location_delete(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }

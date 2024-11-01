@@ -50,7 +50,7 @@ public class item_service {
             map.put("image",item.getImage());
             return map;
         } catch (Exception e) {
-            throw new RuntimeException("조회 결과 없음");
+            throw new RuntimeException("해당 상품이 존재하지 않습니다");
         }
     }
 

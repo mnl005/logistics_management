@@ -44,7 +44,7 @@ public class board_controller {
 
     // 유저의 게시글 삭제
     @PostMapping("/delete")
-    public ResponseEntity<JsonNode> delete(@RequestBody Dto<model, Object> dto, HttpServletRequest request){
+    public ResponseEntity<JsonNode> delete(@RequestBody Dto<Object, Object> dto, HttpServletRequest request){
         dto = board_business.delete(dto, request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }

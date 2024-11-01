@@ -45,25 +45,19 @@ public class group_business {
         model req = dto.getReq_data();
         // 토큰 인증
         user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-
-
-        // 사용자가 입력한 그룹 이름
-        String group_name = req.getV1();
         // 사용자의 아이디
         String id = me.getId();
+        // 사용자가 입력한 그룹 이름
+        String group_name = req.getV1();
 
-        // 사용자가 속한 그룹들
-        List<user_organization_model> group_me = user_group_service.select_id(id);
+
         // 사용자가 입력한 그룹 이름으로 그룹 조회
         List<group_model> group_list = group_service.select("organization", group_name);
-
-        // 사용자가 속한 그룹이 없는지
-        boolean bool1 = group_me.isEmpty();
         // 사용자가 입력한 그룹 이름과 동일한 이름을 가진 그룹이 없는지
-        boolean bool2 = group_list.isEmpty();
+        boolean bool = group_list.isEmpty();
 
-        // 사용자가 속한 그룹이 없고, 사용자가 입력한 그룹 이름이 사용 가능할 때 사용자의 그룹 정보를 변경
-        if (bool1 && bool2) {
+        // 사용자가 입력한 그룹 이름이 사용 가능할 때
+        if (bool) {
             // 그룹 정보 생성
             group_model model = new group_model();
             model.setMaster(id);
@@ -73,12 +67,7 @@ public class group_business {
             // 완료
             dto.setMsg(group_name + " 그룹 생성 완료");
         }
-        // 사용자가 이미 그룹에 속해 있다면
-        else if (!bool1) {
-            // 완료
-            dto.setMsg("이미 " + group_name + " 그룹에 속해 있습니다");
-        }
-        // 사용자가 입력한 그룹 이름이 중복된다면
+        // 사용자가 입력한 그룹 이름이 이미 사용 중이라면
         else {
             // 완료
             dto.setMsg(group_name + " 은 이미 존재하는 그룹 이름입니다");
@@ -97,9 +86,12 @@ public class group_business {
         Object req = dto.getReq_data();
         // 토큰 인증
         user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        // 사용자의 아이디
+        String id = me.getId();
 
-        // 사용자의 그룹 정보
-        List<user_organization_model> groups = user_group_service.select_id(me.getId());
+
+        // 사용자가 소속되어 있는 정보
+        List<user_organization_model> groups = user_group_service.select_id(id);
 
         // 사용자가 그룹에 소속되어있지 않을때
         if (groups.isEmpty()) {
@@ -109,7 +101,7 @@ public class group_business {
         }
         //사용자가 그룹에 소속되어 있을때
         else {
-            // 사용자의 소속 그룹 불러오기
+            // 그룹 이름만 추출
             List<Object> group_list = groups
                     .stream()
                     .map(group -> {
@@ -140,11 +132,12 @@ public class group_business {
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         Object req = dto.getReq_data();
-        String group_name = dto.getId_data();
         // 토큰 인증
         user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         // 사용자의 아이디
         String id = me.getId();
+        // 사용자가 접속을 선택한 그룹 이름
+        String group_name = dto.getId_data();
 
         // 사용자가 속한 그룹
         user_organization_model group = user_group_service.select(id, group_name);
@@ -219,12 +212,12 @@ public class group_business {
 
         // 사용자가 입력한 아이디
         String find_id = dto.getId_data();
-        // 사용자가 찾는 유저와 내가 접속한 그룹 이름으로 일치하는 정보가 있는지
-        user_organization_model find_group_model = user_group_service.select(find_id, me_gorup);
-        String find_organization = find_group_model.getId().getOrganization();
 
-        // 나와 찾는 유저의 그룹명이 일치한다면
-        if (find_organization.equals(me_gorup)) {
+        // 사용자가 찾는 유저와 내가 접속한 그룹이 일치하는지
+        Optional<user_organization_model> Op = user_group_service.OpIdOrganization(find_id, me_gorup);
+
+        // 사용자가 찾는 유저와 사용자가 접속한 그룹이 일치한다면
+        if(Op.isPresent()){
             // 유저 정보 찾기
             user_model find_user = user_service.Op_id(find_id).get();
             // 보낼 데이터 형식 : user_info
@@ -232,14 +225,14 @@ public class group_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg("그룹원 조회 완료");
-        } else {
+        }else{
             // 완료
             dto.setMsg("그룹원 조회 실패");
         }
 
         return dto;
     }
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 기능 : 그룹원으로 초대하기
     // 받는 데이터 : v1(초대할 유저 아이디)
@@ -256,27 +249,30 @@ public class group_business {
         String id = me.getId();
         // 그룹 접속정보 인증
         user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        // 접속중인 그룹 정보
         String me_gorup = connect.getId().getOrganization();
 
 
         // 초대할 유저
         String target = req.getV1();
+
         // 초대자의 권한 확인
-        List<group_model> model1 = group_service.select("id", id);
-        boolean bool1 = model1.isEmpty();
+        Optional<group_model> Op = group_service.Op_group(me_gorup, id);
+
         // 초대할 유저의 정보
-        user_organization_model model2 = user_group_service.select(target, me_gorup);
-        boolean bool2 = Objects.isNull(model2);
+        user_organization_model model = user_group_service.select(target, me_gorup);
+        boolean bool = Objects.isNull(model);
+
 
         // 사용자가 초대할 권한이 없다면
-        if (bool1) {
+        if (Op.isEmpty()) {
             // 완료
             dto.setMsg("당신은 초대할 권한이 없습니다");
         }
         // 해당 유저가 이미 조직에 소속되었다면
-        else if (!bool2) {
+        else if (!bool) {
             // 완료
-            dto.setMsg("해당 유저가 이미 그룹에 소속되어 있습니다");
+            dto.setMsg(target + " 유저가 이미 그룹에 소속되어 있습니다");
         }
         // 초대 가능한 상태라면
         else {
@@ -287,7 +283,7 @@ public class group_business {
             inviteModel.setOrganization(me_gorup);
             invite_service.insert(inviteModel);
             // 완료
-            dto.setMsg("초대 완료");
+            dto.setMsg(target + " 님에게 초대를 보냈습니다");
         }
 
 
@@ -360,9 +356,9 @@ public class group_business {
         String id = me.getId();
 
         // 삭제할 초대 목록의 분류번호
-        String data_id = dto.getId_data();
+        String num = dto.getId_data();
         // 삭제할 초대 내역
-        invite_model model = invite_service.select("num", data_id).get(0);
+        invite_model model = invite_service.select("num", num).get(0);
         // 초대 내역의 초대자
         String master = model.getMaster();
         // 초대 내역의 타겟
@@ -371,7 +367,7 @@ public class group_business {
         // 초대 내역의 타겟과 초대자중 어느 하나라도 일치한다면
         if (id.equals(master) || id.equals(target)) {
             // 초대 목록을 삭제
-            invite_service.delete(data_id);
+            invite_service.delete(num);
             dto.setMsg("초대 하거나 초대 받은 해당 내역을 삭제하였습니다");
         }
         // 잘못된 접근시
@@ -395,9 +391,9 @@ public class group_business {
         String id = me.getId();
 
         // 승락할 초대 목록 분류번호
-        String data_id = dto.getId_data();
+        String num = dto.getId_data();
         // 유저가 초대받은 내역
-        invite_model I_model = invite_service.select("num", data_id).get(0);
+        invite_model I_model = invite_service.select("num", num).get(0);
 
 
         // 초대 내역의 초대자
@@ -419,7 +415,7 @@ public class group_business {
             // 그룹에 등록
             user_group_service.insert(Newmodel);
             // 초대내역 삭제
-            invite_service.delete(data_id);
+            invite_service.delete(num);
             // 완료
             dto.setMsg(group + " 그룹에 소속되었습니다");
         }

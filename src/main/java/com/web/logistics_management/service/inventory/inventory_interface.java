@@ -25,7 +25,7 @@ public interface inventory_interface extends JpaRepository<inventory_model, Stri
     List<inventory_model> findByOrganizationAndQuantity(String organization, Integer quantity);
 
     @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.status = :status")
-    List<inventory_model> findByOrganizationAndStatus(String organization, String status);
+    List<inventory_model> findByOrganizationAndStatus(String organization, InventoryStatus status);
 
     @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.id.location_code = :location_code and m.id.item_code = :item_code")
     Optional<inventory_model> findByOrganizationAndLocationCodeAndItemCode(String organization, String location_code, String item_code);

@@ -25,6 +25,7 @@ public class user_business {
     private final jwt_service jwt_service;
     private final email_service email_service;
 
+
     //회원가입시 유저정보 임시저장
     private user_model user_ob = new user_model();
 
@@ -37,7 +38,8 @@ public class user_business {
     // 보낼 데이터 : user_info
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        //jwt_service.access("mnl005", response);
+        jwt_service.access("mnl005", response);
+        jwt_service.access_groups("group1", response);
 
 
         // 보낼 데이터 임시

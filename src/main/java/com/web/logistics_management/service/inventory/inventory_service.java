@@ -4,6 +4,7 @@ package com.web.logistics_management.service.inventory;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.web.logistics_management.service.inventory.InventoryStatus;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class inventory_service {
                 case "location_code" -> crud.findByOrganizationAndLocationCode(organization, value);
                 case "item_code" -> crud.findByOrganizaitonAndItemCode(organization, value);
                 case "quantity" -> crud.findByOrganizationAndQuantity(organization, Integer.valueOf(value));
-                case "status" -> crud.findByOrganizationAndStatus(organization, value);
+                case "status" -> crud.findByOrganizationAndStatus(organization, InventoryStatus.valueOf(value));
                 default -> throw new IllegalArgumentException("잘못된 필드: " + field);
             };
 
@@ -65,7 +66,7 @@ public class inventory_service {
 
             return result;
         } catch (Exception e) {
-            throw new RuntimeException("물류 데이터 조회 실패", e);
+            throw new RuntimeException("일치하는 데이터가 없습니다");
         }
     }
 

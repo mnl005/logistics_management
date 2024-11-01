@@ -157,7 +157,7 @@ public class jwt_service {
             Claims claims = (Claims) claimsJws.getPayload();
             return claims.get("group", String.class);
         }catch (Exception e){
-            throw new RuntimeException("인증실패");
+            throw new RuntimeException("그룹에 접속 후 이용해주세요");
         }
     }
 
