@@ -28,7 +28,7 @@
     <div class="button" data-json="/group/me">그룹</div>
     <div class="button" data-json="/post/group">그룹 게시판</div>
     <div class="button" data-json="/post/me">나의 게시판 관리</div>
-    <div class="button" data-json="/logistics/item/select_all">물류 관리</div>
+    <div class="button" data-json="/logistics/item/select">물류 관리</div>
     <div id="msg">asdf</div>
 </div>
 
@@ -345,174 +345,119 @@
 
         <!-- 물류 메뉴 -->
         <div class="serve_menu">
-            <div class="button" data-json="/logistics/item/select_all">모든상품찾기</div>
-            <div class="button" data-json="logistics_insert_view">상품등록</div>
-            <div class="button" data-json="logistics_delete_view">상품삭제</div>
-            <div class="button" data-json="logis_select_view">특정상품조회</div>
-
-
-            <div class="button" data-json="/logistics/location/select_all">전체 로케이션 조회</div>
-            <div class="button" data-json="location_select_view">로케이션 조건 조회</div>
-            <div class="button" data-json="location_update_view">로케이션 업데이트</div>
-            <div class="button" data-json="location_insert_view">로케이션 신규등록</div>
-            <div class="button" data-json="location_delete_view">로케이션 삭제</div>
+            <div class="button" data-json="/logistics/item/select">상품관리</div>
+            <div class="button" data-json="/logistics/location/select">로케이션관리</div>
+            <div class="button" data-json="/logistics/inventory/select_all">인벤토리관리</div>
         </div>
 
         <div class="serve_main">
 
-            <!-- 상품등록 -->
-            <form class="item_insert pop column" target="iframe1">
-                <div class="serve_title">상품등록</div>
-                <input type="text" name="v1" placeholder="상품식별코드">
-                <input type="text" name="v2" placeholder="상품이름">
-                <input type="file" name="image" placeholder="상품이미지">
-                <div class="image_box">
-                </div>
-                <button class="button" type="button" data-json="/logistics/item/insert">등록완료</button>
-            </form>
+            <div class="pop item_view">
 
-            <!-- 상품 리스트 -->
-            <div class="item_list pop column">
-
-                <div class="serve_title">상품 리스트 조회 결과</div>
-
-                <div class="item_list_in column">
-                    <div class="sample row">
+                <div class="item_list">
+                    <div class="row">
+                        <div>이미지</div>
+                        <div>이름</div>
+                        <div>code</div>
+                        <div>기타사항</div>
+                        <div>버튼</div>
+                    </div>
+                    <div class="sample">
                         <div class="image"></div>
-                        <div class="column">
-                            <div class="row">
-                                <div>상품코드 :</div>
-                                <div class="code">a0001</div>
-                            </div>
-                            <div class="row">
-                                <div>상품이름 :</div>
-                                <div class="name">에어팟맥스</div>
-                            </div>
-                        </div>
+                        <div class="name">에어팟</div>
+                        <div class="code">a0001</div>
+                        <div class="other">기타사항</div>
+                        <div><div class="button" data-json="/logistics/item/delete" data-id="">삭제</div></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 상품 하나 조회 -->
-            <div class="item_list_one pop  column">
-                <div class="serve_title">상품 조회 결과</div>
-                <div class="image"></div>
-                <div class="row">
-                    <div>상품코드 :</div>
-                    <div class="code"></div>
-                </div>
-                <div class="row">
-                    <div>상품이름 :</div>
-                    <div class="name"></div>
-                </div>
+                <form class="item_form column" target="iframe1">
+                    <div class="serve_title">상품등록</div>
+                    <input type="text" name="v1" placeholder="상품식별코드">
+                    <input type="text" name="v2" placeholder="상품이름">
+                    <input type="text" name="v3" placeholder="기타표기사항">
+                    <input type="file" name="image">
+                    <div class="image_box">
+                    </div>
+                    <button class="button" type="button" data-json="/logistics/item/insert">상품등록</button>
+                </form>
 
             </div>
 
-            <!-- 상품찾기 -->
-            <form class="item_select pop column" target="iframe1">
-                <div class="serve_title">식별코드로 상품조회</div>
-                <input type="text" name="v1" placeholder="상품식별코드">
-                <button class="button" type="button" data-json="/logistics/item/select">찾기</button>
-            </form>
-            <!-- 상품삭제 -->
-            <form class="item_delete pop column" target="iframe1">
-                <div class="serve_title">상품 삭제</div>
-                <input type="text" name="v1" placeholder="삭제할 상품식별코드">
-                <button class="button" type="button" data-json="/logistics/item/delete">삭제완료</button>
-            </form>
+            <div class="pop location_view">
 
-
-            <!-- 다수의 로케이션 목록 -->
-            <div class="location_list pop  column">
-                <div class="serve_title">로케이션 리스트 조회 결과</div>
-                <div class="row">
-                    <div>위치</div>
-                    <div>상품코드</div>
-                    <div>수량</div>
-                </div>
-                <div class="location_list_in column">
-                    <div class="sample row">
-                        <div class="location">위치정보</div>
-                        <div class="code">상품코드</div>
-                        <div class="quantity">상품 수량</div>
+                <div class="location_list">
+                    <div class="row">
+                        <div>로케이션 코드</div>
+                        <div>버튼</div>
+                    </div>
+                    <div class="sample">
+                        <div class="location_code">A-01-01</div>
+                        <div><div class="button" data-json="/logistics/location/delete" data-id="">삭제</div></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- 하나의 로케이션 목록 -->
-            <div class="location_list_one pop  column">
-                <div class="serve_title">특정 로케이션 조회 결과</div>
-                <div class="row">
-                    <div>위치</div>
-                    <div>상품코드</div>
-                    <div>수량</div>
-                </div>
-                <div class="row">
-                    <div class="location">위치정보</div>
-                    <div class="code">상품코드</div>
-                    <div class="quantity">상품 수량</div>
-                </div>
+                <form class="item_form column" target="iframe1">
+                    <div class="serve_title">로케이션 등록</div>
+                    <input type="text" name="v1" placeholder="생성할 로케이션 코드">
+                    <button class="button" type="button" data-json="/logistics/location/insert">로케이션 등록</button>
+                </form>
 
             </div>
 
+            <div class="pop inventory_view">
+                <div class="inventory_list">
 
-            <!-- 위치로 로케이션 찾기 -->
-            <form class="location_select pop column" target="iframe1">
-                <div class="serve_title">위치로 로케이션 조회</div>
-                <input type="text" name="v1" placeholder="조회할 로케이션 위치">
-                <button class="button" type="button" data-json="/logistics/location/select">조회</button>
-            </form>
-            <!-- 일정수량이상 로케이션 찾기 -->
-            <form class="location_select_up pop column" target="iframe1">
-                <div class="serve_title">특정 수량 이상 로케이션 조회</div>
-                <input type="text" name="v1" placeholder="상품수량">
-                <button class="button" type="button" data-json="/logistics/location/up">조회</button>
-            </form>
-            <!-- 일정수량이하 로케이션 찾기 -->
-            <form class="location_select_down pop column" target="iframe1">
-                <div class="serve_title">특정 수량 이하 로케이션 조회</div>
-                <input type="text" name="v1" placeholder="상품수량">
-                <button class="button" type="button" data-json="/logistics/location/down">조회</button>
-            </form>
-            <!-- 상품수량이 0인 로케이션 찾기 -->
-            <form class="location_select_zero pop column" target="iframe1">
-                <div class="serve_title">상품수량 0인 로케이션 조회</div>
-                <button class="button" type="button" data-json="/logistics/location/zero">조회</button>
-            </form>
-            <!-- 상품 코드로 로케이션 찾기 -->
-            <form class="location_select_code pop column" target="iframe1">
-                <div class="serve_title">상품 코드로 로케이션 조회</div>
-                <input type="text" name="v1" placeholder="상품코드">
-                <button class="button" type="button" data-json="/logistics/location/code">조회</button>
-            </form>
+                    <form class="inventory_search_form row" target="iframe1">
+                        <select type="text" name="v1">
+                            <option value="location_code">location_code</option>
+                            <option value="item_code">item_code</option>
+                            <option value="quantity">quantity</option>
+                            <option value="status">status</option>
+                        </select>
+                        <input type="text" name="v2" placeholder="검색할 값을 입력하세요">
+                        <button class="button" type="button" data-json="/logistics/inventory/select">찾기</button>
+                    </form>
 
+                    <div class="row">
+                        <div>로케이션코드</div>
+                        <div>아이템코드</div>
+                        <div>수량</div>
+                        <div>정보갱신일</div>
+                        <div>상태</div>
+                        <div>버튼</div>
+                    </div>
+                    <div class="sample">
+                        <div class="location_code">A-01-01</div>
+                        <div class="item_code">a0001</div>
+                        <div class="quantity">13</div>
+                        <div class="updated_date">2023-10-11</div>
+                        <div class="status">NOMAL</div>
+                        <div><div class="button" data-json="/logistics/inventory/delete" data-id="">삭제</div></div>
+                    </div>
+                </div>
 
-            <!-- 로케이션 정보 업데이트 -->
-            <form class="location_update pop column" target="iframe1">
-                <div class="serve_title">로케이션 정보 업데이트</div>
-                <select name="type">
-                    <option value="code">code</option>
-                    <option value="quantity">quantity</option>
-                </select>
-                <input type="text" name="v1" placeholder="로케이션 번호">
-                <input type="text" name="v2" placeholder="수정할 상품코드 또는 수량">
-                <button class="button" type="button" data-json="/logistics/location/update">수정</button>
-            </form>
-            <!-- 로케이션 신규 등록 -->
-            <form class="location_insert pop column" target="iframe1">
-                <div class="serve_title">로케이션 신규등록</div>
-                <input type="text" name="v1" placeholder="로케이션번호">
-                <input type="text" name="v2" placeholder="상품코드">
-                <input type="text" name="v3" placeholder="상품수량">
-                <button class="button" type="button" data-json="/logistics/location/insert">등록</button>
-            </form>
-            <!-- 로케이션 삭제 -->
-            <form class="location_delete pop column" target="iframe1">
-                <div class="serve_title">로케이션 삭제</div>
-                <input type="text" name="v1" placeholder="로케이션번호">
-                <button class="button" type="button" data-json="/logistics/location/delete">삭제</button>
-            </form>
+                <form class="inventory_form column" target="iframe1">
+                    <div class="serve_title">인벤토리 등록</div>
+                    <input type="text" name="v1" placeholder="로케이션코드">
+                    <input type="text" name="v2" placeholder="상품코드">
+                    <input type="text" name="v3" placeholder="수량">
+                    <button class="button" type="button" data-json="/logistics/inventory/insert">인벤토리 등록</button>
+                </form>
 
+                <form class="inventory_form column" target="iframe1">
+                    <div class="serve_title">인벤토리 등록</div>
+                    <input type="text" name="v1" placeholder="로케이션코드">
+                    <input type="text" name="v2" placeholder="상품코드">
+                    <select type="text" name="v3">
+                        <option value="quantity">quantity</option>
+                        <option value="status">status</option>
+                    </select>
+                    <input type="text" name="v4" placeholder="반영할 값">
+                    <button class="button" type="button" data-json="/logistics/inventory/update">인벤토리 수정</button>
+                </form>
+
+            </div>
 
         </div>
 

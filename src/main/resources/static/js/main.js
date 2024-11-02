@@ -31,7 +31,7 @@ let main = {
 // pop(["#logistics"]);
 // pop(["#group",".group_infos",".group_user_info",".group_create",".group_list",".group_invite",".group_invite_list"]);
 // pop(["#login",".login_form",".join_form"]);
-pop(["#group",".group_user_info"]);
+pop(["#logistics",".inventory_view"]);
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {

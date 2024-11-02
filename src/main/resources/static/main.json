@@ -529,20 +529,16 @@
 
 
 
-  "logistics_insert_view" :
+
+  "location_view" :
   {
     "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_insert"]}]
+    "event": [{"do" : "pop", "list" : ["#logistics",".location_view"]}]
   },
-  "logistics_delete_view" :
+  "inventory_view" :
   {
     "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_delete"]}]
-  },
-  "logis_select_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_select"]}]
+    "event": [{"do" : "pop", "list" : ["#logistics",".inventory_view"]}]
   },
 
 
@@ -552,7 +548,7 @@
   {
     "url": "/logistics/item/insert",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_select"]}],
+    "event": [{"do" : "pop", "list" : ["#logistics",".item_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -565,7 +561,7 @@
       {"v1": "상품식별코드", "v2": "상품이름","v3": "기타표기사항", "image": "상품이미지"}
     ],
     "res_define": [
-      {"what": "item_info", "where": ".item_list_all","how": ["name-text","code-text","other-text","image-image","code-id"], "way": "array"}
+      {"what": "item_info", "where": ".item_list","how": ["name-text","code-text","other-text","image-image","code-id"], "way": "array"}
     ]
   },
 
@@ -574,7 +570,7 @@
   {
     "url": "/logistics/item/select",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_list_one"]}],
+    "event": [{"do" : "pop", "list" : ["#logistics",".item_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -593,7 +589,7 @@
   {
     "url": "/logistics/item/delete",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".item_delete"]}],
+    "event": [{"do" : "pop", "list" : ["#logistics",".item_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -616,42 +612,11 @@
 
 
 
-
-
-
-
-  "location_select_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_select",".location_select_up",".location_select_down",".location_select_zero",".location_select_code"]}]
-  },
-  "location_update_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_update"]}]
-  },
-  "location_insert_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_insert"]}]
-  },
-  "location_delete_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_delete"]}]
-  },
-
-
-
-
-
-
-
   "/logistics/location/select" :
   {
     "url": "/logistics/location/select",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -670,7 +635,7 @@
   {
     "url": "/logistics/location/insert",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics",".location_list_one"]}],
+    "event": [{"do" : "pop", "list" : ["#logistics",".location_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -690,7 +655,7 @@
   {
     "url": "/logistics/location/delete",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -717,7 +682,7 @@
   {
     "url": "/logistics/inventory/select_all",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".inventory_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -730,7 +695,7 @@
       {"v1": "삭제할 로케이션 정보"}
     ],
     "res_define": [
-      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+      {"what": "inventory_list", "where": ".inventory_list","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
     ]
   },
 
@@ -738,7 +703,7 @@
   {
     "url": "/logistics/inventory/select",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".inventory_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -751,7 +716,7 @@
       {"v1": "로케이션코드 or 상품코드 or 개수 or 상태", "v2": "조회 할 값"}
     ],
     "res_define": [
-      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+      {"what": "inventory_list", "where": ".inventory_list","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
     ]
   },
 
@@ -759,7 +724,7 @@
   {
     "url": "/logistics/inventory/insert",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".inventory_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -772,7 +737,7 @@
       {"v1": "로케이션 코드","v2": "상품코드","v3": "갯수"}
     ],
     "res_define": [
-      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+      {"what": "inventory_list", "where": ".inventory_list","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
     ]
   },
 
@@ -780,7 +745,7 @@
   {
     "url": "/logistics/inventory/update",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".inventory_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -793,7 +758,7 @@
       {"v1": "로케이션 코드","v2": "상품코드","v3": "수량 or 상태","v4": "변경할 값"}
     ],
     "res_define": [
-      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+      {"what": "inventory_list", "where": ".inventory_list","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
     ]
   },
 
@@ -801,7 +766,7 @@
   {
     "url": "/logistics/inventory/delete",
     "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".inventory_view"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -814,7 +779,7 @@
       {"v1": "로케이션 코드","v2": "아이템 코드"}
     ],
     "res_define": [
-      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+      {"what": "inventory_list", "where": ".inventory_list","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
     ]
   }
 

@@ -394,30 +394,114 @@ form {
     flex-flow:column nowrap;
     height:100vh;
 }
-#logistics > .serve_main > .pop{
-    width:240px;
+
+#logistics > .serve_main >  .item_view{
+    display: flex;
+    flex-flow:row nowrap;;
 }
-#logistics > .serve_main > .item_list {
-    width:300px;
-}
-#logistics > .serve_main > .item_list > .item_list_in,
-#logistics > .serve_main > .item_list > .item_list_in > .sample
-{
+.item_list > .row{
     width:100%;
+    gap:0;
 }
-#logistics > .serve_main > .item_list > .item_list_in > .sample > .image
-{
-    width:70px;
-    height:70px;
+.item_list > .row > div{
+    width:20%;
+    text-align: center;
 }
-#logistics > .serve_main > .item_list_one  > .image{
-    width:240px;
-    height:240px;
+#logistics > .serve_main >  .item_view > .item_list{
+    width:500px;
+}
+#logistics > .serve_main >  .item_view > .item_list > .sample{
+    display: flex;
+    flex-flow:row nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#logistics > .serve_main >  .item_view > .item_list > .sample > div{
+    width:100px;
+    height:100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#logistics > .serve_main >  .item_view > .item_list > .sample > .button{
+    padding:5px;
+}
+/*------------------------------------------------------------------------------*/
+#logistics > .serve_main >  .location_view{
+    display: flex;
+    flex-flow:row nowrap;;
+}
+.location_list > .row{
+    width:100%;
+    gap:0;
+}
+.location_list > .row > div{
+    width:50%;
+    text-align: center;
+}
+#logistics > .serve_main >  .location_view > .location_list{
+    width:500px;
+}
+#logistics > .serve_main >  .location_view > .location_list > .sample{
+    display: flex;
+    flex-flow:row nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#logistics > .serve_main >  .location_view > .location_list > .sample > div{
+    width:50%;
+    text-align: center;
+}
+#logistics > .serve_main >  .location_view > .location_list > .sample > .button{
+    padding:5px;
 }
 
+/*------------------------------------------------------------------------------*/
 
-#logistics > .serve_main > .location_list > .location_list_in,
-#logistics > .serve_main > .location_list > .location_list_in > .sample
-{
-    width:100%;}
+#logistics > .serve_main >  .inventory_view{
+    display: flex;
+    flex-flow:row nowrap;;
+}
+.inventory_list > .row{
+    width:100%;
+    gap:0;
+}
+.inventory_list > .row > div{
+    width:100%;
+    text-align: center;
+}
+#logistics > .serve_main >  .inventory_view > .inventory_list{
+    width:700px;
+}
+#logistics > .serve_main >  .inventory_view > .inventory_list > .sample{
+    display: flex;
+    flex-flow:row nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+#logistics > .serve_main >  .inventory_view > .inventory_list > .sample > div{
+    width:100%;
+    text-align: center;
+}
+#logistics > .serve_main >  .inventory_view > .inventory_list > .sample > .button{
+    padding:5px;
+}
+.inventory_search_form > select{
+    width:20%;
+    height:100%;
+    gap:0;
+    padding:5px;
+}
+.inventory_search_form > input{
+    width:60%;
+    height:100%;
+    gap:0;
+    padding:5px;
+}
+.inventory_search_form > button{
+    width:20%;
+    height:100%;
+    gap:0;
+}
+
 
