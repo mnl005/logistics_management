@@ -1,8 +1,6 @@
 package com.web.logistics_management.service.item;
 
 
-import com.web.logistics_management.service.board.board_interface;
-import com.web.logistics_management.service.board.board_model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

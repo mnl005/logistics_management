@@ -78,7 +78,7 @@ public class group_business {
     // 기능 : 사용자의 소속 그룹들
     // 받는 데이터 : 없음
     // 보낼 데이터 : group_list(organization)
-    public Dto<Object, Object> me_groups(Dto<Object, Object> dto, HttpServletRequest request) {
+    public Dto<Object, Object> me(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -126,7 +126,7 @@ public class group_business {
     // 기능 : 소속된 그룹중 한가지 선택해 접속
     // 받는 데이터 : id_data(그룹 이름)
     // 보낼 데이터 : group_info(group_name,group_size,group_master)-(그룹이름, 그룹크기, 그룹관리자),  group_users(그룹구성원(id,profile))
-    public Dto<Object, Object> group_connect(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
+    public Dto<Object, Object> connect(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -290,10 +290,10 @@ public class group_business {
         return dto;
     }
 
-    // 기능 : 초대를 보낸 리스트 불러오기
+    // 기능 : 초대를 받거나 보낸 리스트 조회
     // 받는 데이터 : 없음
     // 보낼 데이터 : invite_list(num,master,target,organization)
-    public Dto<Object, Object> master_list(Dto<Object, Object> dto, HttpServletRequest request) {
+    public Dto<Object, Object> invite_select(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -304,47 +304,22 @@ public class group_business {
         // 사용자의 아이디
         String id = me.getId();
 
-        // 사용자가 초대자인 초대 내역 불러오기
-        List<invite_model> list = invite_service.select("master", id);
+        // 초대를 받거나 보낸 리스트 조회
+        List<invite_model> list = invite_service.masterOrtarget(id, id);
         // 보낼 데이터 형식 : invite_list
         res.put("invite_list", list);
         // 완료
-        dto.setMsg("초대한 내역을 불러옵니다");
+        dto.setMsg(list.size() + " 개의 초대 내역을 불러옵니다");
 
         // 완료
         dto.setRes_data(res);
         return dto;
     }
 
-    // 기능 : 초대를 받은 리스트 불러오기
-    // 받는 데이터 : 없음
-    // 보낼 데이터 : invite_list(num,master,target,organization)
-    public Dto<Object, Object> target_list(Dto<Object, Object> dto, HttpServletRequest request) {
-
-        // 보낼 데이터 저장
-        HashMap<String, Object> res = new HashMap<>();
-        // 받는 데이터
-        Object req = dto.getReq_data();
-        // 토큰인증
-        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        // 사용자의 아이디
-        String id = me.getId();
-
-        // 사용자가 초대자인 초대 내역 불러오기
-        List<invite_model> list = invite_service.select("target", id);
-        // 보낼 데이터 형식 : invite_list
-        res.put("invite_list", list);
-        // 완료
-        dto.setMsg("초대 받은 내역을 불러옵니다");
-
-        // 완료
-        dto.setRes_data(res);
-        return dto;
-    }
 
     // 기능 : 초대 삭제
     // 받을 데이터 : id_data(삭제할 초대 목록의 분류번호)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : invite_list(num,master,target,organization)
     public Dto<Object, Object> cancel(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -368,6 +343,12 @@ public class group_business {
         if (id.equals(master) || id.equals(target)) {
             // 초대 목록을 삭제
             invite_service.delete(num);
+
+            // 초대를 받거나 보낸 리스트 조회
+            List<invite_model> list = invite_service.masterOrtarget(id, id);
+            // 보낼 데이터 형식 : invite_list
+            res.put("invite_list", list);
+            // 완료
             dto.setMsg("초대 하거나 초대 받은 해당 내역을 삭제하였습니다");
         }
         // 잘못된 접근시
@@ -379,7 +360,7 @@ public class group_business {
 
     // 기능 : 초대승락
     // 받을 데이터 : id_data(수락할 초대 목록의 분류번호)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : invite_list(num,master,target,organization)
     public Dto<Object, Object> accept(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터 저장
         HashMap<String, Object> res = new HashMap<>();
@@ -416,6 +397,11 @@ public class group_business {
             user_group_service.insert(Newmodel);
             // 초대내역 삭제
             invite_service.delete(num);
+
+            // 초대를 받거나 보낸 리스트 조회
+            List<invite_model> list = invite_service.masterOrtarget(id, id);
+            // 보낼 데이터 형식 : invite_list
+            res.put("invite_list", list);
             // 완료
             dto.setMsg(group + " 그룹에 소속되었습니다");
         }
@@ -457,9 +443,33 @@ public class group_business {
         // 그룹 접속 종료
         jwt_service.block_group(response);
 
-        // 완료
-        dto.setMsg("그룹 탈퇴 완료");
-        dto.setRedirect("/");
+        // 사용자가 소속되어 있는 정보
+        List<user_organization_model> groups = user_group_service.select_id(id);
+
+        // 사용자가 그룹에 소속되어있지 않을때
+        if (groups.isEmpty()) {
+            // 완료
+            dto.setMsg("그룹에 소속되지 않았습니다");
+            return dto;
+        }
+        //사용자가 그룹에 소속되어 있을때
+        else {
+            // 그룹 이름만 추출
+            List<Object> group_list = groups
+                    .stream()
+                    .map(group -> {
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put("organization", group.getId().getOrganization());
+                        return map;
+                    })
+                    .collect(Collectors.toList());
+
+            // 보낼 데이터 형식 : group_list
+            res.put("group_list", group_list);
+            // 완료
+            dto.setRes_data(res);
+            dto.setMsg("소속된 그룹의 개수는 " + group_list.size() + " 개 입니다");
+        }
         return dto;
     }
 }

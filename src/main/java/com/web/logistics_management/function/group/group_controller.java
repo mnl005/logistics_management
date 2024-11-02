@@ -29,16 +29,16 @@ public class group_controller {
     }
 
     // 그룹 접속
-    @PostMapping("/me_groups")
-    public ResponseEntity<JsonNode> me_groups(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
-        dto = group_business.me_groups(dto,request);
+    @PostMapping("/me")
+    public ResponseEntity<JsonNode> me(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
+        dto = group_business.me(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
     // 나의 그룹 정보
-    @PostMapping("/group_connect")
-    public ResponseEntity<JsonNode> group_connect(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
-        dto = group_business.group_connect(dto,request,response);
+    @PostMapping("/connect")
+    public ResponseEntity<JsonNode> connect(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = group_business.connect(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
@@ -57,17 +57,10 @@ public class group_controller {
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
-    // 초대한 목록
-    @PostMapping("/master_list")
-    public ResponseEntity<JsonNode> master_list(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
-        dto = group_business.master_list(dto,request);
-        return ResponseEntity.ok(mapper.valueToTree(dto));
-    }
-
-    // 초대 받은 목록
-    @PostMapping("/target_list")
-    public ResponseEntity<JsonNode> target_list(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
-        dto = group_business.target_list(dto,request);
+    // 초대하거나 초대받은 목록조회
+    @PostMapping("/invite_select")
+    public ResponseEntity<JsonNode> invite_select(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
+        dto = group_business.invite_select(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 

@@ -30,6 +30,18 @@ public class invite_service {
         }
     }
 
+
+    // 초대 하거나 받은 리스트 조회
+    public List<invite_model> masterOrtarget(String master, String target) {
+        try {
+            return crud.masterOrtarget(master, target);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException("조회 실패");
+        }
+    }
+
     // 초대 생성
     public invite_model insert(invite_model model) {
         try{

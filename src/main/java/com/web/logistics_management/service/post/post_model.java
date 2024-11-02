@@ -1,18 +1,17 @@
-package com.web.logistics_management.service.board;
+package com.web.logistics_management.service.post;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity(name = "post")
-public class board_model {
+public class post_model {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

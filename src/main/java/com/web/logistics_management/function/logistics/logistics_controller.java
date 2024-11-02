@@ -37,15 +37,8 @@ public class logistics_controller {
     }
 
     // 아이템 전체 조회
-    @PostMapping("/item/select_all")
-    public ResponseEntity<JsonNode> item_info_all(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
-        dto = logistics_business.item_select_all(dto,request,response);
-        return ResponseEntity.ok(mapper.valueToTree(dto));
-    }
-
-    // 아이템 일부 조회
     @PostMapping("/item/select")
-    public ResponseEntity<JsonNode> item_select(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<JsonNode> item_select(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.item_select(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }

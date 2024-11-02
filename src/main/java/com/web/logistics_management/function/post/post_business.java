@@ -1,9 +1,8 @@
-package com.web.logistics_management.function.board;
+package com.web.logistics_management.function.post;
 
 
 import com.web.logistics_management.immutable.Dto;
-import com.web.logistics_management.immutable.model;
-import com.web.logistics_management.service.board.board_model;
+import com.web.logistics_management.service.post.post_model;
 import com.web.logistics_management.service.user.user_model;
 import com.web.logistics_management.service.user_group.user_group_service;
 import com.web.logistics_management.service.user_group.user_organization_model;
@@ -12,25 +11,24 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import com.web.logistics_management.service.jwt_service;
-import com.web.logistics_management.service.board.board_service;
+import com.web.logistics_management.service.post.post_service;
 import com.web.logistics_management.service.user.user_service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
-public class board_business {
+public class post_business {
     private final jwt_service jwt_service;
     private final user_group_service user_group_service;
-    private final board_service board_service;
+    private final post_service post_service;
     private final user_service user_service;
 
 
     // 기능 : 그룹의 게시물 불러오기
     // 받는 데이터 : 없음
-    // 보낼 데이터 : board_list(num,id,created_date,title,content,image)
+    // 보낼 데이터 : board_list(id,created_date,title,content,image)
     public Dto<Object, Object> group(Dto<Object, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 임시
@@ -46,7 +44,7 @@ public class board_business {
 
 
         // 그룹 구성원들 게시판 리스트
-        List<board_model> boardList = board_service.select_all(me_group);
+        List<post_model> boardList = post_service.select_all(me_group);
 
         // 보낼 데이터 형식 : board_list
         res.put("board_list", boardList);
@@ -79,7 +77,7 @@ public class board_business {
         String me_group = connect.getId().getOrganization();
 
         // 사용자 게시글
-        List<board_model> list = board_service.select_me(me_group,id);
+        List<post_model> list = post_service.select_me(me_group,id);
 
         // 게시글 사이즈
         String size = String.valueOf(list.size());
@@ -96,13 +94,13 @@ public class board_business {
     }
 
     // 기능 : 게시글 등록
-    // 받는 데이터 : board_model(num,id,title,create_date,content,image)
-    // 보낼 데이터 : 없음
-    public Dto<board_model, Object> insert(Dto<board_model, Object> dto, HttpServletRequest request) {
+    // 받는 데이터 : board_model(title,content,image)
+    // 보낼 데이터 : board_list(num,id,created_date,title,content,image)
+    public Dto<post_model, Object> insert(Dto<post_model, Object> dto, HttpServletRequest request) {
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
-        board_model req = dto.getReq_data();
+        post_model req = dto.getReq_data();
         // 토큰 인증
         user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         String id = me.getId();
@@ -115,7 +113,13 @@ public class board_business {
         req.setId(id);
         req.setOrganization(me_group);
         // 게시글 삽입
-        board_service.insert(req);
+        post_service.insert(req);
+
+        // 사용자 게시글
+        List<post_model> list = post_service.select_me(me_group,id);
+
+        // 보낼 데이터 형식 board_list
+        res.put("board_list",list);
 
         // 완료
         dto.setMsg("게시글 작성 성공");
@@ -125,7 +129,7 @@ public class board_business {
 
     // 기능 : 게시글 삭제
     // 받는 데이터 : id_data(게시글 분류넘버)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : board_list(num,id,created_date,title,content,image)
     public Dto<Object, Object> delete(Dto<Object, Object> dto, HttpServletRequest request) {
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
@@ -142,7 +146,13 @@ public class board_business {
 
 
         // 사용자의 아이디와 게시글 고유키로 게시글 삭제
-        board_service.delete(me_group,id, board_id);
+        post_service.delete(me_group,id, board_id);
+
+        // 사용자 게시글
+        List<post_model> list = post_service.select_me(me_group,id);
+
+        // 보낼 데이터 형식 : board_list
+        res.put("board_list",list);
 
         // 완료
         dto.setMsg("게시글이 삭제 되었습니다");

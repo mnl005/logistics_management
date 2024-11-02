@@ -30,7 +30,7 @@ public class logistics_business {
 
     // 기능 : 상품 등록
     // 받는 데이터 : v1(상품식별코드), v2(상품이름),v3(기타표기사항), image(상품이미지)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : item_info(code,name,other,image)
     public Dto<model, Object> item_insert(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -66,6 +66,12 @@ public class logistics_business {
         // 상품등록
         item_service.insert(item);
 
+        // 모든 상품 조회
+        List<HashMap<String, String>> list = item_service.select_all(me_group);
+
+        // 보낼 데이터 형식 : item_info
+        res.put("item_info", list);
+
         // 완료
         dto.setMsg("상품등록완료");
 
@@ -76,7 +82,7 @@ public class logistics_business {
     // 기능 : 상품 전체 정보 조회
     // 받는 데이터 : 없음
     // 보낼 데이터 : item_info(organization,code,name,image)
-    public Dto<Object, Object> item_select_all(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
+    public Dto<Object, Object> item_select(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
@@ -106,43 +112,6 @@ public class logistics_business {
         return dto;
     }
 
-    // 기능 : 상품 일부 조회
-    // 받는 데이터 : v1(상품코드)
-    // 보낼 데이터 : 특정 아이템 정보
-    public Dto<model, Object> item_select(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
-
-        // 보낼 데이터
-        HashMap<String, Object> res = new HashMap<>();
-        // 받는 데이터
-        model req = dto.getReq_data();
-        // 토큰 인증
-        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        // 사용자 아이디
-        String id = me.getId();
-        // 그룹 접속정보 인증
-        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
-        // 사용자가 접속한 그룹 이름
-        String me_group = connect.getId().getOrganization();
-
-
-        // v1 : 상품 코드
-        String code = req.getV1();
-
-        //상품 조회
-        HashMap<String, String> item = item_service.select(me_group, code);
-        List<HashMap<String, String>> list = new ArrayList<>();
-        list.add(item);
-
-        // 보낼 데이터 형식 : item_info
-        res.put("item_info", item);
-
-        // 완료
-        dto.setRes_data(res);
-        dto.setMsg("상품 리스트 조회 완료");
-
-
-        return dto;
-    }
 
     // 기능 : 상품 삭제
     // 받는 데이터 : id_data(상품코드)
@@ -174,6 +143,13 @@ public class logistics_business {
         if(bool){
             //상품 삭제
             item_service.delete(me_group, item_code);
+
+            // 모든 상품 조회
+            List<HashMap<String, String>> lists = item_service.select_all(me_group);
+
+            // 보낼 데이터 형식 : item_info
+            res.put("item_info", lists);
+
             // 완료
             dto.setMsg("상품 삭제 완료");
         }
@@ -182,13 +158,6 @@ public class logistics_business {
             // 완료
             dto.setMsg(item_code + " 상품은 인벤토리에 정보가 존재합니다");
         }
-
-
-
-
-
-
-
         return dto;
     }
 

@@ -16,6 +16,9 @@ public interface invite_interface extends JpaRepository<invite_model, String> {
 
     List<invite_model> findByNum(Integer num);
 
+    @Query("SELECT m FROM invite m WHERE m.master = :master or m.target = :target")
+    List<invite_model> masterOrtarget(String master, String target);
+
     @Query("SELECT m FROM invite m WHERE m.master = :master and m.target = :target and m.organization = :organization")
     Optional<invite_model> findByMasterAndTargetAndOrganization(String master, String target, String organization);
 

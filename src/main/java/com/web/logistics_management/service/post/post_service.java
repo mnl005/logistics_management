@@ -1,19 +1,18 @@
-package com.web.logistics_management.service.board;
+package com.web.logistics_management.service.post;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class board_service {
-    private final board_interface crud;
+public class post_service {
+    private final post_interface crud;
 
     // 조건 조회
-    public List<board_model> select_all(String organization) {
+    public List<post_model> select_all(String organization) {
         try {
             return crud.selectByOrganization(organization);
         } catch (Exception e) {
@@ -22,7 +21,7 @@ public class board_service {
     }
 
     // 나의 게시글 조회
-    public List<board_model> select_me(String organization, String id) {
+    public List<post_model> select_me(String organization, String id) {
         try {
             return crud.selectByOrganizationAndId(organization,id);
         } catch (Exception e) {
@@ -31,9 +30,9 @@ public class board_service {
     }
 
     //게시글 작성
-    public board_model insert(board_model board_model) {
+    public post_model insert(post_model post_model) {
         try {
-            return crud.saveAndFlush(board_model);
+            return crud.saveAndFlush(post_model);
         } catch (Exception e) {
             throw new RuntimeException("게시글 작성 실패");
         }
