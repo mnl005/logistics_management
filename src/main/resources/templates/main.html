@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>board</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <link rel="stylesheet" href="../static/css/main.css">
-<!--    <link rel="stylesheet" href="/static/css/main.css">-->
+    <!--      <link rel="stylesheet" href="../static/css/main.css">-->
+    <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 
@@ -26,8 +26,8 @@
     <div class="button" data-json="open_login">로그인 및 회원가입</div>
     <div class="button" data-json="/user/me">내정보</div>
     <div class="button" data-json="/group/me">그룹</div>
-    <div class="button" data-json="/board/group">그룹 게시판</div>
-    <div class="button" data-json="/board/me">나의 게시판 관리</div>
+    <div class="button" data-json="/post/group">그룹 게시판</div>
+    <div class="button" data-json="/post/me">나의 게시판 관리</div>
     <div class="button" data-json="/logistics/item/select_all">물류 관리</div>
     <div id="msg">asdf</div>
 </div>
@@ -36,7 +36,6 @@
 <div class="main">
 
     <!-- 로그인 -->
-
     <div id="login" class="pop">
 
         <form class="login_form column pop" target="iframe1">
@@ -129,12 +128,149 @@
 
     </div>
 
+
+    <!-- 그룹 -->
+    <div id="group" class="pop column">
+
+        <!-- 그룹 메뉴 -->
+        <div class="serve_menu">
+            <div class="button" data-json="/group/me">그룹리스트</div>
+            <div class="button" data-json="open_group_info">그룹정보</div>
+            <div class="button" data-json="open_group_create_open">그룹생성</div>
+            <div class="button" data-json="/group/invite_select">초대관리</div>
+        </div>
+
+        <div class="serve_main">
+
+            <!-- 접속할 그룹 리스트 -->
+            <div class="pop group_list column">
+                <div class="serve_title">접속할 그룹을 선택하세요</div>
+                <div class="button sample" data-json="/group/connect" data-id="group1">
+                    <div class="organization">group1</div>
+                </div>
+            </div>
+
+            <!-- 그룹 정보 -->
+            <div class="pop group_info">
+
+                <div class="row group_info_in">
+                    <div>
+                        <div>그룹이름</div>
+                        <div class="group_name">yuogroup</div>
+                    </div>
+                    <div>
+                        <div>그룹크기</div>
+                        <div class="group_size">23</div>
+                    </div>
+                    <div>
+                        <div>관리자</div>
+                        <div class="group_master">qw1001</div>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="sample row">
+                        <div class="profile"></div>
+                        <div class="id">qw1001</div>
+                        <div class="button" data-json="/group/select" data-id="">상세보기</div>
+                    </div>
+                    <div class="sample row">
+                        <div class="profile"></div>
+                        <div class="id">qw1001</div>
+                        <div class="button" data-json="/group/select" data-id="">상세보기</div>
+                    </div>
+                    <div class="sample row">
+                        <div class="profile"></div>
+                        <div class="id">qw1001</div>
+                        <div class="button" data-json="/group/select" data-id="">상세보기</div>
+                    </div>
+                </div>
+
+                <div class="button" data-json="/group/delete">그룹탈퇴</div>
+
+
+            </div>
+            <!-- 그룹원 상세보기 -->
+            <div class="pop group_user_info column">
+                <div class="serve_title">그룹원 정보 상세보기</div>
+                <div class="profile"></div>
+                <div class="row">
+                    <div class="left">id</div>
+                    <div class="id"></div>
+                </div>
+
+                <div class="row">
+                    <div class="left">email</div>
+                    <div class="email"></div>
+                </div>
+
+                <div class="row">
+                    <div class="left">name</div>
+                    <div class="name"></div>
+                </div>
+
+                <div class="row">
+                    <div class="left">phone</div>
+                    <div class="phone"></div>
+                </div>
+
+                <div class="row">
+                    <div class="left">조직</div>
+                    <div class="organization"></div>
+                </div>
+            </div>
+            <!-- 그룹 생성 -->
+            <form class="group_create_form column pop " target="iframe1">
+                <div class="serve_title">그룹 생성</div>
+                <input type="text" name="v1" value="생성할 그룹 이름">
+                <button class="button" type="button" data-json="/group/create">생성완료</button>
+            </form>
+
+            <!-- 그룹 초대 리스트 -->
+            <div class="invite_list pop">
+                <div class="serve_title">수락 또는 거절</div>
+                <div class="row invite_title">
+                    <div class="master">초대자</div>
+                    <div class="target">대상</div>
+                    <div class="organization">그룹</div>
+                    <div class="button" data-json="/group/accept" data-id="">수락</div>
+                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
+                </div>
+
+                <div class="row sample">
+                    <div class="master">mnl005</div>
+                    <div class="target">mnl004</div>
+                    <div class="organization">group1</div>
+                    <div class="button" data-json="/group/accept" data-id="">수락</div>
+                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
+                </div>
+                <div class="row sample">
+                    <div class="master">mnl005</div>
+                    <div class="target">mnl004</div>
+                    <div class="organization">group1</div>
+                    <div class="button" data-json="/group/accept" data-id="">수락</div>
+                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
+                </div>
+
+            </div>
+
+            <!-- 그룹 초대 폼 -->
+            <form class="invite_form column pop" target="iframe1">
+                <div class="serve_title">초대하기</div>
+                <input type="text" name="v1" placeholder="초대할 아이디를 입력하세요">
+                <button class="button" type="button" data-json="/group/invite">초대완료</button>
+            </form>
+
+        </div>
+
+    </div>
+
     <!-- 게시판 -->
     <div id="board" class="pop">
 
         <!-- 게시판 메뉴 --->
         <div class="row">
-            <div class="button" data-json="board_form_open">게시글 작성</div>
+            <div class="button" data-json="post_form_open">게시글 작성</div>
         </div>
 
 
@@ -178,7 +314,7 @@
                     <div class="created_date">2019-01-03</div>
                     <div class="id">mnl005</div>
                     <div class="row">
-                        <div class="button" data-json="/board/delete" data-id="24" >삭제</div>
+                        <div class="button" data-json="/post/delete" data-id="24">삭제</div>
                     </div>
                 </div>
 
@@ -196,131 +332,13 @@
                 </div>
                 <input type="text" name="title" placeholder="게시글 제목">
                 <input type="text" name="content" placeholder="게시글 내용">
-                <button class="button" type="button" data-json="/board/insert">작성완료</button>
+                <button class="button" type="button" data-json="/post/insert">작성완료</button>
             </form>
         </div>
 
 
-
     </div>
 
-    <!-- 그룹 -->
-    <div id="group" class="pop column">
-
-        <!-- 그룹 메뉴 -->
-        <div class="serve_menu">
-            <div class="button" data-json="group_info_view">그룹정보</div>
-            <div class="button" data-json="group_invite_view">그룹초대</div>
-            <div class="button" data-json="group_create_view">생성하기</div>
-        </div>
-
-        <div class="serve_main">
-
-            <!-- 그룹원 정보 상세보기 -->
-            <div class="group_user_info pop  column">
-                <div class="serve_title">그룹원 상세 정보</div>
-                <div class="profile"></div>
-
-                <div class="row">
-                    <div class="left">id</div>
-                    <div class="id">testid</div>
-                </div>
-
-                <div class="row">
-                    <div class="left">email</div>
-                    <div class="email">test001@naver.com</div>
-                </div>
-
-                <div class="row">
-                    <div class="left">name</div>
-                    <div class="name">leehyun</div>
-                </div>
-
-                <div class="row">
-                    <div class="left">phone</div>
-                    <div class="phone">01011112222</div>
-                </div>
-
-                <div class="row">
-                    <div class="left">조직</div>
-                    <div class="organization">teg1</div>
-                </div>
-            </div>
-            <!-- 그룹 생성-->
-            <div class="group_create column pop">
-                <div class="serve_title">그룹 생성</div>
-
-                <div class="group_list column">
-
-                    <form class="column" target="iframe1">
-                        <input type="text" name="v1" placeholder="생성할 그룹 이름을 입력하세요">
-                        <button class="button" type="button" data-json="/group/create">만들기</button>
-                    </form>
-
-                </div>
-            </div>
-            <!-- 그룹 정보-->
-            <div class="group_infos column pop">
-                <div class="serve_title">그룹 정보</div>
-                <div class="group_info column">
-                    <div class="row">
-                        <div class="left">그룹이름</div>
-                        <div class="group_name">소속그룹 없음</div>
-                    </div>
-                    <div class="row">
-                        <div class="left">그룹사이즈</div>
-                        <div class="group_size">소속그룹 없음</div>
-                    </div>
-                </div>
-
-                    <!-- 그룹원 구성 정보-->
-                <div class="group_list column">
-
-                    <div class="group_member_info sample row">
-                        <div class="profile"></div>
-                        <div class="id">-</div>
-                        <div class="button" data-json="/group/select" data-id="null">상세정보</div>
-                    </div>
-
-                </div>
-
-            </div>
-            <!-- 그룹 초대-->
-                <form class="group_invite column pop" target="iframe1">
-                    <div class="serve_title">그룹으로 초대</div>
-                    <input type="text" name="v1" placeholder="초대할 유저 아이디를 입력하세요">
-                    <button class="button" type="button" data-json="/group/invite">초대</button>
-                </form>
-            <!-- 그룹 초대 목록-->
-            <div class="group_invite_list column pop">
-                <div class="serve_title">그룹 초대 목록</div>
-
-                <div class="button" data-json="/group/invite_list">초대 목록 확인</div>
-                <div class="button" data-json="/group/delete">그룹 나가기</div>
-
-                <div class="invite_list column">
-
-                    <div class="sample row">
-                        <div class="column">
-                            <div class="row">
-                                <div>초대자 : </div>
-                                <div class="inviter"></div>
-                            </div>
-                            <div class="row">
-                                <div>타겟 : </div>
-                                <div class="target"></div>
-                            </div>
-                        </div>
-                        <div class="button" data-json="/group/cancel" data-id="24">삭제</div>
-                        <div class="button" data-json="/group/accept" data-id="24">수락</div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-    </div>
 
     <!-- 상품관리 -->
     <div id="logistics" class="pop column">
@@ -363,11 +381,11 @@
                         <div class="image"></div>
                         <div class="column">
                             <div class="row">
-                                <div>상품코드 : </div>
+                                <div>상품코드 :</div>
                                 <div class="code">a0001</div>
                             </div>
                             <div class="row">
-                                <div>상품이름 : </div>
+                                <div>상품이름 :</div>
                                 <div class="name">에어팟맥스</div>
                             </div>
                         </div>
@@ -380,11 +398,11 @@
                 <div class="serve_title">상품 조회 결과</div>
                 <div class="image"></div>
                 <div class="row">
-                    <div>상품코드 : </div>
+                    <div>상품코드 :</div>
                     <div class="code"></div>
                 </div>
                 <div class="row">
-                    <div>상품이름 : </div>
+                    <div>상품이름 :</div>
                     <div class="name"></div>
                 </div>
 
@@ -402,10 +420,6 @@
                 <input type="text" name="v1" placeholder="삭제할 상품식별코드">
                 <button class="button" type="button" data-json="/logistics/item/delete">삭제완료</button>
             </form>
-
-
-
-
 
 
             <!-- 다수의 로케이션 목록 -->
@@ -442,9 +456,6 @@
             </div>
 
 
-
-
-
             <!-- 위치로 로케이션 찾기 -->
             <form class="location_select pop column" target="iframe1">
                 <div class="serve_title">위치로 로케이션 조회</div>
@@ -476,8 +487,6 @@
             </form>
 
 
-
-
             <!-- 로케이션 정보 업데이트 -->
             <form class="location_update pop column" target="iframe1">
                 <div class="serve_title">로케이션 정보 업데이트</div>
@@ -505,25 +514,16 @@
             </form>
 
 
-
-
-
-            </div>
-
         </div>
+
+    </div>
 
 </div>
 
-    <!--  메인---------------------  메인---------------------  메인---------------------  메인---------------------  메인----------------------->
+<!--  메인---------------------  메인---------------------  메인---------------------  메인---------------------  메인----------------------->
 
 
-
-
-
-
-
-
-<script src="../static/js/main.js"></script>
-<!--<script src="/static/js/main.js"></script>-->
+<!--<script src="../static/js/main.js"></script>-->
+<script src="/static/js/main.js"></script>
 </body>
 </html>

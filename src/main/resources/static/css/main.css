@@ -3,7 +3,7 @@
     padding:0;
     text-decoration: none;
     box-sizing: border-box;
-    /*border:1px solid red;*/
+    border:1px solid red;
 }
 body{
     display: flex;
@@ -312,30 +312,79 @@ form {
     flex-flow:column nowrap;
     height:100vh;
 }
-#group > .serve_main > .pop{
-    width:240px;
+#group > .serve_main > .group_info{
+    width:80%;
+    padding:5px;
+}
+.group_info_in{
+    display: flex;
+}
+.group_info_in > div {
+    flex:1;
+    height:150px;
+}
+.group_info_in > div > div{
+    height:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border:1px solid white;
+}
+.group_info_in > div > div:nth-child(1){
+    font-size:30px;
+}
+.group_info_in > div > div:nth-child(2){
+    font-size:25px;
+}
+#group > .serve_main > .group_info > .column{
+    display: flex;
+    align-items: center;
+}
+#group > .serve_main > .group_info > .column > .sample{
+    width:100%;
+    max-width:300px;
+    padding: 5px 30px 5px 30px;
+
+}
+#group > .serve_main > .group_info > .column > .sample > .profile {
+    width:40px;
+    margin:0;
+    height:40px;
+}
+
+
+#group > .invite{
+    display: flex;
+    flex-flow:row nowrap;
+    align-items: center;
+    justify-content: center;
+    gap:150px;
+}
+.invite_list{
+    width:400px;
+    height:fit-content;
+}
+.invite_title{
+    display: flex;
+    gap:0;
+    margin-bottom: 20px;
+}
+.invite_title > div{
+    flex:1;
+}
+.invite_list > .sample{
+    display: flex;
+    gap:0;
+}
+.invite_list > .sample > div{
+    flex:1;
+
 }
 #group > .serve_main > .group_user_info > .profile{
-    width:70px;
-    height:70px;
-    margin-top:10px;
+    width:100px;
+    height:100px;
 }
-#group > .serve_main > .group_infos > .group_info > .row{
-    width:100%;
-}
-#group > .serve_main > .group_infos > .group_list > .group_member_info{
-    padding:4px;
-    width:100%;
-}
-#group > .serve_main > .group_infos > .group_list > .group_member_info > .profile{
-    width:40px;
-    height:40px;
-    margin-right:45px;
-    margin-left:5px;
-}
-#group > .serve_main > .group_invite_list > .invite_list > .sample{
-    width:100%;
-}
+
 
 /* 물류------------------------------------------------------------------------------------------------- */
 

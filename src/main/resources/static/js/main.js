@@ -30,7 +30,8 @@ let main = {
 // 초기화면 설정
 // pop(["#logistics"]);
 // pop(["#group",".group_infos",".group_user_info",".group_create",".group_list",".group_invite",".group_invite_list"]);
-pop(["#login",".login_form",".join_form"]);
+// pop(["#login",".login_form",".join_form"]);
+pop(["#group",".group_user_info"]);
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {
@@ -45,6 +46,7 @@ $(document).on('click', '.button', function(event) {
         .then(event => {
             // html에서 요소 추출
             main.data_json = $(this).data('json');
+            console.log(main.data_json);
             main.id_data = $(this).data('id');
             main.event_target = event;
             return main;

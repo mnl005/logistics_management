@@ -53,9 +53,9 @@ public class logistics_controller {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 로케이션 전체 조회
-    @PostMapping("/location/select_all")
-    public ResponseEntity<JsonNode> location_select_all(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
-        dto = logistics_business.location_select_all(dto,request,response);
+    @PostMapping("/location/select")
+    public ResponseEntity<JsonNode> location_select(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = logistics_business.location_select(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
     // 로케이션 신규 삽입

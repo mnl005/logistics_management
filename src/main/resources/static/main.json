@@ -216,9 +216,207 @@
 
 
 
+  "open_group_create_open":
+  {
+    "url": "none",
+    "event": [{"do" : "pop", "list" : ["#group",".group_create_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}]
+  },
+  "open_group_info":
+  {
+    "url": "none",
+    "event": [{"do" : "pop", "list" : ["#group",".group_info"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}]
+  },
 
 
 
+
+  "/group/create" :
+  {
+    "url": "/group/create",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".group_create_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "생성할 그룹 이름"}
+    ],
+    "res_define": "none"
+  },
+
+  "/group/me" :
+  {
+    "url": "/group/me",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group", ".group_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": [
+      {"what": "group_list", "where": ".group_list","how": ["organization-text","organization-id"], "way": "array"}
+    ]
+  },
+
+
+  "/group/connect" :
+  {
+    "url": "/group/connect",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group", ".group_info"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"id_data": "접속할 그룹 이름"}
+    ],
+    "res_define": [
+      {"what": "group_users", "where": ".group_infos>.group_list","how": ["id-text","profile-image","id-id"], "way": "array"},
+      {"what": "group_info", "where": ".group_info","how": ["group_name-text","group_size-text","group_master-text"], "way": "object"}]
+  },
+
+  "/group/select" :
+  {
+    "url": "/group/select",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".group_user_info"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "조회할 그룹 구성원의 아이디"}
+    ],
+    "res_define": [
+      {"what": "user_info", "where": ".group_user_info","how": ["id-text","organization-text","email-text","name-text","phone-text","profile-image"], "way": "object"}
+    ]
+  },
+
+
+
+
+
+  "/group/invite" :
+  {
+    "url": "/group/invite",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".invite_list",".invite_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "그룹으로 초대할 유저의 아이디"}
+    ],
+    "res_define": [
+      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
+    ]
+  },
+
+
+  "/group/invite_select" :
+  {
+    "url": "/group/invite_select",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".invite_list",".invite_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": [
+      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
+    ]
+  },
+
+  "/group/cancel" :
+  {
+    "url": "/group/cancel",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".invite_list",".invite_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "삭제할 초대 목록의 분류번호"}
+    ],
+    "res_define": [
+      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
+    ]
+  },
+
+
+  "/group/accept" :
+  {
+    "url": "/group/accept",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".invite_list",".invite_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "id_data",
+      {"data-id": "수락할 초대 목록의 분류번호"}
+    ],
+    "res_define": [
+      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
+    ]
+  },
+
+
+  "/group/delete" :
+  {
+    "url": "/group/delete",
+    "type": "post",
+    "event": [{"do" : "pop", "list" : ["#group",".invite_list",".invite_form"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": ["none"],
+    "res_define": [
+      {"what": "group_list", "where": "???","how": ["organization-text","organization-id"], "way": "array"}
+    ]
+  },
 
 
 
@@ -322,206 +520,6 @@
 
 
 
-  "group_info_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#group",".group_infos"]}]
-  },
-  "group_invite_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#group",".group_invite",".group_invite_list"]}]
-  },
-  "group_create_view" :
-  {
-    "url": "none",
-    "event": [{"do" : "pop", "list" : ["#group",".group_create"]}]
-  },
-
-
-  "/group/create" :
-  {
-    "url": "/group/create",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_create"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "생성할 그룹 이름"}
-    ],
-    "res_define": "none"
-  },
-
-  "/group/me" :
-  {
-    "url": "/group/me",
-    "type": "post",
-    "event": [],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": ["none"],
-    "res_define": [
-      {"what": "group_list", "where": "???","how": ["organization-text","organization-id"], "way": "array"}
-    ]
-  },
-
-
-  "/group/connect" :
-  {
-    "url": "/group/connect",
-    "type": "post",
-    "event": [{"do" : "clean", "list" : [".group_infos>.group_list"]}, {"do" : "pop", "list" : ["#group",".group_infos"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "id_data",
-      {"id_data": "접속할 그룹 이름"}
-    ],
-    "res_define": [
-      {"what": "group_users", "where": ".group_infos>.group_list","how": ["id-text","profile-image","id-id"], "way": "array"},
-      {"what": "group_info", "where": ".group_info","how": ["group_name-text","group_size-text","group_master-text"], "way": "object"}]
-  },
-
-  "/group/select" :
-  {
-    "url": "/group/select",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_user_info"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "id_data",
-      {"data-id": "조회할 그룹 구성원의 아이디"}
-    ],
-    "res_define": [
-      {"what": "user_info", "where": ".group_user_info","how": ["id-text","organization-text","email-text","name-text","phone-text","profile-image"], "way": "object"}
-    ]
-  },
-
-
-
-
-
-  "/group/invite" :
-  {
-    "url": "/group/invite",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "그룹으로 초대할 유저의 아이디"}
-    ],
-    "res_define": "none"
-  },
-
-
-  "/group/invite_select" :
-  {
-    "url": "/group/invite_select",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_invite_list "]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": ["none"],
-    "res_define": [
-      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
-    ]
-  },
-
-  "/group/cancel" :
-  {
-    "url": "/group/cancel",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_invite_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "id_data",
-      {"data-id": "삭제할 초대 목록의 분류번호"}
-    ],
-    "res_define": [
-      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
-    ]
-  },
-
-
-  "/group/accept" :
-  {
-    "url": "/group/accept",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#group",".group_invite_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "id_data",
-      {"data-id": "수락할 초대 목록의 분류번호"}
-    ],
-    "res_define": [
-      {"what": "invite_list", "where": ".invite_list","how": ["num-id","master-text","target-text","organization-text"], "way": "array"}
-    ]
-  },
-
-
-  "/group/delete" :
-  {
-    "url": "/group/delete",
-    "type": "post",
-    "event": [],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": ["none"],
-    "res_define": [
-      {"what": "group_list", "where": "???","how": ["organization-text","organization-id"], "way": "array"}
-    ]
-  },
 
 
 
@@ -622,9 +620,6 @@
 
 
 
-
-
-
   "location_select_view" :
   {
     "url": "none",
@@ -645,9 +640,16 @@
     "url": "none",
     "event": [{"do" : "pop", "list" : ["#logistics",".location_delete"]}]
   },
-  "/logistics/location/select_all" :
+
+
+
+
+
+
+
+  "/logistics/location/select" :
   {
-    "url": "/logistics/location/select_all",
+    "url": "/logistics/location/select",
     "type": "post",
     "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -659,14 +661,14 @@
 
     "req_define": ["none"],
     "res_define": [
-      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location_code-text","location_code-id"], "way": "array"}
     ]
   },
 
 
-  "/logistics/location/select" :
+  "/logistics/location/insert" :
   {
-    "url": "/logistics/location/select",
+    "url": "/logistics/location/insert",
     "type": "post",
     "event": [{"do" : "pop", "list" : ["#logistics",".location_list_one"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
@@ -678,144 +680,17 @@
 
     "req_define": [
       "form_data",
-      {"v1": "조회할 로케이션 위치"}
+      {"v1": "신규 등록할 로케이션 코드"}
     ],
     "res_define": [
-      {"what": "location_info", "where": ".location_list_one","how": ["location-text","code-text","quantity-text"], "way": "object"}
+      {"what": "location_info", "where": ".location_list_in","how": ["location_code-text","location_code-id"], "way": "array"}
     ]
   },
-
-
-  "/logistics/location/up" :
-  {
-    "url": "/logistics/location/up",
-    "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "일정 수량 이상 조회할 수량"}
-    ],
-    "res_define": [
-      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
-    ]
-  },
-
-
-  "/logistics/location/down" :
-  {
-    "url": "/logistics/location/down",
-    "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "일정 수량 이상 조회할 수량"}
-    ],
-    "res_define": [
-      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
-    ]
-  },
-
-
-  "/logistics/location/zero" :
-  {
-    "url": "/logistics/location/zero",
-    "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": ["none"],
-    "res_define": [
-      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
-    ]
-  },
-
-
-  "/logistics/location/code" :
-  {
-    "url": "/logistics/location/code",
-    "type": "post",
-    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "로케이션 조회할 상품 코드"}
-    ],
-    "res_define": [
-      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
-    ]
-  },
-
-
-  "/logistics/location/update" :
-  {
-    "url": "/logistics/location/update",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"type": "수정할 상품코드 또는 수량","v1": "로케이션 번호", "v2": "수정할 상품코드 또는 수량"}
-    ],
-    "res_define": ["none"]
-  },
-
-
-  "/logistics/location/insert" :
-  {
-    "url": "/logistics/location/insert",
-    "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics"]}],
-    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
-
-    "id_data": null,
-    "msg": null,
-    "req_data": null,
-    "res_data": null,
-
-    "req_define": [
-      "form_data",
-      {"v1": "신규 등록할 로케이션 번호", "v2": "신규 등록할 로케이션에 할당할 상품코드", "v3": "신규 등록할 로케이션에 할당할 상품의 총수량"}
-    ],
-    "res_define": ["none"]
-  },
-
-
   "/logistics/location/delete" :
   {
     "url": "/logistics/location/delete",
     "type": "post",
-    "event": [{"do" : "pop", "list" : ["#logistics"]}],
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
     "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
 
     "id_data": null,
@@ -825,10 +700,138 @@
 
     "req_define": [
       "form_data",
-      {"v1": "상품 수량이 0인 삭제할 로케이션의 분류번호"}
+      {"v1": "삭제할 로케이션 정보"}
     ],
-    "res_define": ["none"]
+    "res_define": [
+      {"what": "location_info", "where": ".location_list_in","how": ["location-text","code-text","quantity-text"], "way": "array"}
+    ]
+  },
+
+
+
+
+
+
+
+  "/logistics/inventory/select_all" :
+  {
+    "url": "/logistics/inventory/select_all",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "삭제할 로케이션 정보"}
+    ],
+    "res_define": [
+      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+    ]
+  },
+
+  "/logistics/inventory/select" :
+  {
+    "url": "/logistics/inventory/select",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "로케이션코드 or 상품코드 or 개수 or 상태", "v2": "조회 할 값"}
+    ],
+    "res_define": [
+      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+    ]
+  },
+
+  "/logistics/inventory/insert" :
+  {
+    "url": "/logistics/inventory/insert",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "로케이션 코드","v2": "상품코드","v3": "갯수"}
+    ],
+    "res_define": [
+      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+    ]
+  },
+
+  "/logistics/inventory/update" :
+  {
+    "url": "/logistics/inventory/update",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "로케이션 코드","v2": "상품코드","v3": "수량 or 상태","v4": "변경할 값"}
+    ],
+    "res_define": [
+      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+    ]
+  },
+
+  "/logistics/inventory/delete" :
+  {
+    "url": "/logistics/inventory/delete",
+    "type": "post",
+    "event": [{"do" : "clean", "list" : [".location_list_in"]},{"do" : "pop", "list" : ["#logistics",".location_list"]}],
+    "error": [{"do" : "pop", "list" : ["#login",".login_form",".join_form"]}],
+
+    "id_data": null,
+    "msg": null,
+    "req_data": null,
+    "res_data": null,
+
+    "req_define": [
+      "form_data",
+      {"v1": "로케이션 코드","v2": "아이템 코드"}
+    ],
+    "res_define": [
+      {"what": "inventory_list", "where": ".location_list_in","how": ["location_code-text","item_code-text","quantity-text","updated_date-text","status-text"], "way": "array"}
+    ]
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 

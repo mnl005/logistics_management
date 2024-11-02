@@ -236,7 +236,7 @@ public class group_business {
 
     // 기능 : 그룹원으로 초대하기
     // 받는 데이터 : v1(초대할 유저 아이디)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : invite_list(num,master,target,organization)
     public Dto<model, Object> invite(Dto<model, Object> dto, HttpServletRequest request) {
 
         // 보낼 데이터 저장
@@ -282,6 +282,12 @@ public class group_business {
             inviteModel.setTarget(target);
             inviteModel.setOrganization(me_gorup);
             invite_service.insert(inviteModel);
+
+            // 초대를 받거나 보낸 리스트 조회
+            List<invite_model> list = invite_service.masterOrtarget(id, id);
+            // 보낼 데이터 형식 : invite_list
+            res.put("invite_list", list);
+
             // 완료
             dto.setMsg(target + " 님에게 초대를 보냈습니다");
         }

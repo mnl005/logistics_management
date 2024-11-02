@@ -165,7 +165,7 @@ public class logistics_business {
     // 기능 : 로케이션 전체조회
     // 받는 데이터 : 없음
     // 보낼 데이터 : location_info(location_code)
-    public Dto<model, Object> location_select_all(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
+    public Dto<model, Object> location_select(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
@@ -199,7 +199,7 @@ public class logistics_business {
 
     // 기능 : 로케이션 신규등록
     // 받는 데이터 : v1(location_code)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : location_info(location_code)
     public Dto<model, Object> location_insert(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -215,14 +215,20 @@ public class logistics_business {
         // 그룹 접속정보 인증
         user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
         // 사용자가 접속한 그룹 이름
-        String me_gorup = connect.getId().getOrganization();
+        String me_group = connect.getId().getOrganization();
 
         // 등록할 로케이션 정보
         location_model model = new location_model();
-        model.setOrganizationAndLocation(me_gorup,location_code);
+        model.setOrganizationAndLocation(me_group,location_code);
 
         // 로케이션 정보 등록
         location_service.insert(model);
+
+        // 로케이션 전체조회
+        List<HashMap<String, String>> list = location_service.select_all(me_group);
+
+        //  보낼 데이터 형식 : location_info
+        res.put("location_info", list);
 
         // 완료
         dto.setMsg(location_code + " 로케이션 등록 완료");
@@ -231,10 +237,10 @@ public class logistics_business {
 
     // 기능 : 로케이션 삭제
     // 받는 데이터 : id_data(location_code)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : location_info(location_code)
     public Dto<Object, Object> location_delete(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
-        // 보낼 데이터
+        // 보낼 데이터보
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
         String id_data = dto.getId_data();
@@ -257,6 +263,11 @@ public class logistics_business {
         if(bool){
             // 로케이션 정보 삭제
             location_service.delete(me_group, id_data);
+
+            // 로케이션 전체조회
+            List<HashMap<String, String>> lists = location_service.select_all(me_group);
+            //  보낼 데이터 형식 : location_info
+            res.put("location_info", lists);
             // 완료
             dto.setMsg(id_data + " 로케이션 삭제 완료");
         }
@@ -272,8 +283,8 @@ public class logistics_business {
 
 
     // 기능 : 인벤토리 전체 조회
-    // 받는 데이터 : v1(location_code)
-    // 보낼 데이터 : 없음
+    // 받는 데이터 : 없음
+    // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
     public Dto<model, Object> inventory_select_all(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -302,7 +313,7 @@ public class logistics_business {
 
     // 기능 : 특정 인벤토리 조회
     // 받는 데이터 : v1(location_code or item_code or quantity or status), v2(조회할 값)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
     public Dto<model, Object> inventory_select(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -331,7 +342,7 @@ public class logistics_business {
 
     // 기능 : 인벤토리 생성
     // 받는 데이터 : v1(location_code),v2(item_code),v3(quantiy)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
     public Dto<model, Object> inventory_insert(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -365,6 +376,10 @@ public class logistics_business {
         // 정보 등록
         inventory_service.insert(inventory_model);
 
+        // 인벤토리 전체 조회
+        List<HashMap<String, String>> list = inventory_service.select_all(me_group);
+        res.put("inventory_list",list);
+
         // 완료
         dto.setRes_data(res);
         dto.setMsg("인벤토리 생성 완료");
@@ -373,7 +388,7 @@ public class logistics_business {
 
     // 기능 : 인벤토리 수정
     // 받는 데이터 : v1(location_code),v2(item_code),v3(quantity or status),v4(value)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
     public Dto<model, Object> inventory_update(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -394,6 +409,10 @@ public class logistics_business {
         // 인벤토리 정보 업데이트
         inventory_service.update(me_group,req.getV1(),req.getV2(),req.getV3(),req.getV4());
 
+        // 인벤토리 전체 조회
+        List<HashMap<String, String>> list = inventory_service.select_all(me_group);
+        res.put("inventory_list",list);
+
         // 완료
         dto.setRes_data(res);
         dto.setMsg("인벤토리 생성 완료");
@@ -402,7 +421,7 @@ public class logistics_business {
 
     // 기능 : 인벤토리 삭제
     // 받는 데이터 : v1(location_code),v2(item_code)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
     public Dto<model, Object> inventory_delete(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -422,6 +441,10 @@ public class logistics_business {
 
         // 인벤토리 정보 삭제
         inventory_service.delete(me_group,req.getV1(),req.getV2());
+
+        // 인벤토리 전체 조회
+        List<HashMap<String, String>> list = inventory_service.select_all(me_group);
+        res.put("inventory_list",list);
 
         // 완료
         dto.setRes_data(res);
