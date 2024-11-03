@@ -2,14 +2,19 @@
 # CREATE DATABASE main;
 use main;
 show tables;
-drop table user;
+drop table inventory;
 
 select * from user;
 select * from organization;
-select * from user_organization;
 select * from invite;
+select * from post;
+select * from organization;
+select * from user_organization;
+select * from item;
+select * from location;
+select * from inventory;
 
-insert into user values('mnl005','mnl005@naver.com','names','01057712038','urlsss');
+insert into user values('mnl006','mnl006@naver.com','names','01057712038','urlsss');
 insert into organization(organization, master) values('group2','mnl005');
 insert into user_organization(id, organization) values('mnl003','group1');
 #
@@ -112,13 +117,14 @@ create table location
 );
 CREATE TABLE inventory
 (
+    num     int auto_increment primary key,
     organization varchar(255) not null,
     location_code varchar(255) not null,
     item_code varchar(255) not null,
     quantity int not null default 0,
     updated_date varchar(255) not null,
     status ENUM('NORMAL', 'DISCREPANCY', 'DAMAGED') NOT NULL DEFAULT 'Normal',
-    primary key (organization, location_code, item_code),
+    unique (organization, location_code, item_code),
     foreign key (organization,location_code) references location(organization,location_code) on delete cascade,
     foreign key (organization,item_code) references item(organization,item_code) on delete cascade
 );

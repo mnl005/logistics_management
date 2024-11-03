@@ -25,9 +25,10 @@ public class inventory_service {
 
             for (inventory_model inventory : inventories) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("organization", inventory.getId().getOrganization());
-                map.put("location_code", inventory.getId().getLocation_code());
-                map.put("item_code", inventory.getId().getItem_code());
+                map.put("num", inventory.getNum().toString());
+                map.put("organization", inventory.getOrganization());
+                map.put("location_code", inventory.getLocation_code());
+                map.put("item_code", inventory.getItem_code());
                 map.put("quantity", inventory.getQuantity().toString());
                 map.put("updated_date", inventory.getUpdated_date());
                 map.put("status", inventory.getStatus().name()); // Enum을 문자열로 변환
@@ -37,6 +38,15 @@ public class inventory_service {
             return result;
         } catch (Exception e) {
             throw new RuntimeException("물류 데이터 전체 조회 실패", e);
+        }
+    }
+
+    // num 으로 조회
+    public inventory_model select_num(Integer num) {
+        try {
+            return crud.findByNum(num);
+        } catch (Exception e) {
+            throw new RuntimeException("해당 인벤토리 정보가 존재하지 않습니다");
         }
     }
 
@@ -55,9 +65,10 @@ public class inventory_service {
 
             for (inventory_model inventory : inventories) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("organization", inventory.getId().getOrganization());
-                map.put("location_code", inventory.getId().getLocation_code());
-                map.put("item_code", inventory.getId().getItem_code());
+                map.put("num", inventory.getNum().toString());
+                map.put("organization", inventory.getOrganization());
+                map.put("location_code", inventory.getLocation_code());
+                map.put("item_code", inventory.getItem_code());
                 map.put("quantity", inventory.getQuantity().toString());
                 map.put("updated_date", inventory.getUpdated_date());
                 map.put("status", inventory.getStatus().name());

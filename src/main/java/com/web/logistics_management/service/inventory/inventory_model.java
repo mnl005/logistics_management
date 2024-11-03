@@ -15,8 +15,15 @@ import java.io.Serializable;
 @Entity(name = "inventory")
 public class inventory_model {
 
-    @EmbeddedId
-    private InventoryId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer num;
+
+    private String organization;
+
+    private String location_code;
+
+    private String item_code;
 
     private Integer quantity;
 
@@ -26,20 +33,6 @@ public class inventory_model {
     @Enumerated(EnumType.STRING)
     private InventoryStatus status = InventoryStatus.NORMAL;
 
-    public void setOrganizationAndCode(String newOrganization, String newLocationCode,String newItemCode) {
-        this.id = new InventoryId(newOrganization, newLocationCode,newItemCode);
-    }
 
-
-    // 복합키 클래스
-    @Embeddable
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class InventoryId implements Serializable {
-        private String organization;
-        private String location_code;
-        private String item_code;
-    }
 }
 

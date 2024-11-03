@@ -135,7 +135,7 @@
         <!-- 그룹 메뉴 -->
         <div class="serve_menu">
             <div class="button" data-json="/group/me">그룹리스트</div>
-            <div class="button" data-json="open_group_info">그룹정보</div>
+            <div class="button" data-json="/group/info">그룹정보</div>
             <div class="button" data-json="open_group_create_open">그룹생성</div>
             <div class="button" data-json="/group/invite_select">초대관리</div>
         </div>
@@ -144,10 +144,13 @@
 
             <!-- 접속할 그룹 리스트 -->
             <div class="pop group_list column">
+
                 <div class="serve_title">접속할 그룹을 선택하세요</div>
-                <div class="button sample" data-json="/group/connect" data-id="group1">
-                    <div class="organization">group1</div>
+                <div class="sample">
+                    <div class="button organization" data-json="/group/connect" data-id="">
+                    </div>
                 </div>
+
             </div>
 
             <!-- 그룹 정보 -->
@@ -156,32 +159,22 @@
                 <div class="row group_info_in">
                     <div>
                         <div>그룹이름</div>
-                        <div class="group_name">yuogroup</div>
+                        <div class="group_name"></div>
                     </div>
                     <div>
                         <div>그룹크기</div>
-                        <div class="group_size">23</div>
+                        <div class="group_size"></div>
                     </div>
                     <div>
                         <div>관리자</div>
-                        <div class="group_master">qw1001</div>
+                        <div class="group_master"></div>
                     </div>
                 </div>
 
                 <div class="column">
                     <div class="sample row">
                         <div class="profile"></div>
-                        <div class="id">qw1001</div>
-                        <div class="button" data-json="/group/select" data-id="">상세보기</div>
-                    </div>
-                    <div class="sample row">
-                        <div class="profile"></div>
-                        <div class="id">qw1001</div>
-                        <div class="button" data-json="/group/select" data-id="">상세보기</div>
-                    </div>
-                    <div class="sample row">
-                        <div class="profile"></div>
-                        <div class="id">qw1001</div>
+                        <div class="id"></div>
                         <div class="button" data-json="/group/select" data-id="">상세보기</div>
                     </div>
                 </div>
@@ -190,6 +183,7 @@
 
 
             </div>
+
             <!-- 그룹원 상세보기 -->
             <div class="pop group_user_info column">
                 <div class="serve_title">그룹원 정보 상세보기</div>
@@ -219,38 +213,33 @@
                     <div class="organization"></div>
                 </div>
             </div>
+
             <!-- 그룹 생성 -->
             <form class="group_create_form column pop " target="iframe1">
                 <div class="serve_title">그룹 생성</div>
-                <input type="text" name="v1" value="생성할 그룹 이름">
+                <input type="text" name="v1" placeholder="생성할 그룹 이름을 입력하세요">
                 <button class="button" type="button" data-json="/group/create">생성완료</button>
             </form>
 
             <!-- 그룹 초대 리스트 -->
             <div class="invite_list pop">
-                <div class="serve_title">수락 또는 거절</div>
+                <div class="serve_title">초대를 수락 또는 삭제</div>
+
                 <div class="row invite_title">
                     <div class="master">초대자</div>
                     <div class="target">대상</div>
                     <div class="organization">그룹</div>
+                    <div class="button" data-json="/group/accept" data-id="">버튼</div>
+                    <div class="button" data-json="/group/cancel" data-id="">버튼</div>
+                </div>
+                <div class="row invite_title sample">
+                    <div class="master"></div>
+                    <div class="target"></div>
+                    <div class="organization"></div>
                     <div class="button" data-json="/group/accept" data-id="">수락</div>
-                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
+                    <div class="button" data-json="/group/cancel" data-id="">삭제</div>
                 </div>
 
-                <div class="row sample">
-                    <div class="master">mnl005</div>
-                    <div class="target">mnl004</div>
-                    <div class="organization">group1</div>
-                    <div class="button" data-json="/group/accept" data-id="">수락</div>
-                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
-                </div>
-                <div class="row sample">
-                    <div class="master">mnl005</div>
-                    <div class="target">mnl004</div>
-                    <div class="organization">group1</div>
-                    <div class="button" data-json="/group/accept" data-id="">수락</div>
-                    <div class="button" data-json="/group/cancel" data-id="">거절</div>
-                </div>
 
             </div>
 
@@ -297,6 +286,7 @@
             </div>
 
         </div>
+
         <!-- 나의 게시글 --->
         <div class="board_me_view pop">
 
@@ -352,6 +342,7 @@
 
         <div class="serve_main">
 
+            <!-- 상품 뷰 -->
             <div class="pop item_view">
 
                 <div class="item_list">
@@ -365,7 +356,7 @@
                     <div class="sample">
                         <div class="image"></div>
                         <div class="name">에어팟</div>
-                        <div class="code">a0001</div>
+                        <div class="item_code">a0001</div>
                         <div class="other">기타사항</div>
                         <div><div class="button" data-json="/logistics/item/delete" data-id="">삭제</div></div>
                     </div>
@@ -384,6 +375,7 @@
 
             </div>
 
+            <!-- 로케이션 뷰 -->
             <div class="pop location_view">
 
                 <div class="location_list">
@@ -392,7 +384,7 @@
                         <div>버튼</div>
                     </div>
                     <div class="sample">
-                        <div class="location_code">A-01-01</div>
+                        <div class="location_code"></div>
                         <div><div class="button" data-json="/logistics/location/delete" data-id="">삭제</div></div>
                     </div>
                 </div>
@@ -405,6 +397,7 @@
 
             </div>
 
+            <!-- 인벤토리 뷰 -->
             <div class="pop inventory_view">
                 <div class="inventory_list">
 
@@ -446,7 +439,7 @@
                 </form>
 
                 <form class="inventory_form column" target="iframe1">
-                    <div class="serve_title">인벤토리 등록</div>
+                    <div class="serve_title">인벤토리 수정</div>
                     <input type="text" name="v1" placeholder="로케이션코드">
                     <input type="text" name="v2" placeholder="상품코드">
                     <select type="text" name="v3">

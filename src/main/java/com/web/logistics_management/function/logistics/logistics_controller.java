@@ -102,7 +102,7 @@ public class logistics_controller {
 
     // 인벤토리 삭제
     @PostMapping("/inventory/delete")
-    public ResponseEntity<JsonNode> inventory_delete(@RequestBody Dto<model,Object> dto, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity<JsonNode> inventory_delete(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = logistics_business.inventory_delete(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }

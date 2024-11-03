@@ -73,6 +73,7 @@ public class logistics_business {
         res.put("item_info", list);
 
         // 완료
+        dto.setRes_data(res);
         dto.setMsg("상품등록완료");
 
 
@@ -115,7 +116,7 @@ public class logistics_business {
 
     // 기능 : 상품 삭제
     // 받는 데이터 : id_data(상품코드)
-    // 보낼 데이터 : 없음
+    // 보낼 데이터 : item_info(organization,code,name,image)
     public Dto<Object, Object> item_delete(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
@@ -151,6 +152,7 @@ public class logistics_business {
             res.put("item_info", lists);
 
             // 완료
+            dto.setRes_data(res);
             dto.setMsg("상품 삭제 완료");
         }
         // 상품이 인벤토리에 존재한다면
@@ -231,6 +233,7 @@ public class logistics_business {
         res.put("location_info", list);
 
         // 완료
+        dto.setRes_data(res);
         dto.setMsg(location_code + " 로케이션 등록 완료");
         return dto;
     }
@@ -269,6 +272,7 @@ public class logistics_business {
             //  보낼 데이터 형식 : location_info
             res.put("location_info", lists);
             // 완료
+            dto.setRes_data(res);
             dto.setMsg(id_data + " 로케이션 삭제 완료");
         }
         else{
@@ -370,7 +374,9 @@ public class logistics_business {
 
         // 인벤토리 정보 생성
         inventory_model inventory_model = new inventory_model();
-        inventory_model.setOrganizationAndCode(me_group,location_code,item_code);
+        inventory_model.setOrganization(me_group);
+        inventory_model.setLocation_code(location_code);
+        inventory_model.setItem_code(item_code);
         inventory_model.setQuantity(Integer.valueOf(quantiy));
 
         // 정보 등록
@@ -420,16 +426,14 @@ public class logistics_business {
     }
 
     // 기능 : 인벤토리 삭제
-    // 받는 데이터 : v1(location_code),v2(item_code)
+    // 받는 데이터 : v1(num)
     // 보낼 데이터 : inventory_list(location_code,item_code,quantity,updated_date,status)
-    public Dto<model, Object> inventory_delete(Dto<model, Object> dto, HttpServletRequest request, HttpServletResponse response) {
+    public Dto<Object, Object> inventory_delete(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
 
         // 보낼 데이터
         HashMap<String, Object> res = new HashMap<>();
         // 받는 데이터
-        model req = dto.getReq_data();
-        // 받은 로케이션 등록 코드
-        String location_code = req.getV1();
+        String id_data = dto.getId_data();
         // 토큰 인증
         user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
         // 사용자 아이디
@@ -439,16 +443,32 @@ public class logistics_business {
         // 사용자가 접속한 그룹 이름
         String me_group = connect.getId().getOrganization();
 
-        // 인벤토리 정보 삭제
-        inventory_service.delete(me_group,req.getV1(),req.getV2());
 
-        // 인벤토리 전체 조회
-        List<HashMap<String, String>> list = inventory_service.select_all(me_group);
-        res.put("inventory_list",list);
+        // num 으로 인벤토리 정보 조회
+        inventory_model inventory = inventory_service.select_num(Integer.valueOf(id_data));
+        String location_code = inventory.getLocation_code();
+        String item_code = inventory.getItem_code();
+        String organization = inventory.getOrganization();
 
-        // 완료
-        dto.setRes_data(res);
-        dto.setMsg("인벤토리 삭제 완료");
+        // 삭제 권한이 있다면
+        if(organization.equals(me_group)){
+            // 인벤토리 정보 삭제
+            inventory_service.delete(me_group,location_code,item_code);
+            // 인벤토리 전체 조회
+            List<HashMap<String, String>> list = inventory_service.select_all(me_group);
+            res.put("inventory_list",list);
+
+            // 완료
+            dto.setRes_data(res);
+            dto.setMsg("인벤토리 삭제 완료");
+        }
+        //삭제 권한이 없다면
+        else{
+            // 완료
+            dto.setRes_data(res);
+            dto.setMsg("삭제 권한이 없습니다");
+        }
+
         return dto;
     }
 

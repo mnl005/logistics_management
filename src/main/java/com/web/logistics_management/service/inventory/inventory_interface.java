@@ -12,28 +12,31 @@ import java.util.Optional;
 
 public interface inventory_interface extends JpaRepository<inventory_model, String> {
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization")
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization")
     List<inventory_model> findByOrganization(String organization);
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.id.location_code = :location_code")
+    @Query("SELECT m FROM inventory m WHERE m.num = :num")
+    inventory_model findByNum(Integer num);
+
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization and m.location_code = :location_code")
     List<inventory_model> findByOrganizationAndLocationCode(String organization, String location_code);
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.id.item_code = :item_code")
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization and m.item_code = :item_code")
     List<inventory_model> findByOrganizaitonAndItemCode(String organization, String item_code);
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.quantity = :quantity")
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization and m.quantity = :quantity")
     List<inventory_model> findByOrganizationAndQuantity(String organization, Integer quantity);
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.status = :status")
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization and m.status = :status")
     List<inventory_model> findByOrganizationAndStatus(String organization, InventoryStatus status);
 
-    @Query("SELECT m FROM inventory m WHERE m.id.organization = :organization and m.id.location_code = :location_code and m.id.item_code = :item_code")
+    @Query("SELECT m FROM inventory m WHERE m.organization = :organization and m.location_code = :location_code and m.item_code = :item_code")
     Optional<inventory_model> findByOrganizationAndLocationCodeAndItemCode(String organization, String location_code, String item_code);
 
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM inventory m WHERE m.id.organization = :organization AND m.id.location_code = :location_code AND m.id.item_code = :item_code")
+    @Query("DELETE FROM inventory m WHERE m.organization = :organization AND m.location_code = :location_code AND m.item_code = :item_code")
     void delete(@Param("organization") String organization, @Param("location_code") String location_code ,@Param("item_code") String item_code);
 
 }

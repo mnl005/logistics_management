@@ -30,8 +30,8 @@ let main = {
 // 초기화면 설정
 // pop(["#logistics"]);
 // pop(["#group",".group_infos",".group_user_info",".group_create",".group_list",".group_invite",".group_invite_list"]);
-// pop(["#login",".login_form",".join_form"]);
-pop(["#logistics",".inventory_view"]);
+pop(["#login",".login_form",".join_form"]);
+// pop(["#logistics",".inventory_view"]);
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {
@@ -294,16 +294,11 @@ function data_spread(res_define,data){
                 );
 
                 $(where).append(sample);
-                console.log("append");
-
             });
 
             // 해당 요소가 같은 클래스를 가진 형제 요소가 있는지 확인
             if (!($(where).find('.sample').siblings('.sample').length === 0)) {
                 $(where).find('.sample').eq(0).remove();
-            }
-            else{
-                $(where).find('.sample').children().eq(1).text("<<<조회결과없음>>>");
             }
         }
         else if(way === "html"){
@@ -370,7 +365,13 @@ function pop(list,evnets){
     $(".pop").stop().hide();
     list.forEach(selector => {
         $(selector).stop().show();
-    });
+        let sample = $(selector).children('.sample').eq(0).clone();
+        if(sample.length){
+            $(selector).children(".sample").remove();
+            $(selector).append(sample);
+        }
+    }
+    );
 }
 
 function toggle(list,events){
@@ -381,9 +382,7 @@ function toggle(list,events){
 
 function clean(list,events){
     list.forEach(selector => {
-        let sample = $(selector).find('.sample').eq(0).clone();
-        $(selector).empty();
-        $(selector).append(sample);
+
     });
 }
 

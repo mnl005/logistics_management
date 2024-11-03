@@ -232,6 +232,59 @@ public class group_business {
 
         return dto;
     }
+
+    // 기능 : 현재 접속중인 그룹 정보 보기
+    // 받는 데이터 : 없음
+    // 보낼 데이터 : group_info(group_name,group_size,group_master)-(그룹이름, 그룹크기, 그룹관리자),  group_users(그룹구성원(id,profile))
+    public Dto<Object, Object> group_info(Dto<Object, Object> dto, HttpServletRequest request,HttpServletResponse response) {
+
+        // 보낼 데이터 저장
+        HashMap<String, Object> res = new HashMap<>();
+        // 받는 데이터
+        Object req = dto.getReq_data();
+        // 토큰 인증
+        user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+        String id = me.getId();
+        // 그룹 접속정보 인증
+        user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+        String me_gorup = connect.getId().getOrganization();
+
+
+        // 같은 그룹원의 정보 불러오기
+        List<user_organization_model> group_list = user_group_service.select_organization(me_gorup);
+        List<Object> list = group_list
+                .stream()
+                .map(in -> {
+                    HashMap<String, String> map = new HashMap<>();
+                    String in_id = in.getId().getId();
+                    String profile = user_service.Op_id(in_id).get().getProfile();
+                    map.put("id", in_id);
+                    map.put("profile", profile);
+                    return map;
+                })
+                .collect(Collectors.toList());
+
+        // 그룹 관리자 정보
+        List<group_model> group_model = group_service.select("organization", me_gorup);
+        String master = group_model.get(0).getMaster();
+
+        // 그룹이름, 그룹크기, 그룹관리자
+        HashMap<String, String> map = new HashMap<>();
+        map.put("group_name", me_gorup);
+        map.put("group_size", Integer.toString(list.size()));
+        map.put("group_master", master);
+
+        // 보낼 데이터 형식 : group_info
+        res.put("group_info", map);
+        // 보낼 데이터 형식 : group_users
+        res.put("group_users", list);
+
+        // 완료
+        dto.setRes_data(res);
+        dto.setMsg(me_gorup + " 그룹에 접속중 입니다");
+
+        return dto;
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 기능 : 그룹원으로 초대하기
@@ -289,6 +342,7 @@ public class group_business {
             res.put("invite_list", list);
 
             // 완료
+            dto.setRes_data(res);
             dto.setMsg(target + " 님에게 초대를 보냈습니다");
         }
 
@@ -355,6 +409,7 @@ public class group_business {
             // 보낼 데이터 형식 : invite_list
             res.put("invite_list", list);
             // 완료
+            dto.setRes_data(res);
             dto.setMsg("초대 하거나 초대 받은 해당 내역을 삭제하였습니다");
         }
         // 잘못된 접근시
@@ -409,6 +464,7 @@ public class group_business {
             // 보낼 데이터 형식 : invite_list
             res.put("invite_list", list);
             // 완료
+            dto.setRes_data(res);
             dto.setMsg(group + " 그룹에 소속되었습니다");
         }
         // 그렇지 않은 경우

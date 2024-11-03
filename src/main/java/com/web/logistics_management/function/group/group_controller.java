@@ -28,17 +28,24 @@ public class group_controller {
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
-    // 그룹 접속
+    // 소속중인 그룹 리스트 불러오기
     @PostMapping("/me")
     public ResponseEntity<JsonNode> me(@RequestBody Dto<Object,Object> dto, HttpServletRequest request){
         dto = group_business.me(dto,request);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
-    // 나의 그룹 정보
+    // 그룹 연결
     @PostMapping("/connect")
     public ResponseEntity<JsonNode> connect(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = group_business.connect(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 그룹 정보 불러오기
+    @PostMapping("/info")
+    public ResponseEntity<JsonNode> group_info(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = group_business.group_info(dto,request,response);
         return ResponseEntity.ok(mapper.valueToTree(dto));
     }
 
