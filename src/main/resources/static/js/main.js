@@ -146,7 +146,13 @@ $(document).on('click', '.button', function(event) {
                     if(main.res_data !== null){
                         data_spread(main.res_define,main.res_data);
                     }
-                    if(main.url === "/user/me"){
+
+
+                    if(main.url === "/user/login2"){
+                        dot("dot1", "green");
+                    }
+
+                    if(main.url === "/user/join2"){
                         dot("dot1", "green");
                     }
 
