@@ -24,6 +24,13 @@ public class user_controller {
     private final user_business user_business;
 
     // 유저 정보 확인
+    @PostMapping("/refresh")
+    public ResponseEntity<JsonNode> refresh(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
+        dto = user_business.refresh(dto,request,response);
+        return ResponseEntity.ok(mapper.valueToTree(dto));
+    }
+
+    // 유저 정보 확인
     @PostMapping("/me")
     public ResponseEntity<JsonNode> me(@RequestBody Dto<Object,Object> dto, HttpServletRequest request, HttpServletResponse response){
         dto = user_business.user_info(dto,request,response);

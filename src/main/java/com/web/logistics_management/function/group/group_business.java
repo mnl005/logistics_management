@@ -185,6 +185,7 @@ public class group_business {
             // 완료
             dto.setRes_data(res);
             dto.setMsg(group_name + " 그룹에 접속되었습니다");
+            dto.setRedirect("/");
 
         }
 

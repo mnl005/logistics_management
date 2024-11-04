@@ -122,6 +122,7 @@ public class post_business {
         res.put("board_list",list);
 
         // 완료
+        dto.setRes_data(res);
         dto.setMsg("게시글 작성 성공");
 
         return dto;
@@ -155,6 +156,7 @@ public class post_business {
         res.put("board_list",list);
 
         // 완료
+        dto.setRes_data(res);
         dto.setMsg("게시글이 삭제 되었습니다");
 
 

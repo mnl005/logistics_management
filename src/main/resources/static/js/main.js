@@ -1,11 +1,10 @@
+// ------------------------------------------------------------------------------------------------
+// 전역 변수
+// ------------------------------------------------------------------------------------------------
 
 let running = false;
-
-
 let json_file =  (async () => { json_file = await $.getJSON("../static/main.json"); })();
 // let json_file =  (async () => { json_file = await $.getJSON("/static/main.json"); })();
-
-// main.json 에서 정보 받아 담는 객체
 let main = {
     url : null,
     type : null,
@@ -26,62 +25,101 @@ let main = {
     redirect : null
 }
 
-
 // 초기화면 설정
-// pop(["#logistics"]);
-// pop(["#group",".group_infos",".group_user_info",".group_create",".group_list",".group_invite",".group_invite_list"]);
 pop(["#login",".login_form",".join_form"]);
-// pop(["#logistics",".inventory_view"]);
+
+let step = 0;
+// ------------------------------------------------------------------------------------------------
+// 이벤트 감지
+// ------------------------------------------------------------------------------------------------
+
+$(document).ready(function() {
+
+    $.ajax({
+        url: "/user/refresh",
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        data: JSON.stringify({}),
+        success: function(res) {
+            let data = res.res_data;
+            let login = data.login;
+            let group = data.group;
+            let group_info = data.group_info;
+            let user_info = data.user_info;
+
+            if(login === "true"){
+                $("#menu").find(".id").text(user_info.id);
+                dot("dot1", "green");
+                let str = user_info.profile.split("~~~~");
+                $("#menu").find(".profile").css("background-image", str[0]);
+            }
+            else{
+                dot("dot1", "red");
+            }
+
+            if(group === "true"){
+                $("#menu").find(".group_names").text(group_info);
+                dot("dot2", "green");
+            }
+            else{
+                dot("dot2", "red");
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            dot("dot1", "red");
+            dot("dot2", "red");
+        }
+    });
+});
 
 // 클릭시 요청을 보내거나 이벤트를 처리
 $(document).on('click', '.button', function(event) {
-    if(running){
-        return null;
-    }
-    else{
-        running = true;
-    }
+    
+    if (running) return null;
+    running = true;
 
     start(event)
         .then(event => {
-            // html에서 요소 추출
+            step = 1;
             main.data_json = $(this).data('json');
-            console.log(main.data_json);
             main.id_data = $(this).data('id');
             main.event_target = event;
             return main;
         })
         .then(main => {
-            // 추출한 요소중 data_json 참고해서 지시사항 가져온다
-                let get_json_test = (typeof main.data_json === "string") ? Object.assign({}, json_file[main.data_json]) : main.data_json;
-                main.url = get_json_test.url;
-                main.type = get_json_test.type;
-                main.event = get_json_test.event;
-                main.error = get_json_test.error;
+            step = 2;
+            let get_json_test = Object.assign({}, json_file[main.data_json]);
+            
+            Object.assign(main, {
+                url: get_json_test.url,
+                type: get_json_test.type,
+                event: get_json_test.event,
+                error: get_json_test.error,
+                msg: null,
+                req_data: null,
+                res_data: null,
+                req_define: get_json_test.req_define,
+                res_define: get_json_test.res_define,
+            });
 
-                main.msg = null;
-                main.req_data = null;
-                main.res_data = null;
-
-                main.req_define = get_json_test.req_define;
-                main.res_define = get_json_test.res_define;
-                // 다른 페이지로 바로 이동
-                if (main.type === "get") window.location.href = main.url;
+            if (main.type === "get") window.location.href = main.url;
             return main;
         })
         .then(main => {
+            
+            step = 3;
             // 클라이언트 이벤트 실행
             client_event(main.event, main.event_target);
             return main;
         })
         .then( main => {
-            // 폼에서 필요한 정보 추출
-            const form_data =  form(main);
-            // 폼에서 이미지 추출시 시간이 걸림으로 딜레이 시간을 준다
-            return delay(0,form_data).then(main => {return main;});
+            step = 4;
+            return form(main);
         })
         .then(async main => {
-            console.log("req----------",main);
+            console.log("req : ",main);
+            step = 5;
             // 요청을 보내야 하는 경우 요청을 보낸다
             if(main.url !== "none"){
                 return send(main);
@@ -91,13 +129,15 @@ $(document).on('click', '.button', function(event) {
             }
         })
         .then(main => {
+            console.log("res : ",main);
+            step = 6;
             // 리다이렉트시 처리
             if(typeof main.redirect === "string"){
                 window.location.href = main.redirect
             }
             // 요청을 보낸경우 응답을 확인하고 받은 응답을 클라이언트에 보여준다
             if(main.url !== "none"){
-                console.log("res----------",main);
+
                 if("err_msg" in main){
                     msg(main.err_msg,"red");
                 }
@@ -106,6 +146,10 @@ $(document).on('click', '.button', function(event) {
                     if(main.res_data !== null){
                         data_spread(main.res_define,main.res_data);
                     }
+                    if(main.url === "/user/me"){
+                        dot("dot1", "green");
+                    }
+
                 }
             }
             else{
@@ -115,28 +159,51 @@ $(document).on('click', '.button', function(event) {
             return main;
         })
         .catch(result => {
-            console.log(result);
+            switch (step){
+                case 0:
+                    console.log("0 단계에서 에러발생");
+                    break;
+                case 1:
+                    console.log("1 단계에서 에러발생");
+                    break;
+                case 2:
+                    console.log("2 단계에서 에러발생");
+                    break;
+                case 3:
+                    console.log("3 단계에서 에러발생");
+                    break;
+                case 4:
+                    console.log("4 단계에서 에러발생");
+                    break;
+                case 5:
+                    console.log("5 단계에서 에러발생");
+                    break;
+                case 6:
+                    console.log("6 단계에서 에러발생");
+                    break;
+            }
             running = false;
-            // msg(result,"red");
         });
 
 });
 
-// 딜레이 부여
-function delay(delayTime,obj) {
-    return new Promise(resolve => {
-        let count = 0;
-        const interval = setInterval(() => {
-            count++;
-            if (count * 1000 >= delayTime) {
-                clearInterval(interval);
-                resolve(obj);
-            }
-        }, 1000);
-    });
-}
 
-// 딜레이 적용
+$('input[type="file"]').change(function() {
+    let input = this;
+    if (input.files && input.files[0]) {
+        let file = this.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+            $(input).siblings('.image_box').prepend('<div class="image" style="background-image:url(' + reader.result + ')"></div>');
+        };
+    }
+});
+// ------------------------------------------------------------------------------------------------
+// 함수정의
+// ------------------------------------------------------------------------------------------------
+
+
 function start(event) {
     return new Promise((resolve) => {
         resolve(event);
@@ -150,23 +217,20 @@ function form(result) {
         let req_data = {};
         let form = $(result.event_target.target.closest('form')).find(':input').not(':button');
         form.each(function() {
-            let inputType = $(this).attr('type');
-            let inputValue = $(this).val();
-            let inputName = $(this).attr('name');
-
-
-            if (inputType === 'checkbox') {req_data[inputName] = $(this).is(':checked');}
-            else if (inputType === 'number') {req_data[inputName] = parseFloat(inputValue);}
-            else if (inputType === 'file') {
+            let type = $(this).attr('type');
+            let value = $(this).val();
+            let name = $(this).attr('name');
+            
+            if (type === 'file') {
                 let boxs = $(this).siblings(".image_box").children(".image");
                 let base64 = "";
                 boxs.each((index, element) => {
                     base64 += $(element).css('background-image');
                     base64 += "~~~~";
                 });
-                req_data[inputName] = base64;
+                req_data[name] = base64;
             }
-            else{req_data[inputName] = inputValue;}
+            else{req_data[name] = value;}
         });
         result.req_data = req_data;
     }
@@ -218,7 +282,7 @@ function data_spread(res_define,data){
                     value = what[key].toString();
                 }
                 catch (e){
-                  value = "값없음";
+                    value = "값없음";
                 }
                 let type = parts[1];
 
@@ -249,12 +313,12 @@ function data_spread(res_define,data){
                         let key = parts[0];
                         let type = parts[1];
                         let value;
-                    try{
-                        value = ob[key].toString();
-                    }
-                    catch (e){
-                        value = "값없음";
-                    }
+                        try{
+                            value = ob[key].toString();
+                        }
+                        catch (e){
+                            value = "값없음";
+                        }
 
 
                         if(type === "image"){
@@ -326,9 +390,9 @@ function msg(text, color) {
 
 
 function client_event(arr,events){
-        arr.forEach(obj => {
-            window[obj.do](obj.list,events);
-        });
+    arr.forEach(obj => {
+        window[obj.do](obj.list,events);
+    });
 }
 function right_image(list,events){
     let selector = $(events.target).parent().find('.image');
@@ -364,39 +428,62 @@ function left_image(list,events){
 function pop(list,evnets){
     $(".pop").stop().hide();
     list.forEach(selector => {
-        $(selector).stop().show();
-        let sample = $(selector).children('.sample').eq(0).clone();
-        if(sample.length){
-            $(selector).children(".sample").remove();
-            $(selector).append(sample);
+            $(selector).stop().show();
+            let sample = $(selector).children('.sample').eq(0).clone();
+            if(sample.length){
+                $(selector).children(".sample").remove();
+                $(selector).append(sample);
+            }
         }
-    }
     );
 }
 
-function toggle(list,events){
-    list.forEach(selector => {
-        $(selector).stop().toggle();
-    });
-}
 
-function clean(list,events){
-    list.forEach(selector => {
 
-    });
-}
 
-$('input[type="file"]').change(function() {
-    let input = this;
-    if (input.files && input.files[0]) {
-        let file = this.files[0];
-        let reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = function() {
-            $(input).siblings('.image_box').prepend('<div class="image" style="background-image:url(' + reader.result + ')"></div>');
-        };
+function dot(elementId, color) {
+    const $element = $("#" + elementId);
+    $element.css("animation", "none");
+
+
+    let $style = $("#dot_style");
+    if ($style.length === 0) {
+        $style = $("<style id='dot_style'></style>");
+        $("head").append($style);
     }
-});
+    const keyframesName = `flash-${elementId}`;
+
+    let keyframes;
+    if (color === 'red') {
+        keyframes = `
+        @keyframes ${keyframesName} {
+            0%, 100% {
+                background-color: rgba(255, 0, 0, 1); 
+            }
+            50% {
+                background-color: rgba(255, 0, 0, 0.2);
+            }
+        }`;
+    } else if (color === 'green') {
+        keyframes = `
+        @keyframes ${keyframesName} {
+            0%, 100% {
+                background-color: rgba(0, 255, 0, 1);
+            }
+            50% {
+                background-color: rgba(0, 255, 0, 0.2); 
+            }
+        }`;
+    }
+
+    // 스타일 태그에 keyframes 추가
+    $style.append(keyframes);
+
+    // 애니메이션 적용 (고유한 keyframes 이름으로 설정)
+    $element.css("animation", `${keyframesName} 1.5s ease-in-out infinite`);
+}
+
+
 
 
 

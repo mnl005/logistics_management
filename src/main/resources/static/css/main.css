@@ -80,6 +80,14 @@ body{
     display: none;
     z-index:50;
 }
+#dot1, #dot2{
+    width:5px;
+    height:5px;
+    margin-left:4px;
+    border-radius: 50%;
+    animation: flash 1.5s ease-in-out infinite;
+}
+
 /* button -------------------------------------------------------------------------------------------------*/
 .button {
     background-color: cornflowerblue;
@@ -181,13 +189,34 @@ form {
     height:100vh;
     background-color: cornflowerblue;
 }
-
+#menu > .menu_name{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding:3px;
+}
+#menu > .menu_name:nth-child(3){
+    border-bottom:1px solid white;
+    margin-bottom:5px;
+}
 #menu > .id{
     text-align: center;
-    margin-bottom:10px;
     margin-top:10px;
     padding-bottom:10px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-flow:row nowrap;
+}
+#menu > .group_names{
+    text-align: center;
+    margin-bottom:10px;
+    padding-bottom:10px;
     border-bottom:1px solid white;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-flow:row nowrap;
 }
 #menu > .profile{
     margin-top:10px;
@@ -399,9 +428,16 @@ form {
     display: flex;
     flex-flow:row nowrap;;
 }
+.item_list{
+    margin-right:50px;
+}
 .item_list > .row{
     width:100%;
     gap:0;
+    background-color: cornflowerblue;
+    color:white;
+    padding:5px;
+    border-bottom:1px solid white;
 }
 .item_list > .row > div{
     width:20%;
@@ -431,9 +467,16 @@ form {
     display: flex;
     flex-flow:row nowrap;;
 }
+.location_list{
+    margin-right:40px;
+}
 .location_list > .row{
     width:100%;
     gap:0;
+    background-color: cornflowerblue;
+    color:white;
+    padding:5px;
+    border-bottom:1px solid white;
 }
 .location_list > .row > div{
     width:50%;
@@ -462,9 +505,17 @@ form {
     display: flex;
     flex-flow:row nowrap;;
 }
+.inventory_list{
+    margin-right:40px;
+}
 .inventory_list > .row{
     width:100%;
     gap:0;
+    background-color: cornflowerblue;
+    color:white;
+    padding:5px;
+    border-bottom:1px solid white;
+
 }
 .inventory_list > .row > div{
     width:100%;
@@ -485,6 +536,9 @@ form {
 }
 #logistics > .serve_main >  .inventory_view > .inventory_list > .sample > .button{
     padding:5px;
+}
+.inventory_form{
+    margin-right:40px;
 }
 .inventory_search_form > select{
     width:20%;

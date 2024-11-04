@@ -3,7 +3,10 @@ package com.web.logistics_management.function.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.web.logistics_management.immutable.Dto;
 import com.web.logistics_management.immutable.model;
+import com.web.logistics_management.service.group.group_service;
 import com.web.logistics_management.service.user.user_model;
+import com.web.logistics_management.service.user_group.user_group_service;
+import com.web.logistics_management.service.user_group.user_organization_model;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import com.web.logistics_management.service.email_service;
 public class user_business {
 
     private final user_service user_service;
+    private final user_group_service user_group_service;
     private final jwt_service jwt_service;
     private final email_service email_service;
 
@@ -33,13 +37,61 @@ public class user_business {
     private final ObjectMapper mapper = new ObjectMapper();
 
 
+
+    // 기능 : 페이지 새로고침시 로그인과 그룹 접속 여부 확인
+    // 받는 데이터 : 없음
+    // 보낼 데이터 : 유저정보, 그룹정보
+    public Dto<Object, Object> refresh(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
+
+        // 보낼 데이터
+        HashMap<String, Object> res = new HashMap<>();
+        // 받는 데이터
+        Object req = dto.getReq_data();
+
+
+
+
+        String id = null;
+
+        try{
+            user_model me = user_service.Op_id(jwt_service.validations(jwt_service.request_get_token(request))).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+            id = me.getId();
+            res.put("user_info",me);
+            res.put("login","true");
+        }catch (Exception e){
+            res.put("login","false");
+        }
+
+        if(id != null){
+            try{
+                // 그룹 접속정보 인증
+                user_organization_model connect = user_group_service.OpIdOrganization(id,jwt_service.validation_group(jwt_service.request_get_group_token(request))).orElseThrow(() -> new RuntimeException("그룹에 접속 후 이용하세요"));
+                // 접속중인 그룹 정보
+                String me_gorup = connect.getId().getOrganization();
+                res.put("group_info",me_gorup);
+                res.put("group","true");
+            }catch (Exception e){
+                res.put("group","false");
+            }
+        }
+        else{
+            res.put("group","false");
+        }
+
+
+        dto.setMsg("새로고침 완료");
+        dto.setRes_data(res);
+        return dto;
+    }
+
+
     // 기능 : 유저 정보 불러오기
     // 받는 데이터 : 없음
     // 보낼 데이터 : user_info
     public Dto<Object, Object> user_info(Dto<Object, Object> dto, HttpServletRequest request, HttpServletResponse response) {
         //테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증테스트용임시인증
-        jwt_service.access("mnl005", response);
-        jwt_service.access_groups("my group", response);
+//        jwt_service.access("mnl005", response);
+//        jwt_service.access_groups("my group", response);
 
 
         // 보낼 데이터 임시

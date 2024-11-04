@@ -1,26 +1,26 @@
 
 # CREATE DATABASE main;
 use main;
-show tables;
-drop table inventory;
-
-select * from user;
-select * from organization;
-select * from invite;
-select * from post;
-select * from organization;
-select * from user_organization;
-select * from item;
-select * from location;
-select * from inventory;
-
-insert into user values('mnl006','mnl006@naver.com','names','01057712038','urlsss');
-insert into organization(organization, master) values('group2','mnl005');
-insert into user_organization(id, organization) values('mnl003','group1');
+# show tables;
+# drop table inventory;
+#
+# select * from user;
+# select * from organization;
+# select * from invite;
+# select * from post;
+# select * from organization;
+# select * from user_organization;
+# select * from item;
+# select * from location;
+# select * from inventory;
+#
+# insert into user values('mnl006','mnl006@naver.com','names','01057712038','urlsss');
+# insert into organization(organization, master) values('group2','mnl005');
+# insert into user_organization(id, organization) values('mnl003','group1');
 #
 
 # drop table item;
-delete from user where id = 'mnl005';
+# delete from user where id = 'mnl005';
 # delete from organization where master = 'mnl006';
 
 
