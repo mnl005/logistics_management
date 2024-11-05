@@ -329,12 +329,11 @@ function data_spread(res_define,data){
 
                         if(type === "image"){
                             let str = value.split("~~~~");
-                            if(str[0].length <= 30){
-                                sample.find("." + key).css("background-image", "none");                            }
-                            else{
+                            console.log(str);
                                 sample.find("." + key).css("background-image", str[0]);
-                            }
+
                         }
+
                         if(type === "image_box"){
                             let image_one = value.split("~~~~");
                             sample.find(".image").not(':first').remove();
