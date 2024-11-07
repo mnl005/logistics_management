@@ -10,3 +10,4 @@ src/main/resources/application-local.yml
 docker-compose.yml
 .dockerignore
 
+keystore.p12
