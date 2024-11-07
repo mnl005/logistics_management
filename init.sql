@@ -4,25 +4,25 @@ use main;
 # show tables;
 # drop table inventory;
 #
-select * from user;
-select * from organization;
+# select * from user;
+# select * from organization;
 # select * from invite;
 # select * from post;
 # select * from organization;
-select * from user_organization;
+# select * from user_organization;
 # select * from item;
 # select * from location;
 # select * from inventory;
 #테스트용
-update user set profile = 'url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")' where id = 'user1';
-insert into user values('mnl005','mnl005@naver.com','이현건','01057712038','url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")');
-insert into user values('user1','u1mail@naver.com','김광식','01000000000','url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")');
-insert into user values('user2','u2mail@naver.com','곽두팔','01000000000','url(\"https://cdn.pixabay.com/photo/2023/07/30/12/07/bird-8158766_1280.png\")');
-insert into user values('user3','u3mail@naver.com','김철홍','01000000000','url(\"https://cdn.pixabay.com/photo/2024/09/30/15/37/halloween-9086123_1280.jpg\")');
+# update user set profile = 'url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")' where id = 'user1';
+# insert into user values('mnl005','mnl005@naver.com','이현건','01057712038','url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")');
+# insert into user values('user1','u1mail@naver.com','김광식','01000000000','url(\"https://cdn.pixabay.com/photo/2024/07/19/08/16/waves-8905720_1280.png\")');
+# insert into user values('user2','u2mail@naver.com','곽두팔','01000000000','url(\"https://cdn.pixabay.com/photo/2023/07/30/12/07/bird-8158766_1280.png\")');
+# insert into user values('user3','u3mail@naver.com','김철홍','01000000000','url(\"https://cdn.pixabay.com/photo/2024/09/30/15/37/halloween-9086123_1280.jpg\")');
 # insert into organization(organization, master) values('group2','mnl005');
-insert into user_organization(id, organization) values('user1','mygroup');
-insert into user_organization(id, organization) values('user2','my group');
-insert into user_organization(id, organization) values('user3','mygroup');
+# insert into user_organization(id, organization) values('user1','mygroup');
+# insert into user_organization(id, organization) values('user2','my group');
+# insert into user_organization(id, organization) values('user3','mygroup');
 #
 
 # drop table item;

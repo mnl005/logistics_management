@@ -14,13 +14,16 @@ public class Security {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .requiresChannel(channel -> channel
+                        .anyRequest().requiresSecure()
+                )
                 .csrf(csrf -> csrf
                         .ignoringRequestMatchers("/**")
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll() // 홈 경로 접근 허용
-                        .anyRequest().authenticated() // 그 외 경로는 인증 필요
+                        .anyRequest().permitAll() // 인증 없이 접근 가능하도록 설정
                 );
+
 
         return http.build();
     }

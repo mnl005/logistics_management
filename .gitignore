@@ -10,4 +10,5 @@ src/main/resources/application-local.yml
 docker-compose.yml
 .dockerignore
 
-keystore.p12
+src/main/resources/keystore.p12
+src/main/resources/application-prod.yaml
